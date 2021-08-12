@@ -1,0 +1,14 @@
+const String apiBaseUrl = "https://www.orderitto.com/";
+const String apiLoginUrl = "https://www.orderitto.com/api/login";
+const String apiProductsUrl = "https://www.orderitto.com/api/products";
+const String apiAdsUrl = "https://www.orderitto.com/api/ads";
+const String apiOrdesrUrl = "https://www.orderitto.com/api/orders?customer_id=";
+const String apiSignupUrl = "https://www.orderitto.com/api/register";
+const String apiUserInfo = "https://www.orderitto.com/api/user";
+const String apiShowCountryUrl = "https://www.orderitto.com/api/locations";
+const String apiCategoriesListUrl = "https://www.orderitto.com/api/category";
+const String apiEditProfileUrl = "https://www.orderitto.com/api/profile";
+const String apiCreateOrderUrl = "https://www.orderitto.com/api/orders";
+const String apiOrderStatus = "https://www.orderitto.com/api/orders/";
+const String apiCart = "https://www.orderitto.com/api/cart";
+const String apiWishList = "https://www.orderitto.com/api/wishlist";

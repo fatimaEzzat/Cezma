@@ -1,0 +1,17 @@
+{
+    "theme":
+        {
+            "primary_color":"#FFFFFF",
+            "secondary_color":"#000000"
+        },
+    "images":
+        {   
+            "app_logo":"Assets/Logos/AppLogo.png",
+            "home_icon":"Assets/Icons/HomeIcon.png",
+            "categories_icon":"Assets/Icons/CategoriesIcon.png",
+            "orders_icon":"Assets/Icons/OrdersIcon.png",
+            "menu_icon":"Assets/Icons/MenuIcon.png",
+            "empty_cart_icon":"Assets/Icons/EmptyCartIcon",
+            "place_holder_image":"Assets/Images/PlaceHolderImage.jpeg"
+        }
+}
