@@ -14,7 +14,7 @@ Widget productsCard(
         required index,
         required cartState,
         required box,
-      required  wishListState}) =>
+        required wishListState}) =>
     InkWell(
       onTap: () {
         Navigator.push(context,
@@ -35,8 +35,7 @@ Widget productsCard(
                 width: screenWidth(context) * 0.6,
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl:
-                      apiBaseUrl + currentList[index]["images"][0],
+                  imageUrl: apiBaseUrl + currentList[index]["images"][0],
                   placeholder: (context, url) =>
                       Image.asset(settings.images!.placeHolderImage),
                   errorWidget: (context, url, error) => Icon(Icons.error),
@@ -79,22 +78,19 @@ Widget productsCard(
                               : "اضف الي العربة",
                           price: currentList[index]["price"],
                           productName: currentList[index]["name"],
-                          imageUrl: apiBaseUrl +
-                              currentList[index]["images"][0],
+                          imageUrl:
+                              apiBaseUrl + currentList[index]["images"][0],
                           options: [],
-                          containsOptions:
-                              currentList[index]["options"] == 1),
+                          containsOptions: currentList[index]["options"] == 1),
                     ),
                     Flexible(
                       child: IconButton(
-                          color: box.containsKey(
-                                  currentList[index]['id'])
+                          color: box.containsKey(currentList[index]['id'])
                               ? Colors.red
                               : Colors.grey,
                           onPressed: () {
                             wishListState.addToWishList(
-                                currentList[index],
-                                currentList[index]['id']);
+                                currentList[index], currentList[index]['id']);
                           },
                           icon: Icon(Icons.favorite)),
                     ),

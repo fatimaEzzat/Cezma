@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,8 +34,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: Consumer(
               builder: (context, watch, child) => Column(
                     children: [
+                      SizedBox(
+                        height: screenHeight(context) * 0.03,
+                      ),
+                      CircleAvatar(
+                        child: CachedNetworkImage(
+                          fit: BoxFit.fill,
+                          imageUrl: "",
+                          placeholder: (context, url) =>
+                              Image.asset(settings.images!.placeHolderImage),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                        radius: 50,
+                      ),
                       Container(
-                        padding: EdgeInsets.only(top: height * 0.06),
+                        padding: EdgeInsets.only(top: height * 0.02),
                         child: Text(
                           watch(userStateManagment)
                               .userInfo!
@@ -76,6 +92,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   subtitle: "********",
                                   leading: Icon(
                                     Icons.vpn_key,
+                                    color: settings.theme!.secondary,
+                                  ),
+                                  onPressed: (BuildContext context) {},
+                                ),
+                                SettingsTile(
+                                  title: 'الدولة',
+                                  subtitle: "مصر",
+                                  leading: Icon(
+                                    Icons.flag,
                                     color: settings.theme!.secondary,
                                   ),
                                   onPressed: (BuildContext context) {},

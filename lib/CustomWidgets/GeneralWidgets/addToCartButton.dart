@@ -17,29 +17,41 @@ Widget addToCartButton({
   required List options,
   required int itemIndex,
 }) {
-  return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        primary:settings.theme!.secondary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      ),
-      onPressed: () {
-        if (containsOptions) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return ShowProductScreen(
-              index: itemIndex,
-            );
-          }));
-        } else {
-          context.read(cartStateManagment).addOrRemovefromCart(
-              itemId, price, productName, imageUrl, options);
-        }
-      },
-      icon: customIcon,
-      label: Expanded(
-        child: Text(
-          title,
-          style: TextStyle(fontSize: screenWidth(context) * 0.024),
+  return Container(
+    padding: EdgeInsets.zero,
+    margin: EdgeInsets.zero,
+    height: screenHeight(context) * 0.04,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(25),
+      gradient: new LinearGradient(
+          colors: [Colors.blue.shade900, Colors.purple.shade900]),
+    ),
+    child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          primary: Colors.transparent,
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         ),
-      ));
+        onPressed: () {
+          if (containsOptions) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return ShowProductScreen(
+                index: itemIndex,
+              );
+            }));
+          } else {
+            context.read(cartStateManagment).addOrRemovefromCart(
+                itemId, price, productName, imageUrl, options);
+          }
+        },
+        icon: customIcon,
+        label: Expanded(
+          child: Text(
+            title,
+            style: TextStyle(fontSize: screenWidth(context) * 0.024),
+          ),
+        )),
+  );
 }

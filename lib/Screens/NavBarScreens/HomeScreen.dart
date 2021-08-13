@@ -9,7 +9,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 
 import 'package:test_store/Logic/ApiRequests/Ads.dart';
-import 'package:test_store/Logic/ApiRequests/Products.dart';
+import 'package:test_store/Logic/ApiRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
 import 'package:test_store/Logic/MISC/LoadLocalAppSettings.dart';
 import 'package:test_store/Logic/StateManagment/AdsState.dart';
@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             }),
-                      );
+                      ); 
                     }),
                   ),
                 ],

@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
 
 AppBar searchBar({required context}) => AppBar(
+      elevation: 0,
       centerTitle: true,
       title: Container(
         height: 40,

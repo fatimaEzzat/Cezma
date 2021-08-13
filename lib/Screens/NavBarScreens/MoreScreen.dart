@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:test_store/Screens/NavBarScreens/ProfileScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/MyStore.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -66,7 +68,12 @@ class _MoreScreenState extends State<MoreScreen>
                   leading: Icon(Icons.person),
                   title: Text("الصفحة الشخصية"),
                   trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return ProfileScreen();
+                        }));
+                      },
                       icon: Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.purple.shade700,
@@ -81,7 +88,12 @@ class _MoreScreenState extends State<MoreScreen>
                   leading: Icon(Icons.store),
                   title: Text("متجري"),
                   trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return MyStore();
+                        }));
+                      },
                       icon: Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.purple.shade700,

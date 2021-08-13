@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_store/Logic/ApiRequests/StoresRequest.dart';
 import 'RequestsExport.dart';
 
 Future firstSuperRequest(
@@ -12,5 +13,7 @@ Future firstSuperRequest(
   await requestShowCountry(userToken, context);
   await requestUserInfo(userToken, context);
   await requestCategoriesList(context, pageNumber, true);
-  await requestCategoryProducts( "", 1, context, true);
+  await requestCategoryProducts("", 1, context, true);
+  await requestStores(
+      context: context, isRefresh: true, pageNumber: 1, userToken: userToken);
 }

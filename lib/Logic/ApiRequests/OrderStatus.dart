@@ -16,7 +16,7 @@ Future requestOrderStatus(String userToken, String id) async {
   );
   try {
     var response = await dio.get(
-      apiOrderStatus + id + "/status",
+      apiOrderStatusUrl + id + "/status",
       options: requestOptions,
     );
 

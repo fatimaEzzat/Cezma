@@ -172,8 +172,7 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                                                               ? HexColor(
                                                                   e["value"][i]
                                                                       ["color"])
-                                                              : settings
-                                                                  .theme!
+                                                              : settings.theme!
                                                                   .secondary);
                                                     }),
                                               )),

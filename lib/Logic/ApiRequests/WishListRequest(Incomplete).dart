@@ -18,7 +18,7 @@ Future requestWishList(BuildContext context, isRefresh, int currentPage) async {
   );
   if (isRefresh) {}
   try {
-    var response = await dio.get(apiWishList,
+    var response = await dio.get(apiWishListUrl,
         options: requestOptions, queryParameters: {"page": currentPage});
     print(response.data);
     // var test = CartModel.fromJson(response.data);

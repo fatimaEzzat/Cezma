@@ -14,7 +14,7 @@ Future requestUserInfo(String? userToken, BuildContext context) async {
   );
   Dio dio = Dio();
 
-  var response = await dio.get(apiUserInfo, options: requestOptions);
+  var response = await dio.get(apiUserInfoUrl, options: requestOptions);
   if (response.statusCode == 200) {
     if (response.data.toString().contains("html")) {
       Get.snackbar("Error", "Invalid Token");
