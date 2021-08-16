@@ -10,6 +10,12 @@ class CategoriesState extends ChangeNotifier {
   List categories = [];
   String? selectedCategory;
   bool isLoadingNewCategories = false;
+  List subCategories = [];
+
+  void addSubCategories(List input) {
+    subCategories = input;
+    notifyListeners();
+  }
 
   void setCategoriesLoadingState() {
     isLoadingNewCategories = !isLoadingNewCategories;
@@ -26,7 +32,7 @@ class CategoriesState extends ChangeNotifier {
   }
 
   void addcategories(List input) {
-    categories.addAll(input);
+    categories = input;
     notifyListeners();
   }
 

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
@@ -45,10 +46,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       SizedBox(
                         height: height * 0.1,
-                      ),
-                      Image.asset(
-                        "Images/Logos/RedSeaLogo.png",
-                        scale: width * 0.004,
                       ),
                       Wrap(
                         runSpacing: height * 0.02,

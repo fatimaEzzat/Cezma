@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
-import 'package:test_store/Models/ProductModel.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -29,16 +28,11 @@ Future requestCategoriesList(
   try {
     var response = await dio.get(
       apiCategoriesListUrl,
-      queryParameters: {
-        "page":currentPage
-      },
+      queryParameters: {"page": currentPage},
       options: requestOptions,
     );
-    var categories = ProductModel.fromJson(response.data[0]);
-    categoriesState.addcategories(categories.data);
-    categoriesState.setCurrentCategoryPage(++currentPage);
-    categoriesState.setTotalCategoryPages(categories.lastPage);
-    return categories;
+
+    categoriesState.addcategories(response.data["data"]);
   } on Exception catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "Error", middleText: e.error);

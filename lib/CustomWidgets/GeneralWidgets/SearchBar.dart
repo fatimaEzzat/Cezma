@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
 
-AppBar searchBar({required context}) => AppBar(
+AppBar searchBar({required context, required color}) => AppBar(
       elevation: 0,
       centerTitle: true,
       title: Container(
@@ -11,7 +11,7 @@ AppBar searchBar({required context}) => AppBar(
             cursorColor: Colors.white,
             name: 'search',
             decoration: customformfielddecoration(
-                color: Colors.white.withOpacity(0.3),
+                color: color,
                 hinttext: "عن ماذا تبحث؟",
                 context: context,
                 obsecure: null,

@@ -51,7 +51,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: searchBar(context: context),
+        appBar:
+            searchBar(context: context, color: Colors.white.withOpacity(0.3)),
         body: Consumer(
           builder: (context, watch, child) {
             final ordersState = watch(ordersStateManagment);

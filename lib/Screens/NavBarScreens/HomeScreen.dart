@@ -72,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: searchBar(context: context),
+        appBar:
+            searchBar(context: context, color: Colors.white.withOpacity(0.3)),
         body: Column(
           children: [
             Expanded(
@@ -89,37 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Widget? child) {
                           final adsState = watch(adsStateManagment);
                           return Container(
-                            color: Colors.white,
-                            child: CarouselSlider.builder(
-                                carouselController: _carouselController,
-                                options: CarouselOptions(
-                                    onPageChanged: (index, reason) {
-                                      if ((index + 1) % 10 == 0) {
-                                        if (adsState.currentAdsPage <=
-                                            adsState.totalAdsPages) {
-                                          requestAds(adsState.currentAdsPage,
-                                              context, false);
-                                        } else {}
-                                      } else {}
-                                    },
-                                    height: 400.0,
-                                    enlargeCenterPage: true),
-                                itemCount: adsState.ads.length,
-                                itemBuilder: (context, index, pageindex) =>
-                                    Container(
-                                      width: width,
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.fill,
-                                        imageUrl: apiBaseUrl +
-                                            adsState.ads[index]["image"],
-                                        placeholder: (context, url) =>
-                                            Image.asset(settings
-                                                .images!.placeHolderImage),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                      ),
-                                    )),
-                          );
+                              color: Colors.white, child: Text("data"));
                         },
                       ),
                     ),
@@ -155,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             }),
-                      ); 
+                      );
                     }),
                   ),
                 ],

@@ -50,7 +50,6 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
             style: TextStyle(color: settings.theme!.secondary),
           ),
           centerTitle: true,
-          // leading: Container(),
           elevation: 1,
         ),
         body: Consumer(builder: (context, watch, child) {
@@ -123,64 +122,6 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                     ),
                     subtitle: Text(productState[widget.index]["description"]),
                   ),
-                  ListTile(
-                    title: Text(
-                      "الكمية",
-                      style: TextStyle(),
-                    ),
-                    subtitle: Text(1.toString()),
-                    trailing: Text("كيلو"),
-                  ),
-                  productState[widget.index]["options"] == 1
-                      ? FormBuilder(
-                          key: _formKey,
-                          child: Column(
-                              children: ListTile.divideTiles(
-                                      context: context,
-                                      tiles: productState[widget.index]["vars"]
-                                          .map<Widget>((e) {
-                                        return ListTile(
-                                          title: Text(e["name"]),
-                                          subtitle: Container(
-                                              height:
-                                                  screenHeight(context) * 0.1,
-                                              child:
-                                                  ChipsChoice<dynamic>.single(
-                                                value: selected[
-                                                    productState[widget.index]
-                                                            ["vars"]
-                                                        .indexOf(e)],
-                                                onChanged: (val) {
-                                                  setState(() {
-                                                    selected[productState[widget
-                                                            .index]["vars"]
-                                                        .indexOf(e)] = val;
-                                                  });
-                                                },
-                                                choiceItems: C2Choice.listFrom<
-                                                        dynamic, dynamic>(
-                                                    source: e["value"],
-                                                    value: (i, v) =>
-                                                        e["value"][i]["label"],
-                                                    label: (i, v) =>
-                                                        e["value"][i]["label"],
-                                                    style: (i, value) {
-                                                      return C2ChoiceStyle(
-                                                          color: e["value"][i][
-                                                                      "color"] !=
-                                                                  null
-                                                              ? HexColor(
-                                                                  e["value"][i]
-                                                                      ["color"])
-                                                              : settings.theme!
-                                                                  .secondary);
-                                                    }),
-                                              )),
-                                        );
-                                      }).toList())
-                                  .toList()),
-                        )
-                      : Container()
                 ]).toList()),
                 customGeneralButton(
                     context: context,

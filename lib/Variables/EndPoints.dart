@@ -1,15 +1,19 @@
-const String apiBaseUrl = "https://www.orderitto.com/";
-const String apiLoginUrl = "https://www.orderitto.com/api/login";
-const String apiProductsUrl = "https://www.orderitto.com/api/products";
-const String apiAdsUrl = "https://www.orderitto.com/api/ads";
-const String apiOrdesrUrl = "https://www.orderitto.com/api/orders?customer_id=";
-const String apiSignupUrl = "https://www.orderitto.com/api/register";
-const String apiUserInfoUrl = "https://www.orderitto.com/api/user";
-const String apiShowCountryUrl = "https://www.orderitto.com/api/locations";
-const String apiCategoriesListUrl = "https://www.orderitto.com/api/category";
-const String apiEditProfileUrl = "https://www.orderitto.com/api/profile";
-const String apiCreateOrderUrl = "https://www.orderitto.com/api/orders";
-const String apiOrderStatusUrl = "https://www.orderitto.com/api/orders/";
-const String apiCartUrl = "https://www.orderitto.com/api/cart";
-const String apiWishListUrl = "https://www.orderitto.com/api/wishlist";
-const String apiStoresListUrl = "https://465939b2f1ca.ngrok.io/api/stores";
+const String apiBaseUrl = "https://5341cb88a019.ngrok.io/";
+const String apiLoginUrl = "https://f24299bc2bf5.ngrok.io/api/login";
+const String apiProductsUrl = "https://f24299bc2bf5.ngrok.io/api/products";
+const String apiAdsUrl = "https://f24299bc2bf5.ngrok.io/api/ads";
+const String apiOrdesrUrl =
+    "https://f24299bc2bf5.ngrok.io/api/orders?customer_id=";
+const String apiSignupUrl = "https://f24299bc2bf5.ngrok.io/api/register";
+const String apiUserInfoUrl = "https://f24299bc2bf5.ngrok.io/api/user";
+const String apiShowCountryUrl = "https://f24299bc2bf5.ngrok.io/api/locations";
+const String apiCategoriesListUrl =
+    "https://f24299bc2bf5.ngrok.io/api/categories";
+const String apiEditProfileUrl = "https://f24299bc2bf5.ngrok.io/api/profile";
+const String apiCreateOrderUrl = "https://f24299bc2bf5.ngrok.io/api/orders";
+const String apiOrderStatusUrl = "https://f24299bc2bf5.ngrok.io/api/orders/";
+const String apiCartUrl = "https://f24299bc2bf5.ngrok.io/api/cart";
+const String apiWishListUrl = "https://f24299bc2bf5.ngrok.io/api/wishlist";
+const String apiStoresListUrl = "https://f24299bc2bf5.ngrok.io/api/stores";
+const String apiSubCategoriesUrl =
+    "https://f24299bc2bf5.ngrok.io/api/subCategories";
