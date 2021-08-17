@@ -1,8 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:test_store/Screens/NavBarScreens/ProfileScreen.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
+import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/MyStore.dart';
+import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -42,7 +45,8 @@ class _MoreScreenState extends State<MoreScreen>
                   height: screenHeight(context) * 0.05,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 100),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth(context) * 0.14),
                   child: ElevatedButton.icon(
                     onPressed: () {},
                     icon: Icon(Icons.add_circle, color: Colors.blue.shade900),
@@ -64,7 +68,7 @@ class _MoreScreenState extends State<MoreScreen>
                 ),
                 ListTile(
                   dense: true,
-                  tileColor: Colors.grey.withOpacity(0.2),
+                  tileColor: Colors.grey.shade100,
                   leading: Icon(Icons.person),
                   title: Text("الصفحة الشخصية"),
                   trailing: IconButton(
@@ -76,7 +80,7 @@ class _MoreScreenState extends State<MoreScreen>
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.purple.shade700,
+                        color: violet,
                       )),
                 ),
                 SizedBox(
@@ -84,7 +88,7 @@ class _MoreScreenState extends State<MoreScreen>
                 ),
                 ListTile(
                   dense: true,
-                  tileColor: Colors.grey.withOpacity(0.2),
+                  tileColor: Colors.grey.shade100,
                   leading: Icon(Icons.store),
                   title: Text("متجري"),
                   trailing: IconButton(
@@ -96,7 +100,7 @@ class _MoreScreenState extends State<MoreScreen>
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.purple.shade700,
+                        color: violet,
                       )),
                 ),
                 SizedBox(
@@ -110,7 +114,7 @@ class _MoreScreenState extends State<MoreScreen>
                 ),
                 ListTile(
                   dense: true,
-                  tileColor: Colors.grey.withOpacity(0.2),
+                  tileColor: Colors.grey.shade100,
                   leading: Icon(
                     Icons.info,
                   ),
@@ -119,7 +123,7 @@ class _MoreScreenState extends State<MoreScreen>
                       onPressed: () {},
                       icon: Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.purple.shade700,
+                        color: violet,
                       )),
                 ),
                 SizedBox(
@@ -127,14 +131,14 @@ class _MoreScreenState extends State<MoreScreen>
                 ),
                 ListTile(
                   dense: true,
-                  tileColor: Colors.grey.withOpacity(0.2),
+                  tileColor: Colors.grey.shade100,
                   leading: Icon(Icons.description),
                   title: Text("شروط الاستخدام"),
                   trailing: IconButton(
                       onPressed: () {},
                       icon: Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.purple.shade700,
+                        color: violet,
                       )),
                 ),
                 SizedBox(
@@ -142,7 +146,7 @@ class _MoreScreenState extends State<MoreScreen>
                 ),
                 ListTile(
                   dense: true,
-                  tileColor: Colors.grey.withOpacity(0.2),
+                  tileColor: Colors.grey.shade100,
                   leading: Icon(Icons.article),
                   title: Text("سياسة الخصوصية"),
                   trailing: RotationTransition(
@@ -158,10 +162,28 @@ class _MoreScreenState extends State<MoreScreen>
                         },
                         icon: Icon(
                           Icons.arrow_forward_ios,
-                          color: Colors.purple.shade700,
+                          color: violet,
                         )),
                   ),
                 ),
+                SizedBox(
+                  height: screenHeight(context) * 0.01,
+                ),
+                customGeneralButton(
+                    customOnPressed: () async {
+                      await SharedPreferences.getInstance()
+                          .then((value) => value.clear());
+                      Get.off(() => LoginScreen());
+                    },
+                    context: context,
+                    title: "تسجيل الخروج",
+                    primarycolor: Colors.grey.shade100,
+                    titlecolor: Colors.purple.shade800,
+                    newIcon: Icon(
+                      Icons.logout,
+                      color: Colors.purple.shade800,
+                    ),
+                    borderColor: Colors.grey.shade200),
               ],
             ),
           ),

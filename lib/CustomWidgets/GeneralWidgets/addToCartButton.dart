@@ -42,8 +42,9 @@ Widget addToCartButton({
               );
             }));
           } else {
-            context.read(cartStateManagment).addOrRemovefromCart(
-                itemId, price, productName, imageUrl, options);
+            context
+                .read(cartStateManagment)
+                .addOrRemovefromCart(itemId, price, productName, imageUrl);
           }
         },
         icon: customIcon,

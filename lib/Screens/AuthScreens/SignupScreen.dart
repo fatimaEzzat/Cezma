@@ -190,7 +190,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 color: Colors.white,
                               ),
                               primarycolor: settings.theme!.secondary,
-                              titlecolor: Colors.white),
+                              titlecolor: Colors.white,
+                              borderColor: Colors.transparent),
                           customGeneralButton(
                               customOnPressed: () {
                                 Get.to(() => LoginScreen());
@@ -202,7 +203,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 color: settings.theme!.secondary,
                               ),
                               primarycolor: Colors.white,
-                              titlecolor: settings.theme!.secondary)
+                              titlecolor: settings.theme!.secondary,
+                              borderColor: Colors.transparent)
                         ],
                       )
                     ],

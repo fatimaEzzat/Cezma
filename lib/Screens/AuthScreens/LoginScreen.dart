@@ -75,7 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: settings.theme!.primary,
                       ),
                       primarycolor: settings.theme!.secondary,
-                      titlecolor: settings.theme!.primary),
+                      titlecolor: settings.theme!.primary,
+                      borderColor: Colors.transparent),
                   customGeneralButton(
                     context: context,
                     customOnPressed: () {
@@ -88,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     primarycolor: settings.theme!.primary,
                     titlecolor: settings.theme!.secondary,
+                    borderColor: Colors.transparent,
                   )
                 ],
               ),

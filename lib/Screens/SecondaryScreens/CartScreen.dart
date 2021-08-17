@@ -190,7 +190,7 @@ class _CartScreenState extends State<CartScreen> {
                         newIcon: Icon(Icons.shopping_bag),
                         primarycolor: settings.theme!.secondary,
                         title: 'تاكيد الطلب',
-                        titlecolor: Colors.white)
+                        titlecolor: Colors.white, borderColor: Colors.transparent)
                   ],
                 );
         }),

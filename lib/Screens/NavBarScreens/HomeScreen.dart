@@ -89,8 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             T Function<T>(ProviderBase<Object?, T>) watch,
                             Widget? child) {
                           final adsState = watch(adsStateManagment);
-                          return Container(
-                              color: Colors.white, child: Text("data"));
+                          return Container();
                         },
                       ),
                     ),

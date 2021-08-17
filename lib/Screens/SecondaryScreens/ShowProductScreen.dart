@@ -1,18 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralCarouselSlider.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
+import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/AddReviewButton.dart';
+import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/ProductBasicInfo.dart';
+import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/ProductViewMainButtons.dart';
+import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/RatingBar.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
+import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ShowProductScreen extends StatefulWidget {
   final int index;
@@ -24,17 +27,21 @@ class ShowProductScreen extends StatefulWidget {
 }
 
 class _ShowProductScreenState extends State<ShowProductScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
-  List options = [];
-  late List selected;
+  int price = 0;
+  int? discountAmount = 0;
+  int totalPrice = 0;
+  int discountPercentage = 0;
   @override
   void initState() {
-    selected = List.filled(
-        context
-            .read(productsStateManagment)
-            .products[widget.index]["vars"]
-            .length,
-        null);
+    price =
+        context.read(productsStateManagment).products[widget.index]["price"];
+    totalPrice = context.read(productsStateManagment).products[widget.index]
+        ["totalPrice"];
+    discountAmount =
+        context.read(productsStateManagment).products[widget.index]["discount"];
+    if (discountAmount != null) {
+      discountPercentage = ((discountAmount! / price) * 100).toInt();
+    }
     super.initState();
   }
 
@@ -43,14 +50,10 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(
-          leading: BackButton(color: settings.theme!.secondary),
-          title: Text(
-            context.read(productsStateManagment).products[widget.index]["name"],
-            style: TextStyle(color: settings.theme!.secondary),
-          ),
-          centerTitle: true,
-          elevation: 1,
+        appBar: secondaryAppBar(
+          context: context,
+          title: context.read(productsStateManagment).products[widget.index]
+              ["name"],
         ),
         body: Consumer(builder: (context, watch, child) {
           final productState = watch(productsStateManagment).products;
@@ -58,63 +61,19 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                generalCarouselSlider(
+                    index: widget.index,
+                    images: productState[widget.index]["images"]),
                 Column(
                     children: ListTile.divideTiles(context: context, tiles: [
-                  CarouselSlider.builder(
-                      options: CarouselOptions(
-                        enlargeCenterPage: false,
-                        viewportFraction: 1,
-                      ),
-                      itemCount: productState[widget.index]["images"].length,
-                      itemBuilder: (context, imgindex, pageindex) => Container(
-                            width: screenWidth(context),
-                            color: Colors.transparent,
-                            child: CachedNetworkImage(
-                              fit: BoxFit.fill,
-                              imageUrl: apiBaseUrl +
-                                  productState[widget.index]["images"]
-                                      [imgindex],
-                              placeholder: (context, url) => Image.asset(
-                                  "settings.images!.placeHolderImage.jpeg"),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                          )),
-                  ListTile(
-                    title: Text(
-                      productState[widget.index]["name"],
-                      style: TextStyle(fontSize: screenWidth(context) * 0.07),
-                    ),
-                    subtitle: new RichText(
-                      text: new TextSpan(
-                        children: <TextSpan>[
-                          new TextSpan(
-                            text: " جنيه مصري " +
-                                (productState[widget.index]["price"] -
-                                        productState[widget.index]["discount"])
-                                    .toString(),
-                            style: new TextStyle(
-                                color: settings.theme!.secondary,
-                                fontSize: screenWidth(context) * 0.05),
-                          ),
-                          new TextSpan(
-                            text: "  ",
-                            style: new TextStyle(
-                              color: settings.theme!.secondary,
-                            ),
-                          ),
-                          new TextSpan(
-                            text:
-                                productState[widget.index]["price"].toString(),
-                            style: new TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  productBasicInfo(
+                      productState: productState,
+                      context: context,
+                      index: widget.index,
+                      totalPrice: totalPrice,
+                      discountAmount: discountAmount,
+                      price: price,
+                      discountPercentage: discountPercentage),
                   ListTile(
                     title: Text(
                       "الوصف",
@@ -122,35 +81,64 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                     ),
                     subtitle: Text(productState[widget.index]["description"]),
                   ),
+                  productViewMainButtons(
+                      context,
+                      watch,
+                      productState,
+                      widget
+                          .index), //contains two buttons, talk to the store and add to car functionallity.
                 ]).toList()),
-                customGeneralButton(
-                    context: context,
-                    titlecolor: Colors.white,
-                    title: watch(cartStateManagment).checkItemInCart(
-                            productState[widget.index]['id'].toString())
-                        ? "في العربة"
-                        : "اضف الي العربة",
-                    newIcon: watch(cartStateManagment).checkItemInCart(
-                            productState[widget.index]['id'].toString())
-                        ? Icon(Icons.check)
-                        : Icon(Icons.add_shopping_cart),
-                    customOnPressed: () {
-                      if (selected.contains(null)) {
-                        Get.defaultDialog(
-                            title: "تنبيه",
-                            middleText: "ألرجاء اختيار جميع المواصفات");
-                      } else {
-                        watch(cartStateManagment).addOrRemovefromCart(
-                            productState[widget.index]['id'].toString(),
-                            productState[widget.index]['price'],
-                            productState[widget.index]['name'].toString(),
-                            apiBaseUrl +
-                                productState[widget.index]['images'][0]
-                                    .toString(),
-                            selected);
-                      }
-                    },
-                    primarycolor: settings.theme!.secondary)
+                SizedBox(
+                  height: screenHeight(context) * 0.02,
+                ),
+                Divider(
+                  thickness: 13,
+                  endIndent: screenWidth(context) * 0.04,
+                  indent: screenWidth(context) * 0.04,
+                ),
+                SizedBox(
+                  height: screenHeight(context) * 0.02,
+                ),
+                Container(
+                  width: screenWidth(context) * 0.92,
+                  child: Column(
+                    children: [
+                      FormBuilderTextField(
+                        // review textfield to write down your opinion.
+                        name: 'comment',
+                        decoration: InputDecoration(
+                          border: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.transparent)),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.transparent)),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.transparent)),
+                          contentPadding: EdgeInsets.only(
+                              bottom: screenHeight(context) * 0.07,
+                              top: screenHeight(context) * 0.01,
+                              right: screenWidth(context) * 0.04),
+                          hintText: "اكتب تققيمك للمنتج..",
+                        ),
+                      ),
+                      ratingBar(
+                          productState,
+                          context,
+                          widget
+                              .index), // the stars bar that specifies the rating score based on how many stars out of 5
+                      SizedBox(
+                        height: screenHeight(context) * 0.015,
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.grey)),
+                ),
+                addReviewButton(
+                    context) // adds the written review above, to the reviews in the backend.
               ],
             ),
           );

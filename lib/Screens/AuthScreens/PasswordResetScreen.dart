@@ -121,7 +121,8 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       title: "اعادة تعيين كلمة المرور",
                       primarycolor: settings.theme!.secondary,
                       titlecolor: Colors.white,
-                      newIcon: Icon(Icons.change_circle))
+                      newIcon: Icon(Icons.change_circle),
+                      borderColor: Colors.transparent)
                 ],
               ),
             ),

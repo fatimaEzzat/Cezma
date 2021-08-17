@@ -111,20 +111,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       customGeneralButton(
-                          customOnPressed: () async {
-                            await SharedPreferences.getInstance()
-                                .then((value) => value.clear());
-                            Get.off(() => LoginScreen());
-                          },
-                          context: context,
-                          title: "تسجيل الخروج",
-                          primarycolor: settings.theme!.primary,
-                          titlecolor: settings.theme!.secondary,
-                          newIcon: Icon(
-                            Icons.logout,
-                            color: settings.theme!.secondary,
-                          )),
-                      customGeneralButton(
                           customOnPressed: () {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (BuildContext context) {
@@ -138,7 +124,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           newIcon: Icon(
                             Icons.edit,
                             color: Colors.white,
-                          ))
+                          ),
+                          borderColor: Colors.transparent)
                     ],
                   ))),
     );

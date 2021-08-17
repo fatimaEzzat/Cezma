@@ -245,7 +245,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       title: "تاكيد الطلب",
                       primarycolor: settings.theme!.secondary,
                       titlecolor: Colors.white,
-                      newIcon: Icon(Icons.payment))
+                      newIcon: Icon(Icons.payment),
+                      borderColor: Colors.transparent)
                 ],
               ),
             ),

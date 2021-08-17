@@ -7,7 +7,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/OrdersScreen.dart';
-import 'package:test_store/Screens/NavBarScreens/ProfileScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/SectionsScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/StoresScreen.dart';
 import 'package:test_store/Variables/Settings.dart';
@@ -61,7 +61,7 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        appBar: primaryAppBar(context: context, tabBar: null),
+        // appBar: primaryAppBar(context: context, tabBar: null),
         body: IndexedStack(
           index: _currentIndex,
           children: <Widget>[

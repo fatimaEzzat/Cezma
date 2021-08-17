@@ -21,17 +21,17 @@ class CartState extends ChangeNotifier {
   }
 
   void addOrRemovefromCart(
-      String id, int price, String productName, String image, List options) {
+      String id, int price, String productName, String image) {
     if (cart.getSpecificItemFromCart(id) != null) {
       cart.deleteItemFromCart(cart.findItemIndexFromCart(id)!);
     } else {
       cart.addToCart(
-          uniqueCheck: image,
-          productId: id,
-          unitPrice: price,
-          productName: productName,
-          quantity: 1,
-          productDetailsObject: options);
+        uniqueCheck: image,
+        productId: id,
+        unitPrice: price,
+        productName: productName,
+        quantity: 1,
+      );
     }
     notifyListeners();
   }

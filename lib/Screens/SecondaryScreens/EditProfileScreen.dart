@@ -253,7 +253,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   newIcon: Icon(
                     Icons.done,
                     color: Colors.white,
-                  )),
+                  ),
+                  borderColor: Colors.transparent),
               customGeneralButton(
                   customOnPressed: () {
                     Navigator.push(context,
@@ -268,7 +269,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   newIcon: Icon(
                     Icons.change_circle,
                     color: settings.theme!.secondary,
-                  ))
+                  ),
+                  borderColor: Colors.transparent)
             ],
           );
         }),

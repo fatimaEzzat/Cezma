@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
+import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +42,7 @@ class StoresScreen extends StatelessWidget {
                               angle: math.pi / 2,
                               child: Icon(
                                 Icons.arrow_back_ios,
-                                color: Colors.purple.shade700,
+                                color: violet,
                               )),
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(
@@ -89,7 +90,7 @@ class StoresScreen extends StatelessWidget {
                           angle: math.pi / 2,
                           child: Icon(
                             Icons.arrow_back_ios,
-                            color: Colors.purple.shade700,
+                            color: violet,
                           ),
                         ),
                         decoration: InputDecoration(

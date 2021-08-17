@@ -35,7 +35,8 @@ Widget productsCard(
                 width: screenWidth(context) * 0.6,
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl: apiBaseUrl + currentList[index]["images"][0],
+                  imageUrl: currentList[index]["images"][0].replaceAll(
+                      "https://cezma.test", "http://fc23e3d0e899.ngrok.io"),
                   placeholder: (context, url) =>
                       Image.asset(settings.images!.placeHolderImage),
                   errorWidget: (context, url, error) => Icon(Icons.error),
