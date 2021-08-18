@@ -10,7 +10,7 @@ Future firstSuperRequest(
   await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);
   // await requestShowCountry(userToken, context);
-  // await requestUserInfo(userToken, context);
+  await requestUserInfo(userToken, context);
   // await requestCategoriesList(context, pageNumber, true);
   // await requestCategoryProducts("", 1, context, true);
   // await requestStores(

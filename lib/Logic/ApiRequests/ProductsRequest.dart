@@ -27,14 +27,11 @@ Future requestProducts(String? userToken, BuildContext contextm, int pagenumber,
       options: requestOptions,
     );
 
-    var products = response.data["data"]["data"];
-    print(
-      products[0]["images"][0]
-          .replaceAll("https://cezma.test", "http://fc23e3d0e899.ngrok.io"),
-    );
+    var products = response.data[0]["data"];
+
     productsState.addproducts(products);
     productsState.setcurrentpages(++pagenumber);
-    productsState.setTotalProductsPages(response.data["data"]["last_page"]);
+    // productsState.setTotalProductsPages(response.data["data"]["last_page"]);
     return products;
   } on Exception catch (e) {
     if (e is DioError) {

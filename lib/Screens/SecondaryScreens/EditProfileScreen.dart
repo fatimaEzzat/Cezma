@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/RequestsExport.dart';
 import 'package:test_store/Logic/StateManagment/CountriesState.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,32 +34,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     double width = screenWidth(context);
     double height = screenHeight(context);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 1,
-        leading: Container(),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.read(countriesStateManagment).setSelectedGov(null);
-                Navigator.of(context).pop();
-              },
-              icon: ImageIcon(
-                AssetImage("Images/arrow.png"),
-                color: settings.theme!.secondary,
-              ))
-        ],
-        title: Text(
-          "تعديل البينات الشخصية",
-          style: TextStyle(color: settings.theme!.secondary),
-        ),
-        centerTitle: true,
-      ),
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Consumer(builder: (context, watch, child) {
+        appBar: secondaryAppBar(
+            context: context,
+            title: "تعديل الينات الشخصية",
+            onPressed: () {
+              context.read(countriesStateManagment).setSelectedGov(null);
+              Navigator.of(context).pop();
+            }),
+        body: Consumer(builder: (context, watch, child) {
           final state = watch(userStateManagment);
           return Column(
             children: [
@@ -242,19 +229,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
               ),
-              customGeneralButton(
-                  customOnPressed: () async {
-                    await validation();
-                  },
-                  context: context,
-                  title: "حفظ البيانات الشخصية",
-                  primarycolor: settings.theme!.secondary,
-                  titlecolor: Colors.white,
-                  newIcon: Icon(
-                    Icons.done,
-                    color: Colors.white,
-                  ),
-                  borderColor: Colors.transparent),
+              Container(
+                height: screenHeight(context) * 0.045,
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  gradient: new LinearGradient(
+                      colors: [Colors.blue.shade900, Colors.purple.shade900]),
+                ),
+                child: customGeneralButton(
+                    customOnPressed: () async {
+                      await validation();
+                    },
+                    context: context,
+                    title: "حفظ البيانات الشخصية",
+                    primarycolor: Colors.transparent,
+                    titlecolor: Colors.white,
+                    newIcon: Icon(
+                      Icons.done,
+                      color: Colors.white,
+                    ),
+                    borderColor: Colors.transparent),
+              ),
               customGeneralButton(
                   customOnPressed: () {
                     Navigator.push(context,
@@ -264,11 +259,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   },
                   context: context,
                   title: "تغيير كلمة السر",
-                  primarycolor: Colors.white,
-                  titlecolor: settings.theme!.secondary,
+                  primarycolor: petrol,
+                  titlecolor: Colors.white,
                   newIcon: Icon(
                     Icons.change_circle,
-                    color: settings.theme!.secondary,
+                    color: Colors.white,
                   ),
                   borderColor: Colors.transparent)
             ],

@@ -1,4 +1,4 @@
-const String apiBaseUrl = "https://7c1b484d4d6d.ngrok.io/";
+const String apiBaseUrl = "https://www.orderitto.com/";
 const String apiLoginUrl = apiBaseUrl + "api/login";
 const String apiProductsUrl = apiBaseUrl + "api/products";
 const String apiAdsUrl = apiBaseUrl + "api/ads";
@@ -14,3 +14,4 @@ const String apiCartUrl = apiBaseUrl + "api/cart";
 const String apiWishListUrl = apiBaseUrl + "api/wishlist";
 const String apiStoresListUrl = apiBaseUrl + "api/stores";
 const String apiSubCategoriesUrl = apiBaseUrl + "api/subCategories";
+const String apiHomeProducts = apiBaseUrl + "api/homeProducts";

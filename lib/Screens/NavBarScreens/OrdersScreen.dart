@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/Logic/ApiRequests/Orders.dart';
 import 'package:test_store/Logic/StateManagment/OrdersState.dart';
@@ -50,8 +51,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar:
-            searchBar(context: context, color: Colors.white.withOpacity(0.3)),
+        appBar: primaryAppBar(context: context),
         body: Consumer(
           builder: (context, watch, child) {
             final ordersState = watch(ordersStateManagment);

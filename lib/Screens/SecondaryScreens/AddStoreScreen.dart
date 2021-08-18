@@ -29,11 +29,15 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
             child: FormBuilder(
               child: ListView(
                 children: [
+                  SizedBox(
+                    height: screenHeight(context) * 0.03,
+                  ),
                   new Container(
                       child: Text(
                     "اضف متجرك لدينا",
                     style: TextStyle(fontSize: screenWidth(context) * 0.05),
                   )),
+                
                   CircleAvatar(
                     radius: screenHeight(context) * 0.06,
                   ),
@@ -166,14 +170,25 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       name: "address",
                     ),
                   ),
-                  customGeneralButton(
-                      customOnPressed: () {},
-                      context: context,
-                      title: "حفظ التعديلات",
-                      primarycolor: Colors.transparent,
-                      titlecolor: Colors.white,
-                      newIcon: Icon(Icons.add),
-                      borderColor: Colors.transparent)
+                  SizedBox(
+                    height: screenHeight(context) * 0.03,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: new LinearGradient(colors: [
+                          Colors.blue.shade900,
+                          Colors.purple.shade900
+                        ])),
+                    child: customGeneralButton(
+                        customOnPressed: () {},
+                        context: context,
+                        title: "حفظ التعديلات",
+                        primarycolor: Colors.transparent,
+                        titlecolor: Colors.white,
+                        newIcon: Icon(Icons.add),
+                        borderColor: Colors.transparent),
+                  )
                 ],
               ),
             ),

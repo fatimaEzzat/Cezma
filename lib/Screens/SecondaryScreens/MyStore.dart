@@ -24,7 +24,16 @@ class _MyStoreState extends State<MyStore> {
                 "Assets/Images/PlaceHolderImage.jpeg",
               ),
             ),
-            Text("data")
+            Text(
+              "الشامي ستورز",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenHeight(context) * 0.02),
+            ),
+            SizedBox(
+              height: screenHeight(context) * 0.01,
+            ),
+            Text("الكترونيات/موبيلات")
           ],
         ),
       ),

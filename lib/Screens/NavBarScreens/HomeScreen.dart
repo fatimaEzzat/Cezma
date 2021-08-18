@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
+import 'package:test_store/Logic/ApiRequests/HomeProductsRequest.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
-import 'package:test_store/Logic/StateManagment/AdsState.dart';
+import 'package:test_store/Logic/StateManagment/HomePageStateManagment/AdsState.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
@@ -63,10 +67,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar:
-            searchBar(context: context, color: Colors.white.withOpacity(0.3)),
+        appBar: primaryAppBar(context: context),
         body: Column(
           children: [
+            Container(
+                padding: EdgeInsets.only(
+                    bottom: screenHeight(context) * 0.01,
+                    right: screenWidth(context) * 0.03,
+                    left: screenWidth(context) * 0.03),
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [Colors.blue.shade900, Colors.purple.shade900]),
+                ),
+                child: searchBar(
+                    color: Colors.white.withOpacity(0.5), context: context)),
             Expanded(
               child: CustomScrollView(
                 controller: _scrollController,
@@ -143,6 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          requestHomeProducts(
+              context: context, isRefresh: false, pageNumber: 1);
+        }),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
@@ -20,30 +21,81 @@ class StoresScreen extends StatelessWidget {
         builder: (BuildContext context,
                 T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) =>
             Scaffold(
-          appBar: AppBar(
-            flexibleSpace: searchBar(
-                context: context, color: Colors.white.withOpacity(0.3)),
-          ),
+          appBar: primaryAppBar(context: context),
           body: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: screenHeight(context) * 0.02,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: screenWidth(context) * 0.4,
-                      // height: screenHeight(context) * 0.07,
-                      child: FormBuilderDropdown(
-                          hint: Text("الاقسام الرئيسية"),
+            child: Container(
+              width: screenWidth(context) * 0.9,
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: screenHeight(context) * 0.02,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Container(
+                          child: FormBuilderDropdown(
+                              hint: Text("الاقسام الرئيسية"),
+                              icon: Transform.rotate(
+                                  angle: math.pi / 2,
+                                  child: Icon(
+                                    Icons.arrow_back_ios,
+                                    color: violet,
+                                  )),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                      top: screenHeight(context) * 0.025,
+                                      right: screenWidth(context) * 0.03,
+                                      left: screenWidth(context) * 0.03),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade300,
+                                      )),
+                                  // ////////
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade300,
+                                      )),
+                                  // ////////
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                      ))),
+                              name: '',
+                              items: context
+                                  .read(categoriesStateManagment)
+                                  .categories
+                                  .map((e) => DropdownMenuItem(
+                                        onTap: () {
+                                          requestSubCategories(
+                                              context, e["id"]);
+                                        },
+                                        child: AutoSizeText(
+                                          e["name"],
+                                          maxLines: 1,
+                                        ),
+                                        value: e["id"],
+                                      ))
+                                  .toList()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth(context) * 0.03,
+                      ),
+                      Flexible(
+                        child: FormBuilderDropdown(
+                          hint: Text("الاقسام الفرعية"),
                           icon: Transform.rotate(
-                              angle: math.pi / 2,
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: violet,
-                              )),
+                            angle: math.pi / 2,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: violet,
+                            ),
+                          ),
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(
                                   top: screenHeight(context) * 0.025,
@@ -67,72 +119,27 @@ class StoresScreen extends StatelessWidget {
                                     color: Colors.grey,
                                   ))),
                           name: '',
-                          items: context
-                              .read(categoriesStateManagment)
-                              .categories
+                          items: watch(categoriesStateManagment)
+                              .subCategories
                               .map((e) => DropdownMenuItem(
-                                    onTap: () {
-                                      requestSubCategories(context, e["id"]);
-                                    },
                                     child: AutoSizeText(
                                       e["name"],
                                       maxLines: 1,
                                     ),
                                     value: e["id"],
                                   ))
-                              .toList()),
-                    ),
-                    Container(
-                      width: screenWidth(context) * 0.4,
-                      child: FormBuilderDropdown(
-                        hint: Text("الاقسام الفرعية"),
-                        icon: Transform.rotate(
-                          angle: math.pi / 2,
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: violet,
-                          ),
+                              .toList(),
                         ),
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(
-                                top: screenHeight(context) * 0.025,
-                                right: screenWidth(context) * 0.03,
-                                left: screenWidth(context) * 0.03),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
-                                )),
-                            // ////////
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
-                                )),
-                            // ////////
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                ))),
-                        name: '',
-                        items: watch(categoriesStateManagment)
-                            .subCategories
-                            .map((e) => DropdownMenuItem(
-                                  child: AutoSizeText(
-                                    e["name"],
-                                    maxLines: 1,
-                                  ),
-                                  value: e["id"],
-                                ))
-                            .toList(),
                       ),
-                    ),
-                  ],
-                ),
-                searchBar(
-                    context: context, color: Colors.grey.withOpacity(0.3)),
-              ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenHeight(context) * 0.02,
+                  ),
+                  searchBar(
+                      context: context, color: Colors.grey.withOpacity(0.3)),
+                ],
+              ),
             ),
           ),
           floatingActionButton: FloatingActionButton(

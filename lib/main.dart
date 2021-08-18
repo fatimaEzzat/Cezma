@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/Logic/MISC/LoadLocalAppSettings.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/addStoreScreen.dart';
 
 import 'Variables/Settings.dart';
 
@@ -20,7 +19,7 @@ Future<void> main() async {
   var tempSettings = await loadLocalAppSettings();
   var email = prefs.getString("email");
   runApp(DevicePreview(
-    enabled: !kReleaseMode,
+    enabled: false,
     builder: (BuildContext context) {
       return ProviderScope(
           child: GetMaterialApp(
@@ -31,7 +30,7 @@ Future<void> main() async {
                       backgroundColor: tempSettings.theme!.primary)),
               locale: DevicePreview.locale(context), // Add the locale here
               builder: DevicePreview.appBuilder,
-              home: AddStoreScreen()));
+              home: email == null ? LoginScreen() : CustomSplashScreen()));
     },
   ));
 }

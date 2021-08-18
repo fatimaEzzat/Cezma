@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_store/Logic/StateManagment/AdsState.dart';
+import 'package:test_store/Logic/StateManagment/HomePageStateManagment/AdsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Models/ProductModel.dart';
 import 'package:test_store/Variables/EndPoints.dart';

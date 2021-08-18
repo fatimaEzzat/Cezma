@@ -35,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     // Those two variables contain screen's size (width and height).
-    double width = screenWidth(context);
     double height = screenHeight(context);
     return Scaffold(
       body: Consumer(

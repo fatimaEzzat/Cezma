@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/AddStoreScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/MyStore.dart';
 import 'package:test_store/Variables/CustomColors.dart';
@@ -35,6 +37,7 @@ class _MoreScreenState extends State<MoreScreen>
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        appBar: primaryAppBar(context: context, tabBar: null),
         body: Center(
           child: Container(
             padding:
@@ -48,7 +51,12 @@ class _MoreScreenState extends State<MoreScreen>
                   padding: EdgeInsets.symmetric(
                       horizontal: screenWidth(context) * 0.14),
                   child: ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return AddStoreScreen();
+                      }));
+                    },
                     icon: Icon(Icons.add_circle, color: Colors.blue.shade900),
                     label: Text(
                       "اضافة المتجر",
