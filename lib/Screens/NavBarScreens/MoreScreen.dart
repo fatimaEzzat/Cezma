@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/MyStore.dart';

@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Screens/SecondaryScreens/ShowProductScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
-import 'package:test_store/Variables/Settings.dart';
 
 Widget addToCartButton({
   required BuildContext context,

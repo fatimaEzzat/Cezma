@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormBuilder.dart';
 import 'package:test_store/Logic/ApiRequests/Login.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';

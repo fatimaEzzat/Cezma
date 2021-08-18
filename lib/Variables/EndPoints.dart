@@ -1,4 +1,4 @@
-const String apiBaseUrl = "https://44b77cba7cdd.ngrok.io/";
+const String apiBaseUrl = "https://7c1b484d4d6d.ngrok.io/";
 const String apiLoginUrl = apiBaseUrl + "api/login";
 const String apiProductsUrl = apiBaseUrl + "api/products";
 const String apiAdsUrl = apiBaseUrl + "api/ads";

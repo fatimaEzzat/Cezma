@@ -2,20 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralCarouselSlider.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/AddReviewButton.dart';
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/ProductBasicInfo.dart';
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/ProductViewMainButtons.dart';
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/RatingBar.dart';
-import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
-import 'package:test_store/Variables/CustomColors.dart';
-import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
-import 'package:test_store/Variables/Settings.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ShowProductScreen extends StatefulWidget {
   final int index;

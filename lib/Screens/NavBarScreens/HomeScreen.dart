@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
-
-import 'package:test_store/Logic/ApiRequests/Ads.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
-import 'package:test_store/Logic/MISC/LoadLocalAppSettings.dart';
 import 'package:test_store/Logic/StateManagment/AdsState.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
-import 'package:test_store/Variables/CustomColors.dart';
-import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:test_store/Variables/Settings.dart';
 

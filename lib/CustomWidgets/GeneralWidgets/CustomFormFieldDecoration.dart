@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
@@ -9,16 +8,18 @@ import 'package:test_store/Variables/Settings.dart';
 InputDecoration customformfielddecoration(
         {required String hinttext,
         required BuildContext context,
-        required obsecure,
+        obsecure,
         required color,
-        
-        void onPressed()?}) =>
+        border = Colors.transparent,
+        prefixIcon,
+        onPressed()?}) =>
     InputDecoration(
         suffixIcon: obsecure != null
             ? IconButton(
                 onPressed: onPressed,
                 icon: Icon(obsecure ? Icons.visibility_off : Icons.visibility))
             : null,
+        prefixIcon: prefixIcon,
         isDense: true,
         hintText: hinttext,
         fillColor: color,
@@ -30,11 +31,11 @@ InputDecoration customformfielddecoration(
         // ////////
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.transparent)),
+            borderSide: BorderSide(color: border)),
         // ////////
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.transparent)),
+            borderSide: BorderSide(color: border)),
         // ////////
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

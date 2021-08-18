@@ -1,13 +1,9 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/OrdersScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/SectionsScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/StoresScreen.dart';
 import 'package:test_store/Variables/Settings.dart';

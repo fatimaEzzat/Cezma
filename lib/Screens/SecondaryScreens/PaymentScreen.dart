@@ -3,7 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomGeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/AddressSettingTile.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/CitySettingTile.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/CustomAddressSettingTile.dart';
