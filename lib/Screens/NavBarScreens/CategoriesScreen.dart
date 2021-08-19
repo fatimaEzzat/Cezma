@@ -187,16 +187,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                     child: ScaleAnimation(
                                                       child: FadeInAnimation(
                                                           child: productsCard(
-                                                              box: box,
-                                                              cartState:
-                                                                  cartState,
-                                                              context: context,
-                                                              currentList:
-                                                                  filteredProductsState
-                                                                      .filteredProducts,
-                                                              index: index,
-                                                              wishListState:
-                                                                  wishListState)),
+                                                        context: context,
+                                                        currentList:
+                                                            filteredProductsState
+                                                                .filteredProducts,
+                                                        index: index,
+                                                      )),
                                                     ),
                                                   );
                                                 }),

@@ -59,8 +59,10 @@ class _SearchScreenState extends State<SearchScreen> {
             },
             name: 'search',
             decoration: customformfielddecoration(
-              color: offwhite,
-                hinttext: "كلمة البحث", context: context, obsecure: null),
+                color: offwhite,
+                hinttext: "كلمة البحث",
+                context: context,
+                obsecure: null),
           ),
         ),
         body: Consumer(builder: (context, watch, child) {
@@ -97,12 +99,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemCount: searchedList.length,
                       itemBuilder: (context, index) {
                         return productsCard(
-                            context: context,
-                            currentList: searchedList,
-                            index: index,
-                            cartState: watch(cartStateManagment),
-                            box: box,
-                            wishListState: watch(wishListtateManagment));
+                          context: context,
+                          currentList: searchedList,
+                          index: index,
+                        );
                       });
         }),
       ),

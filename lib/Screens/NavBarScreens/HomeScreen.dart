@@ -1,18 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
-import 'package:test_store/Logic/ApiRequests/HomeProductsRequest.dart';
+import 'package:test_store/CustomWidgets/HomeScreenWidgets/HomeScreenStoresCard.dart';
+import 'package:test_store/Logic/ApiRequests/HomeRequests/HomeProductsRequest.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
-import 'package:test_store/Logic/StateManagment/HomePageStateManagment/AdsState.dart';
+import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeAdsState.dart';
+import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeProductsState.dart';
+import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeSlidersState.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
+import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeStoresState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -93,74 +96,145 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (BuildContext context,
                             T Function<T>(ProviderBase<Object?, T>) watch,
                             Widget? child) {
-                          final adsState = watch(adsStateManagment);
-                          return Container();
+                          final homeSlidersState =
+                              watch(homeSlidersStateManagment);
+                          return Container(
+                            color: settings.theme!.primary,
+                            child: CarouselSlider.builder(
+                                carouselController: _carouselController,
+                                options: CarouselOptions(
+                                    height: 400.0, enlargeCenterPage: true),
+                                itemCount: homeSlidersState.homeSliders.length,
+                                itemBuilder: (context, index, pageindex) =>
+                                    Container(
+                                      width: width,
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fill,
+                                        imageUrl: homeSlidersState
+                                            .homeSliders[index]["image"],
+                                        placeholder: (context, url) =>
+                                            Image.asset(settings
+                                                .images!.placeHolderImage),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    )),
+                          );
                         },
                       ),
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Consumer(builder: (context, watch, child) {
-                      final productsState = watch(productsStateManagment);
-                      final cartState = watch(cartStateManagment);
-                      final wishListState = watch(wishListtateManagment);
+                      final homeAds = watch(homeAdsStateManagement).homeAds;
+                      final homeStores =
+                          watch(homeStoresStateManagment).homeStores;
+                      final homeProducts =
+                          watch(homeProductsStateManagment).homeProducts;
                       return AnimationLimiter(
-                        child: GridView.builder(
-                            shrinkWrap: true,
-                            primary: false,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 0.40 / 0.6,
-                                    crossAxisCount: 2),
-                            itemCount: productsState.products.length,
-                            itemBuilder: (context, index) {
-                              return AnimationConfiguration.staggeredGrid(
-                                columnCount: 2,
-                                position: index,
-                                duration: const Duration(milliseconds: 200),
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                      child: productsCard(
-                                          context: context,
-                                          currentList: productsState.products,
-                                          index: index,
-                                          cartState: cartState,
-                                          box: box,
-                                          wishListState: wishListState)),
-                                ),
-                              );
-                            }),
-                      );
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: screenHeight(context) * 0.015,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CachedNetworkImage(
+                                width: screenWidth(context) * 0.45,
+                                height: screenHeight(context) * 0.11,
+                                fit: BoxFit.fill,
+                                imageUrl: homeAds[0]["image"],
+                                placeholder: (context, url) => Image.asset(
+                                    settings.images!.placeHolderImage),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                              CachedNetworkImage(
+                                width: screenWidth(context) * 0.45,
+                                height: screenHeight(context) * 0.11,
+                                fit: BoxFit.fill,
+                                imageUrl: homeAds[1]["image"],
+                                placeholder: (context, url) => Image.asset(
+                                    settings.images!.placeHolderImage),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: screenHeight(context) * 0.012,
+                          ),
+                          Container(
+                            alignment: AlignmentDirectional.centerStart,
+                            padding: EdgeInsets.only(
+                                right: screenWidth(context) * 0.04),
+                            child: Text(
+                              "ابرز المتاجر",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: screenWidth(context) * 0.04),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight(context) * 0.01,
+                          ),
+                          Container(
+                            height: screenHeight(context) * 0.15,
+                            width: screenWidth(context) * 0.95,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: homeStores.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return homeStoreCard(
+                                    context, homeStores, index);
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight(context) * 0.015,
+                          ),
+                          Container(
+                            alignment: AlignmentDirectional.centerStart,
+                            padding: EdgeInsets.only(
+                                right: screenWidth(context) * 0.04),
+                            child: Text(
+                              "اخترنا لك",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: screenWidth(context) * 0.04),
+                            ),
+                          ),
+                          Container(
+                            height: screenHeight(context) * 0.35,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: homeProducts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Card(
+                                  elevation: 0,
+                                  shadowColor: Colors.transparent,
+                                  child: productsCard(
+                                    context: context,
+                                    currentList: homeProducts,
+                                    index: index,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ));
                     }),
                   ),
                 ],
               ),
             ),
-            Center(
-              child: Consumer(
-                builder: (BuildContext context,
-                    T Function<T>(ProviderBase<Object?, T>) watch,
-                    Widget? child) {
-                  return Container(
-                    color: Colors.transparent,
-                    child: watch(productsStateManagment).isLoadingNewItems
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: settings.theme!.secondary,
-                              backgroundColor: Colors.transparent,
-                            ),
-                          )
-                        : Container(),
-                  );
-                },
-              ),
-            )
           ],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          requestHomeProducts(
-              context: context, isRefresh: false, pageNumber: 1);
-        }),
       ),
     );
   }

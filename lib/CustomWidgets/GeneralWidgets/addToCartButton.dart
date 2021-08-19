@@ -12,7 +12,7 @@ Widget addToCartButton({
   required int price,
   required String title,
   required String productName,
-  required String imageUrl,
+
   required List options,
   required int itemIndex,
 }) {
@@ -32,20 +32,7 @@ Widget addToCartButton({
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         ),
-        onPressed: () {
-          if (containsOptions) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return ShowProductScreen(
-                index: itemIndex,
-              );
-            }));
-          } else {
-            context
-                .read(cartStateManagment)
-                .addOrRemovefromCart(itemId, price, productName, imageUrl);
-          }
-        },
+        onPressed: () {},
         icon: customIcon,
         label: Expanded(
           child: Text(

@@ -131,8 +131,6 @@ class FavoritesScreen extends StatelessWidget {
                                               : "اضف الي العربة",
                                           price: currentItem["price"],
                                           productName: currentItem["name"],
-                                          imageUrl: apiBaseUrl +
-                                              currentItem["images"][0],
                                           options: [],
                                           containsOptions:
                                               currentItem["options"] == 1),

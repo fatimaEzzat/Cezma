@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:test_store/Logic/ApiRequests/HomeRequests/HomeAdsRequest.dart';
+import 'package:test_store/Logic/ApiRequests/HomeRequests/HomeProductsRequest.dart';
+import 'package:test_store/Logic/ApiRequests/HomeRequests/HomeSliderRequest.dart';
+import 'package:test_store/Logic/ApiRequests/HomeRequests/HomeStoresRequest.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest.dart';
 import 'RequestsExport.dart';
 
@@ -7,6 +11,12 @@ Future firstSuperRequest(
     required String? userId,
     required int pageNumber,
     required BuildContext context}) async {
+  requestHomeProducts(
+      context: context, isRefresh: false, pageNumber: pageNumber);
+  requestHomeSliders(
+      context: context, isRefresh: false, pageNumber: pageNumber);
+  requestHomeAds(context: context, isRefresh: false, pageNumber: pageNumber);
+  requestHomeStores(context: context, isRefresh: false, pageNumber: pageNumber);
   // await requestUserOrders(pageNumber, context, true);
   // await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);
@@ -14,6 +24,6 @@ Future firstSuperRequest(
   // await requestUserInfo(userToken, context);
   // await requestCategoriesList(context, pageNumber, true);
   // await requestCategoryProducts("", 1, context, true);
-  await requestStores(
-      context: context, isRefresh: true, pageNumber: 1, userToken: userToken);
+  // await requestStores(
+  //     context: context, isRefresh: true, pageNumber: 1, userToken: userToken);
 }
