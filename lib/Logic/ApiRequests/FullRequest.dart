@@ -11,18 +11,18 @@ Future firstSuperRequest(
     required String? userId,
     required int pageNumber,
     required BuildContext context}) async {
-  requestHomeProducts(
+  await requestHomeProducts(
       context: context, isRefresh: false, pageNumber: pageNumber);
-  requestHomeSliders(
+  await requestHomeSliders(
       context: context, isRefresh: false, pageNumber: pageNumber);
-  requestHomeAds(context: context, isRefresh: false, pageNumber: pageNumber);
-  requestHomeStores(context: context, isRefresh: false, pageNumber: pageNumber);
+  await requestHomeAds(context: context, isRefresh: false, pageNumber: pageNumber);
+  await requestHomeStores(context: context, isRefresh: false, pageNumber: pageNumber);
   // await requestUserOrders(pageNumber, context, true);
   // await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);
   // await requestShowCountry(userToken, context);
   // await requestUserInfo(userToken, context);
-  // await requestCategoriesList(context, pageNumber, true);
+  await requestCategoriesList(context, true);
   // await requestCategoryProducts("", 1, context, true);
   // await requestStores(
   //     context: context, isRefresh: true, pageNumber: 1, userToken: userToken);

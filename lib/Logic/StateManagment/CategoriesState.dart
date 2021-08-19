@@ -5,15 +5,19 @@ final categoriesStateManagment =
     ChangeNotifierProvider<CategoriesState>((ref) => CategoriesState());
 
 class CategoriesState extends ChangeNotifier {
-  int currentCategoryPage = 1;
-  int totalCategoryPages = 0;
   List categories = [];
   String? selectedCategory;
   bool isLoadingNewCategories = false;
+  bool isLoadingSubCategories = false;
   List subCategories = [];
 
   void addSubCategories(List input) {
     subCategories = input;
+    notifyListeners();
+  }
+
+  void setIsLoadingSubCategories() {
+    isLoadingSubCategories = !isLoadingSubCategories;
     notifyListeners();
   }
 
@@ -25,18 +29,5 @@ class CategoriesState extends ChangeNotifier {
   void setSelectedCategory(String input) {
     selectedCategory = input;
     notifyListeners();
-  }
-
-  void setCurrentCategoryPage(int input) {
-    currentCategoryPage = input;
-  }
-
-  void addcategories(List input) {
-    categories = input;
-    notifyListeners();
-  }
-
-  void setTotalCategoryPages(int totalPages) {
-    totalCategoryPages = totalPages;
   }
 }

@@ -1,5 +1,5 @@
 export 'Ads.dart';
-export 'Categories.dart';
+export 'CategoriesRequest.dart';
 export 'CategoryProducts.dart';
 export 'ChangeInfo.dart';
 export 'FullRequest.dart';

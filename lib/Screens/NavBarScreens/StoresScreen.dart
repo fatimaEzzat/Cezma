@@ -75,9 +75,13 @@ class StoresScreen extends StatelessWidget {
                                   .read(categoriesStateManagment)
                                   .categories
                                   .map((e) => DropdownMenuItem(
-                                        onTap: () {
-                                          requestSubCategories(
+                                        onTap: () async {
+                                          watch(categoriesStateManagment)
+                                              .setIsLoadingSubCategories();
+                                          await requestSubCategories(
                                               context, e["id"]);
+                                          watch(categoriesStateManagment)
+                                              .setIsLoadingSubCategories();
                                         },
                                         child: AutoSizeText(
                                           e["name"],
@@ -93,6 +97,10 @@ class StoresScreen extends StatelessWidget {
                       ),
                       Flexible(
                         child: FormBuilderDropdown(
+                          enabled: watch(categoriesStateManagment)
+                                  .isLoadingSubCategories
+                              ? false
+                              : true,
                           hint: Text("الاقسام الفرعية"),
                           icon: Transform.rotate(
                             angle: math.pi / 2,

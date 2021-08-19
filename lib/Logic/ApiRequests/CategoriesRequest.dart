@@ -6,8 +6,7 @@ import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future requestCategoriesList(
-    BuildContext context, int currentPage, bool isRefresh) async {
+Future requestCategoriesList(BuildContext context, bool isRefresh) async {
   final _userToken = context.read(userStateManagment).userToken;
   final categoriesState = context.read(categoriesStateManagment);
   // our connection with the statemanagment of categories
@@ -21,18 +20,14 @@ Future requestCategoriesList(
     },
   );
   if (isRefresh) {
-    categoriesState.categories = [
-      {"name": "الجميع", "slug": ""}
-    ];
+    categoriesState.categories.clear();
   }
   try {
     var response = await dio.get(
       apiCategoriesListUrl,
-      queryParameters: {"page": currentPage},
       options: requestOptions,
     );
-
-    categoriesState.addcategories(response.data["data"]);
+    categoriesState.categories.addAll(response.data["data"]);
   } on Exception catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "Error", middleText: e.error);
