@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-ListTile productBasicInfo(
-    {required List<dynamic> productState,
-    required BuildContext context,
-    required int index,
-    required totalPrice,
-    required discountAmount,
-    required price,
-    required discountPercentage}) {
+ListTile productBasicInfo({required product, required context}) {
+  int discountPercentage = 0;
+  final price = product["price"];
+  final discountAmount = product["discount"];
+  if (discountAmount != null) {
+    discountPercentage = ((discountAmount! / price) * 100).toInt();
+  }
   return ListTile(
     title: Text(
-      productState[index]["name"],
+      product["name"],
       style: TextStyle(fontSize: screenWidth(context) * 0.07),
     ),
     subtitle: new RichText(
       text: new TextSpan(
         children: <TextSpan>[
           new TextSpan(
-            text: " جم " + totalPrice.toString(),
+            text: " جم " + price.toString(),
             style: new TextStyle(
                 color: settings.theme!.secondary,
                 fontSize: screenWidth(context) * 0.05),
@@ -54,7 +53,7 @@ ListTile productBasicInfo(
                   Icons.star,
                   color: Colors.amber,
                 ),
-                Text(productState[index]["rate"].toString() + "/" + "5"),
+                Text(product["rate"].toString() + "/" + "5"),
               ],
             )),
         discountAmount != null

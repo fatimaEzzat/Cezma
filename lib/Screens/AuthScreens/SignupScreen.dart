@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
-import 'package:test_store/Logic/ApiRequests/SignUp.dart';
+import 'package:test_store/Logic/ApiRequests/AuthRequests/SignUp.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';

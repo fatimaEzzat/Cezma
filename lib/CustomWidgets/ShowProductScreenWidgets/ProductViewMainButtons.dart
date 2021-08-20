@@ -6,7 +6,7 @@ import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 Row productViewMainButtons(BuildContext context, ScopedReader watch,
-    List<dynamic> productState, int index) {
+    product) {
   return Row(
     children: [
       SizedBox(width: screenWidth(context) * 0.04),
@@ -24,19 +24,19 @@ Row productViewMainButtons(BuildContext context, ScopedReader watch,
               context: context,
               titlecolor: Colors.white,
               title: watch(cartStateManagment)
-                      .checkItemInCart(productState[index]['id'].toString())
+                      .checkItemInCart(product['id'].toString())
                   ? "في العربة"
                   : "اضف الي العربة",
               newIcon: watch(cartStateManagment)
-                      .checkItemInCart(productState[index]['id'].toString())
+                      .checkItemInCart(product['id'].toString())
                   ? Icon(Icons.check)
                   : Icon(Icons.add_shopping_cart),
               customOnPressed: () {
                 watch(cartStateManagment).addOrRemovefromCart(
-                  productState[index]['id'].toString(),
-                  productState[index]['price'],
-                  productState[index]['name'].toString(),
-                  productState[index]['images'][0].toString(),
+                  product['id'].toString(),
+                  product['price'],
+                  product['name'].toString(),
+                  product['images'][0].toString(),
                 );
               },
               primarycolor: Colors.transparent,

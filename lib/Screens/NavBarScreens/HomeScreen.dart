@@ -7,14 +7,12 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/CustomWidgets/HomeScreenWidgets/HomeScreenStoresCard.dart';
-import 'package:test_store/Logic/ApiRequests/HomeRequests/HomeProductsRequest.dart';
-import 'package:test_store/Logic/ApiRequests/ProductsRequest.dart';
+import 'package:test_store/Logic/ApiRequests/ProductsRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
 import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeAdsState.dart';
 import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeProductsState.dart';
 import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeSlidersState.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
-import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
 import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeStoresState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
@@ -67,6 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var width = screenWidth(context);
     var height = screenHeight(context);
+    final homeAds = context.read(homeAdsStateManagement).homeAds;
+    final homeStores = context.read(homeStoresStateManagment).homeStores;
+    final homeProducts = context.read(homeProductsStateManagment).homeProducts;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -84,6 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: searchBar(
                     color: Colors.white.withOpacity(0.5), context: context)),
+            SizedBox(
+              height: screenHeight(context) * 0.01,
+            ),
             Expanded(
               child: CustomScrollView(
                 controller: _scrollController,
@@ -125,111 +129,109 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: Consumer(builder: (context, watch, child) {
-                      final homeAds = watch(homeAdsStateManagement).homeAds;
-                      final homeStores =
-                          watch(homeStoresStateManagment).homeStores;
-                      final homeProducts =
-                          watch(homeProductsStateManagment).homeProducts;
-                      return AnimationLimiter(
+                      child: AnimationLimiter(
                           child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: screenHeight(context) * 0.015,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            height: screenHeight(context) * 0.015,
+                          CachedNetworkImage(
+                            width: screenWidth(context) * 0.45,
+                            height: screenHeight(context) * 0.11,
+                            fit: BoxFit.fill,
+                            imageUrl: homeAds[0]["image"],
+                            placeholder: (context, url) =>
+                                Image.asset(settings.images!.placeHolderImage),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CachedNetworkImage(
-                                width: screenWidth(context) * 0.45,
-                                height: screenHeight(context) * 0.11,
-                                fit: BoxFit.fill,
-                                imageUrl: homeAds[0]["image"],
-                                placeholder: (context, url) => Image.asset(
-                                    settings.images!.placeHolderImage),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
-                              CachedNetworkImage(
-                                width: screenWidth(context) * 0.45,
-                                height: screenHeight(context) * 0.11,
-                                fit: BoxFit.fill,
-                                imageUrl: homeAds[1]["image"],
-                                placeholder: (context, url) => Image.asset(
-                                    settings.images!.placeHolderImage),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: screenHeight(context) * 0.012,
-                          ),
-                          Container(
-                            alignment: AlignmentDirectional.centerStart,
-                            padding: EdgeInsets.only(
-                                right: screenWidth(context) * 0.04),
-                            child: Text(
-                              "ابرز المتاجر",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: screenWidth(context) * 0.04),
-                            ),
-                          ),
-                          SizedBox(
-                            height: screenHeight(context) * 0.01,
-                          ),
-                          Container(
-                            height: screenHeight(context) * 0.15,
-                            width: screenWidth(context) * 0.95,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: homeStores.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return homeStoreCard(
-                                    context, homeStores, index);
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: screenHeight(context) * 0.015,
-                          ),
-                          Container(
-                            alignment: AlignmentDirectional.centerStart,
-                            padding: EdgeInsets.only(
-                                right: screenWidth(context) * 0.04),
-                            child: Text(
-                              "اخترنا لك",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: screenWidth(context) * 0.04),
-                            ),
-                          ),
-                          Container(
-                            height: screenHeight(context) * 0.35,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: homeProducts.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Card(
-                                  elevation: 0,
-                                  shadowColor: Colors.transparent,
-                                  child: productsCard(
-                                    context: context,
-                                    currentList: homeProducts,
-                                    index: index,
-                                  ),
-                                );
-                              },
-                            ),
+                          CachedNetworkImage(
+                            width: screenWidth(context) * 0.45,
+                            height: screenHeight(context) * 0.11,
+                            fit: BoxFit.fill,
+                            imageUrl: homeAds[1]["image"],
+                            placeholder: (context, url) =>
+                                Image.asset(settings.images!.placeHolderImage),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
                         ],
-                      ));
-                    }),
-                  ),
+                      ),
+                      SizedBox(
+                        height: screenHeight(context) * 0.012,
+                      ),
+                      Container(
+                        alignment: AlignmentDirectional.centerStart,
+                        padding:
+                            EdgeInsets.only(right: screenWidth(context) * 0.04),
+                        child: Text(
+                          "ابرز المتاجر",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth(context) * 0.04),
+                        ),
+                      ),
+                      SizedBox(
+                        height: screenHeight(context) * 0.01,
+                      ),
+                      Container(
+                        height: screenHeight(context) * 0.15,
+                        width: screenWidth(context) * 0.95,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: homeStores.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return homeStoreCard(context, homeStores, index);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: screenHeight(context) * 0.015,
+                      ),
+                      Container(
+                        alignment: AlignmentDirectional.centerStart,
+                        padding:
+                            EdgeInsets.only(right: screenWidth(context) * 0.04),
+                        child: Text(
+                          "اخترنا لك",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth(context) * 0.04),
+                        ),
+                      ),
+                      Container(
+                        height: screenHeight(context) * 0.35,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: homeProducts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Consumer(
+                              builder: (BuildContext context,
+                                      T Function<T>(ProviderBase<Object?, T>)
+                                          watch,
+                                      Widget? child) =>
+                                  Card(
+                                elevation: 0,
+                                shadowColor: Colors.transparent,
+                                child: productsCard(
+                                  context: context,
+                                  currentList: homeProducts,
+                                  index: index,
+                                  cartState: watch(cartStateManagment),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ))),
                 ],
               ),
             ),

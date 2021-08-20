@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormBuilder.dart';
-import 'package:test_store/Logic/ApiRequests/Login.dart';
+import 'package:test_store/Logic/ApiRequests/AuthRequests/Login.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';

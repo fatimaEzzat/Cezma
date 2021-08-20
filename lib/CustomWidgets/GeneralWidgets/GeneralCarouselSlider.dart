@@ -5,8 +5,7 @@ import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-Widget generalCarouselSlider(
-        {required int index, required List images, required}) =>
+Widget generalCarouselSlider({required String images}) =>
     CarouselSlider.builder(
         options: CarouselOptions(
           enlargeCenterPage: false,
@@ -18,8 +17,7 @@ Widget generalCarouselSlider(
               color: Colors.transparent,
               child: CachedNetworkImage(
                 fit: BoxFit.fill,
-                imageUrl: images[imgindex].replaceAll(
-                    "https://cezma.test", apiBaseUrl),
+                imageUrl: images.replaceAll("https://cezma.test", apiBaseUrl),
                 placeholder: (context, url) =>
                     Image.asset(settings.images!.placeHolderImage),
                 errorWidget: (context, url, error) => Icon(Icons.error),

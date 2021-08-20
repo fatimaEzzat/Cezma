@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
+import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -17,6 +18,13 @@ class AddStoreScreen extends StatefulWidget {
 }
 
 class _AddStoreScreenState extends State<AddStoreScreen> {
+  late GlobalKey<FormBuilderState> _fbKey;
+  @override
+  void initState() {
+    _fbKey = GlobalKey<FormBuilderState>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -27,17 +35,12 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
           child: new Container(
             width: screenWidth(context) * 0.9,
             child: FormBuilder(
+              key: _fbKey,
               child: ListView(
                 children: [
                   SizedBox(
                     height: screenHeight(context) * 0.03,
                   ),
-                  new Container(
-                      child: Text(
-                    "اضف متجرك لدينا",
-                    style: TextStyle(fontSize: screenWidth(context) * 0.05),
-                  )),
-                
                   CircleAvatar(
                     radius: screenHeight(context) * 0.06,
                   ),
@@ -83,6 +86,18 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                     color: Colors.transparent,
                     shadowColor: Colors.transparent,
                     child: FormBuilderDropdown(
+                        onChanged: (value) async {
+                          _fbKey.currentState!
+                            ..fields["subCategories"]!.reset();
+                          context
+                              .read(categoriesStateManagment)
+                              .setIsLoadingSubCategories();
+                          await requestSubCategories(
+                              context, int.parse(value.toString()));
+                          context
+                              .read(categoriesStateManagment)
+                              .setIsLoadingSubCategories();
+                        },
                         validator: FormBuilderValidators.required(
                           context,
                           errorText: "اختر القسم الرئيسي",
@@ -101,33 +116,48 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     e["name"],
                                     maxLines: 1,
                                   ),
+                                  value: e["id"],
                                 ))
                             .toList()),
                   ),
-                  Card(
-                    color: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    child: FormBuilderDropdown(
-                        validator: FormBuilderValidators.required(
-                          context,
-                          errorText: "اختر القسم الفرعي",
-                        ),
-                        decoration: customformfielddecoration(
-                            hinttext: "القسم الفرعي",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                        name: "subCategories",
-                        items: context
-                            .read(categoriesStateManagment)
-                            .categories
-                            .map((e) => DropdownMenuItem(
-                                  child: AutoSizeText(
-                                    e["name"],
-                                    maxLines: 1,
-                                  ),
-                                ))
-                            .toList()),
+                  Consumer(
+                    builder: (BuildContext context,
+                            T Function<T>(ProviderBase<Object?, T>) watch,
+                            Widget? child) =>
+                        Card(
+                      color: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      child: FormBuilderDropdown(
+                          enabled: watch(categoriesStateManagment)
+                                  .isLoadingSubCategories
+                              ? false
+                              : true,
+                          validator: FormBuilderValidators.required(
+                            context,
+                            errorText: "اختر القسم الفرعي",
+                          ),
+                          decoration: customformfielddecoration(
+                              enabled: watch(categoriesStateManagment)
+                                      .isLoadingSubCategories
+                                  ? false
+                                  : true,
+                              hinttext: "القسم الفرعي",
+                              context: context,
+                              border: Colors.grey,
+                              color: Colors.white),
+                          name: "subCategories",
+                          items: context
+                              .read(categoriesStateManagment)
+                              .subCategories
+                              .map((e) => DropdownMenuItem(
+                                    child: AutoSizeText(
+                                      e["name"],
+                                      maxLines: 1,
+                                    ),
+                                    value: e["id"],
+                                  ))
+                              .toList()),
+                    ),
                   ),
                   Card(
                     color: Colors.transparent,

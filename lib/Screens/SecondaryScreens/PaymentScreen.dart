@@ -8,7 +8,7 @@ import 'package:test_store/CustomWidgets/PaymentScreenWidgets/AddressSettingTile
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/CitySettingTile.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/CustomAddressSettingTile.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/GovSettingTile.dart';
-import 'package:test_store/Logic/ApiRequests/NewOrder.dart';
+import 'package:test_store/Logic/ApiRequests/OrdersRequests/NewOrder.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/CountriesState.dart';

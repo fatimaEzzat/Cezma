@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/Logic/ApiRequests/OrderStatus.dart';
+import 'package:test_store/Logic/ApiRequests/OrdersRequests/OrderStatus.dart';
 import 'package:test_store/Logic/StateManagment/OrdersState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/EndPoints.dart';

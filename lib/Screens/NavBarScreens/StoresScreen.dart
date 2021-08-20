@@ -15,8 +15,20 @@ import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-class StoresScreen extends StatelessWidget {
+class StoresScreen extends StatefulWidget {
   const StoresScreen({Key? key}) : super(key: key);
+
+  @override
+  _StoresScreenState createState() => _StoresScreenState();
+}
+
+class _StoresScreenState extends State<StoresScreen> {
+  late GlobalKey<FormBuilderState> _fbKey;
+  @override
+  void initState() {
+    _fbKey = GlobalKey<FormBuilderState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,116 +47,135 @@ class StoresScreen extends StatelessWidget {
                   SizedBox(
                     height: screenHeight(context) * 0.02,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Container(
-                          child: FormBuilderDropdown(
-                              hint: Text("الاقسام الرئيسية"),
-                              icon: Transform.rotate(
-                                  angle: math.pi / 2,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: violet,
-                                  )),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      top: screenHeight(context) * 0.025,
-                                      right: screenWidth(context) * 0.03,
-                                      left: screenWidth(context) * 0.03),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade300,
-                                      )),
-                                  // ////////
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade300,
-                                      )),
-                                  // ////////
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ))),
-                              name: '',
-                              items: context
-                                  .read(categoriesStateManagment)
-                                  .categories
-                                  .map((e) => DropdownMenuItem(
-                                        onTap: () async {
-                                          watch(categoriesStateManagment)
-                                              .setIsLoadingSubCategories();
-                                          await requestSubCategories(
-                                              context, e["id"]);
-                                          watch(categoriesStateManagment)
-                                              .setIsLoadingSubCategories();
-                                        },
-                                        child: AutoSizeText(
-                                          e["name"],
-                                          maxLines: 1,
-                                        ),
-                                        value: e["id"],
-                                      ))
-                                  .toList()),
-                        ),
-                      ),
-                      SizedBox(
-                        width: screenWidth(context) * 0.03,
-                      ),
-                      Flexible(
-                        child: FormBuilderDropdown(
-                          enabled: watch(categoriesStateManagment)
-                                  .isLoadingSubCategories
-                              ? false
-                              : true,
-                          hint: Text("الاقسام الفرعية"),
-                          icon: Transform.rotate(
-                            angle: math.pi / 2,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: violet,
-                            ),
+                  FormBuilder(
+                    key: _fbKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            child: FormBuilderDropdown(
+                                onChanged: (value) async {
+                                  _fbKey.currentState!
+                                    ..fields["subCategories"]!.reset();
+                                  watch(categoriesStateManagment)
+                                      .setIsLoadingSubCategories();
+                                  await requestSubCategories(
+                                      context, int.parse(value.toString()));
+                                  watch(categoriesStateManagment)
+                                      .setIsLoadingSubCategories();
+                                },
+                                hint: Text("الاقسام الرئيسية"),
+                                icon: Transform.rotate(
+                                    angle: math.pi / 2,
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: violet,
+                                    )),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        top: screenHeight(context) * 0.025,
+                                        right: screenWidth(context) * 0.03,
+                                        left: screenWidth(context) * 0.03),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade400,
+                                        )),
+                                    // ////////
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade400,
+                                        )),
+                                    // ////////
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey,
+                                        ))),
+                                name: 'mainCategories',
+                                items: context
+                                    .read(categoriesStateManagment)
+                                    .categories
+                                    .map((e) => DropdownMenuItem(
+                                          child: AutoSizeText(
+                                            e["name"],
+                                            maxLines: 1,
+                                          ),
+                                          value: e["id"],
+                                        ))
+                                    .toList()),
                           ),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                  top: screenHeight(context) * 0.025,
-                                  right: screenWidth(context) * 0.03,
-                                  left: screenWidth(context) * 0.03),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )),
-                              // ////////
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )),
-                              // ////////
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ))),
-                          name: '',
-                          items: watch(categoriesStateManagment)
-                              .subCategories
-                              .map((e) => DropdownMenuItem(
-                                    child: AutoSizeText(
-                                      e["name"],
-                                      maxLines: 1,
-                                    ),
-                                    value: e["id"],
-                                  ))
-                              .toList(),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: screenWidth(context) * 0.03,
+                        ),
+                        Flexible(
+                          child: FormBuilderDropdown(
+                            enabled: watch(categoriesStateManagment)
+                                    .isLoadingSubCategories
+                                ? false
+                                : true,
+                            hint: Text("الاقسام الفرعية"),
+                            icon: watch(categoriesStateManagment)
+                                    .isLoadingSubCategories
+                                ? CircularProgressIndicator(
+                                    color: violet,
+                                  )
+                                : Transform.rotate(
+                                    angle: math.pi / 2,
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: violet,
+                                    ),
+                                  ),
+                            decoration: InputDecoration(
+                                enabled: watch(categoriesStateManagment)
+                                        .isLoadingSubCategories
+                                    ? false
+                                    : true,
+                                contentPadding: EdgeInsets.only(
+                                    top: screenHeight(context) * 0.025,
+                                    right: screenWidth(context) * 0.03,
+                                    left: screenWidth(context) * 0.03),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade400,
+                                    )),
+                                // ////////
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade400,
+                                    )),
+                                // ////////
+                                disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade200,
+                                    )),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ))),
+                            name: 'subCategories',
+                            items: watch(categoriesStateManagment)
+                                .subCategories
+                                .map((e) => DropdownMenuItem(
+                                      child: AutoSizeText(
+                                        e["name"],
+                                        maxLines: 1,
+                                      ),
+                                      value: e["id"],
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: screenHeight(context) * 0.02,
@@ -201,6 +232,7 @@ class StoresScreen extends StatelessWidget {
               ),
             ),
           ),
+          floatingActionButton: FloatingActionButton(onPressed: () {}),
         ),
       ),
     );

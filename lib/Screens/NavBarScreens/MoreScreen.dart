@@ -189,7 +189,7 @@ class _MoreScreenState extends State<MoreScreen>
                     titlecolor: Colors.purple.shade800,
                     newIcon: Icon(
                       Icons.logout,
-                      color: Colors.purple.shade800,
+                      color: violet,
                     ),
                     borderColor: Colors.grey.shade200),
               ],

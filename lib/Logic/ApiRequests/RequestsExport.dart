@@ -1,14 +1,12 @@
-export 'Ads.dart';
-export 'CategoriesRequest.dart';
-export 'CategoryProducts.dart';
+export 'CategoriesRequest/CategoriesRequest.dart';
+export 'CategoriesRequest/CategoryProducts.dart';
 export 'ChangeInfo.dart';
 export 'FullRequest.dart';
-export 'Login.dart';
-export 'NewOrder.dart';
-export 'OrderStatus.dart';
-export 'Orders.dart';
-export 'ProductsRequest.dart';
+export 'AuthRequests/Login.dart';
+export 'OrdersRequests/NewOrder.dart';
+export 'OrdersRequests/OrderStatus.dart';
+export 'OrdersRequests/Orders.dart';
+export 'ProductsRequests/ProductsRequest.dart';
 export 'ShowCountry.dart';
-export 'SignUp.dart';
+export 'AuthRequests/SignUp.dart';
 export 'UserInfo.dart';
-

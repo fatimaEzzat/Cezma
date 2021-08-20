@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
-import 'package:test_store/Logic/ApiRequests/Orders.dart';
+import 'package:test_store/Logic/ApiRequests/OrdersRequests/Orders.dart';
 import 'package:test_store/Logic/StateManagment/OrdersState.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';

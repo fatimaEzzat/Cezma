@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Screens/SecondaryScreens/PaymentScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
@@ -30,16 +31,7 @@ class _CartScreenState extends State<CartScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            "عربة التسوق",
-            style: TextStyle(color: settings.theme!.secondary),
-          ),
-          centerTitle: true,
-          leading: BackButton(color: settings.theme!.secondary),
-          elevation: 1,
-        ),
+        appBar: secondaryAppBar(context: context, title: "عربة التسوق"),
         body: Consumer(builder: (BuildContext context,
             T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
           final cartState = watch(cartStateManagment);
@@ -49,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      settings.images!.emptyCartIcon,
+                      "Assets/Images/EmptyCartIcon.png",
                       scale: screenWidth(context) * 0.01,
                     ),
                     Text(
@@ -190,7 +182,8 @@ class _CartScreenState extends State<CartScreen> {
                         newIcon: Icon(Icons.shopping_bag),
                         primarycolor: settings.theme!.secondary,
                         title: 'تاكيد الطلب',
-                        titlecolor: Colors.white, borderColor: Colors.transparent)
+                        titlecolor: Colors.white,
+                        borderColor: Colors.transparent)
                   ],
                 );
         }),

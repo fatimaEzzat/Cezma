@@ -12,8 +12,10 @@ InputDecoration customformfielddecoration(
         required color,
         border = Colors.transparent,
         prefixIcon,
+        enabled = true,
         onPressed()?}) =>
     InputDecoration(
+        enabled: enabled,
         suffixIcon: obsecure != null
             ? IconButton(
                 onPressed: onPressed,

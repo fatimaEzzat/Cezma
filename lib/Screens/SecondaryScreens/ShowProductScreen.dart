@@ -12,9 +12,8 @@ import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 class ShowProductScreen extends StatefulWidget {
-  final int index;
-
-  ShowProductScreen({Key? key, required this.index}) : super(key: key);
+  final product;
+  ShowProductScreen({Key? key, required this.product}) : super(key: key);
 
   @override
   _ShowProductScreenState createState() => _ShowProductScreenState();
@@ -27,12 +26,8 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
   int discountPercentage = 0;
   @override
   void initState() {
-    price =
-        context.read(productsStateManagment).products[widget.index]["price"];
-    totalPrice = context.read(productsStateManagment).products[widget.index]
-        ["totalPrice"];
-    discountAmount =
-        context.read(productsStateManagment).products[widget.index]["discount"];
+    price = widget.product["price"];
+    discountAmount = widget.product["discount"];
     if (discountAmount != null) {
       discountPercentage = ((discountAmount! / price) * 100).toInt();
     }
@@ -46,8 +41,7 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
       child: Scaffold(
         appBar: secondaryAppBar(
           context: context,
-          title: context.read(productsStateManagment).products[widget.index]
-              ["name"],
+          title: widget.product["name"],
         ),
         body: Consumer(builder: (context, watch, child) {
           final productState = watch(productsStateManagment).products;
@@ -55,32 +49,22 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                generalCarouselSlider(
-                    index: widget.index,
-                    images: productState[widget.index]["images"]),
+                generalCarouselSlider(images: widget.product["image"]),
                 Column(
                     children: ListTile.divideTiles(context: context, tiles: [
-                  productBasicInfo(
-                      productState: productState,
-                      context: context,
-                      index: widget.index,
-                      totalPrice: totalPrice,
-                      discountAmount: discountAmount,
-                      price: price,
-                      discountPercentage: discountPercentage),
+                  productBasicInfo(context: context, product: widget.product),
                   ListTile(
                     title: Text(
                       "الوصف",
                       style: TextStyle(),
                     ),
-                    subtitle: Text(productState[widget.index]["description"]),
+                    subtitle: Text(widget.product["description"]),
                   ),
                   productViewMainButtons(
-                      context,
-                      watch,
-                      productState,
-                      widget
-                          .index), //contains two buttons, talk to the store and add to car functionallity.
+                    context,
+                    watch,
+                    widget.product,
+                  ), //contains two buttons, talk to the store and add to car functionallity.
                 ]).toList()),
                 SizedBox(
                   height: screenHeight(context) * 0.02,
@@ -118,10 +102,9 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                         ),
                       ),
                       ratingBar(
-                          productState,
-                          context,
-                          widget
-                              .index), // the stars bar that specifies the rating score based on how many stars out of 5
+                        widget.product,
+                        context,
+                      ), // the stars bar that specifies the rating score based on how many stars out of 5
                       SizedBox(
                         height: screenHeight(context) * 0.015,
                       ),

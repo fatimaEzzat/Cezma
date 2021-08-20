@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
-import 'package:test_store/Screens/SecondaryScreens/ShowProductScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 Widget addToCartButton({
@@ -12,9 +11,9 @@ Widget addToCartButton({
   required int price,
   required String title,
   required String productName,
-
   required List options,
   required int itemIndex,
+  required String imageUrl
 }) {
   return Container(
     padding: EdgeInsets.zero,
@@ -32,7 +31,10 @@ Widget addToCartButton({
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         ),
-        onPressed: () {},
+        onPressed: () {
+          context.read(cartStateManagment).addOrRemovefromCart(
+              itemId, price, productName, imageUrl);
+        },
         icon: customIcon,
         label: Expanded(
           child: Text(

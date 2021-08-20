@@ -79,7 +79,7 @@ class FavoritesScreen extends StatelessWidget {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (BuildContext context) {
                               return ShowProductScreen(
-                                index: index,
+                                product: currentItem,
                               );
                             }));
                           },
@@ -133,7 +133,8 @@ class FavoritesScreen extends StatelessWidget {
                                           productName: currentItem["name"],
                                           options: [],
                                           containsOptions:
-                                              currentItem["options"] == 1),
+                                              currentItem["options"] == 1,
+                                          imageUrl: currentItem["image"]),
                                     ),
                                     Flexible(
                                       child: IconButton(

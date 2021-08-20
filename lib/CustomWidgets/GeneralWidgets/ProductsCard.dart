@@ -8,10 +8,10 @@ import 'package:test_store/Variables/Settings.dart';
 import 'addToCartButton.dart';
 
 Widget productsCard(
-    {required context,
+    {required BuildContext context,
     required currentList,
     required index,
-    cartState,
+    required cartState,
     box,
     wishListState}) {
   double discount = 0;
@@ -19,13 +19,12 @@ Widget productsCard(
     discount = currentList[index]["discount"] / currentList[index]["price"];
     discount *= 100;
   }
+
   return InkWell(
     onTap: () {
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) {
-        return ShowProductScreen(
-          index: index,
-        );
+        return ShowProductScreen(product: currentList[index]);
       }));
     },
     child: Center(
@@ -45,7 +44,7 @@ Widget productsCard(
                       fit: BoxFit.cover,
                       imageUrl: currentList[index]["image"].replaceAll(
                           "https://cezma.test",
-                          "https://e082160c436b.ngrok.io"),
+                          "https://ad9fb5d1d2a6.ngrok.io"),
                       placeholder: (context, url) =>
                           Image.asset(settings.images!.placeHolderImage),
                       errorWidget: (context, url, error) => Icon(Icons.error),
@@ -100,15 +99,22 @@ Widget productsCard(
                           itemIndex: index,
                           context: context,
                           itemId: currentList[index]['id'].toString(),
-                          customIcon: Icon(
-                            Icons.add_shopping_cart,
-                            size: screenWidth(context) * 0.045,
-                          ),
-                          title: "اضف الي العربة",
+                          customIcon: cartState.checkItemInCart(
+                                  currentList[index]['id'].toString())
+                              ? Icon(Icons.check)
+                              : Icon(
+                                  Icons.add_shopping_cart,
+                                  size: screenWidth(context) * 0.045,
+                                ),
+                          title: cartState.checkItemInCart(
+                                  currentList[index]['id'].toString())
+                              ? "في العربة"
+                              : "اضف الي العربة",
                           price: currentList[index]["price"],
                           productName: currentList[index]["name"],
                           options: [],
-                          containsOptions: currentList[index]["options"] == 1),
+                          containsOptions: currentList[index]["options"] == 1,
+                          imageUrl: currentList[index]["image"]),
                     ),
                     Flexible(
                       child: IconButton(

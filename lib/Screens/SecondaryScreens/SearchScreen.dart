@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
-import 'package:test_store/Logic/ApiRequests/SearchProducts.dart';
+import 'package:test_store/Logic/ApiRequests/ProductsRequests/SearchProducts.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
 import 'package:test_store/Logic/StateManagment/SearchedProductsState.dart';
@@ -101,7 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         return productsCard(
                           context: context,
                           currentList: searchedList,
-                          index: index,
+                          index: index, cartState: watch(cartStateManagment),
                         );
                       });
         }),
