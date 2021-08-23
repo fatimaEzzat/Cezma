@@ -22,7 +22,7 @@ Future requestHomeProducts(
   }
   try {
     final response = await dio.get(
-      apiHomeProducts,
+      apiHomeProductsUrl,
       options: requestOptions,
     );
 

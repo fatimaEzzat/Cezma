@@ -23,13 +23,10 @@ Future requestHomeAds(
   }
   try {
     final response = await dio.get(
-      apiHomeAds,
+      apiHomeAdsUrl,
       options: requestOptions,
     );
-    context
-        .read(homeAdsStateManagement)
-        .homeAds
-        .addAll(response.data["data"]);
+    context.read(homeAdsStateManagement).homeAds.addAll(response.data["data"]);
   } catch (e) {
     print(e);
   }

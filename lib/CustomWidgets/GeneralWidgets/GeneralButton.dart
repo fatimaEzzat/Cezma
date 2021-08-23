@@ -10,8 +10,6 @@ Widget customGeneralButton(
     required Icon newIcon,
     required Color borderColor}) {
   return Container(
-      padding: EdgeInsets.zero,
-      margin: EdgeInsets.zero,
       width: screenWidth(context) * 0.8,
       child: ElevatedButton.icon(
         icon: newIcon,

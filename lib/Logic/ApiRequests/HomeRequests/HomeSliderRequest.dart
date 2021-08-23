@@ -22,7 +22,7 @@ Future requestHomeSliders(
   }
   try {
     final response = await dio.get(
-      apiHomeSliders,
+      apiHomeSlidersUrl,
       options: requestOptions,
     );
     context

@@ -20,11 +20,11 @@ Future requestSubCategories(BuildContext context, int id) async {
   try {
     var response = await dio.post(apiSubCategoriesUrl,
         options: requestOptions, queryParameters: {"parent_id": id});
-    context
-        .read(categoriesStateManagment)
-        .addSubCategories(response.data["data"]);
+    return response;
+    // context
+    //     .read(categoriesStateManagment)
+    //     .addSubCategories(response.data["data"]);
   } catch (e) {
-    print(e);
     if (e is DioError) {
       Get.defaultDialog(title: "Error", middleText: e.error);
     }

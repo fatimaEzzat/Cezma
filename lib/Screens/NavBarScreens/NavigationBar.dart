@@ -1,11 +1,14 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test_store/Logic/ApiRequests/PlansRequest.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/OrdersScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/SectionsScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/StoresScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/PlansScreen.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -129,6 +132,7 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
             ),
           ],
         ),
+      
       ),
     );
   }

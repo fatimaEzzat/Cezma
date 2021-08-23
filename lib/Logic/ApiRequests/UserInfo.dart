@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,12 @@ Future requestUserInfo(String? userToken, BuildContext context) async {
       "Content-Type": "application/json"
     },
   );
-  Dio dio = Dio();
-  var response = await dio.get(apiUserInfoUrl, options: requestOptions);
-
-  var userInfo = UserModel.fromJson(response.data["data"]);
-  context.read(userStateManagment).setUserInfo(userInfo);
-  return userInfo;
+  try {
+    Dio dio = Dio();
+    var response = await dio.get(apiUserInfoUrl, options: requestOptions);
+    var userInfo = UserModel.fromJson(response.data["data"]);
+    context.read(userStateManagment).setUserInfo(userInfo);
+  } on Exception catch (e) {
+    Get.defaultDialog(title: "خطأ", middleText: e.toString());
+  }
 }

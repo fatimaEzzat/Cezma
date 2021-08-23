@@ -105,6 +105,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               .read(categoriesStateManagment)
                               .categories
                               .map((e) => DropdownMenuItem(
+                                    value: e["id"],
                                     child: AutoSizeText(
                                       e["name"],
                                       maxLines: 1,
@@ -130,6 +131,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               .read(categoriesStateManagment)
                               .categories
                               .map((e) => DropdownMenuItem(
+                                    value: e["id"],
                                     child: AutoSizeText(
                                       e["name"],
                                       maxLines: 1,

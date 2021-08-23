@@ -1,3 +1,5 @@
+const String apiMockImage =
+    "https://cdn.pixabay.com/photo/2021/06/27/14/32/raspberry-6368999_1280.png";
 const String apiBaseUrl = "https://cezma.3x1.io";
 const String apiLoginUrl = apiBaseUrl + "/api/login";
 const String apiProductsUrl = apiBaseUrl + "/api/products";
@@ -13,7 +15,10 @@ const String apiCartUrl = apiBaseUrl + "/api/cart";
 const String apiWishListUrl = apiBaseUrl + "/api/wishlist";
 const String apiStoresListUrl = apiBaseUrl + "/api/stores";
 const String apiSubCategoriesUrl = apiBaseUrl + "/api/subCategories";
-const String apiHomeProducts = "https://ad9fb5d1d2a6.ngrok.io/api/homeProducts";
-const String apiHomeSliders = apiBaseUrl + "/api/homeSliders";
-const String apiHomeAds = apiBaseUrl + "/api/homeAds";
-const String apiHomeStores = "https://ad9fb5d1d2a6.ngrok.io/api/homeStores";
+const String apiHomeProductsUrl =
+    "https://3a21-197-37-140-248.ngrok.io/api/homeProducts";
+const String apiHomeSlidersUrl = apiBaseUrl + "/api/homeSliders";
+const String apiHomeAdsUrl = apiBaseUrl + "/api/homeAds";
+const String apiHomeStoresUrl =
+    "https://3a21-197-37-140-248.ngrok.io/api/homeStores";
+const String apiPlansUrl = "https://lu5t3h3knq.api.quickmocker.com/plan";

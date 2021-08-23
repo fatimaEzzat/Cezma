@@ -18,7 +18,7 @@ Card homeStoreCard(BuildContext context, List<dynamic> homeStores, int index) {
             backgroundImage: AssetImage("Assets/Images/PlaceHolderImage.jpeg"),
             foregroundImage: NetworkImage(
               homeStores[index]["image"].replaceAll(
-                  "https://cezma.test", "https://ad9fb5d1d2a6.ngrok.io"),
+                  "https://cezma.test", "https://3a21-197-37-140-248.ngrok.io"),
             ),
           ),
           Text(homeStores[index]["name"]),

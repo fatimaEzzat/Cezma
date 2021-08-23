@@ -44,7 +44,7 @@ Widget productsCard(
                       fit: BoxFit.cover,
                       imageUrl: currentList[index]["image"].replaceAll(
                           "https://cezma.test",
-                          "https://ad9fb5d1d2a6.ngrok.io"),
+                          "https://3a21-197-37-140-248.ngrok.io"),
                       placeholder: (context, url) =>
                           Image.asset(settings.images!.placeHolderImage),
                       errorWidget: (context, url, error) => Icon(Icons.error),

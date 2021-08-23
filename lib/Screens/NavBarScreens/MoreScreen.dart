@@ -186,7 +186,7 @@ class _MoreScreenState extends State<MoreScreen>
                     context: context,
                     title: "تسجيل الخروج",
                     primarycolor: Colors.grey.shade100,
-                    titlecolor: Colors.purple.shade800,
+                    titlecolor: violet,
                     newIcon: Icon(
                       Icons.logout,
                       color: violet,

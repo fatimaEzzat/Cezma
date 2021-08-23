@@ -34,18 +34,13 @@ Future requestUserOrders(
       options: requestOptions,
       queryParameters: {"page": pageNumber},
     );
-    if (response.statusCode == 200) {
-      if (response.data.toString().contains("html")) {
-        Get.snackbar("Error", "Invalid Token");
-      } else {
-        Map<String, dynamic> body = jsonDecode(response.data);
-        var orders = ProductModel.fromJson(body);
-        _state.addOrders(orders.data);
-        _state.setCurrentOrderPage(++pageNumber);
-        _state.setTotalOrderPages(orders.lastPage);
-        return orders;
-      }
-    }
+
+    Map<String, dynamic> body = jsonDecode(response.data);
+    var orders = ProductModel.fromJson(body);
+    _state.addOrders(orders.data);
+    _state.setCurrentOrderPage(++pageNumber);
+    _state.setTotalOrderPages(orders.lastPage);
+    return orders;
   } on Exception catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "خطأ", middleText: e.error);
