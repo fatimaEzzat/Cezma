@@ -133,12 +133,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: FormBuilderTextField(
                               name: 'country',
                               decoration: customformfielddecoration(
-                                  hinttext: "",
+                                  hinttext: "الدولة",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
                               validator: FormBuilderValidators.required(context,
-                                  errorText: "بالرجاء ادخال الاسم الاخير"),
+                                  errorText: "بالرجاء اختيار الدولة"),
                             ),
                           ),
                         ),
@@ -147,22 +147,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: FormBuilderTextField(
-                                name: 'email',
-                                decoration: customformfielddecoration(
-                                    hinttext: "البريد الالكتروني",
-                                    context: context,
-                                    obsecure: null,
-                                    color: offwhite),
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.email(context,
-                                      errorText:
-                                          "بالرجاء ادخال بريد الكتروني صحيح"),
-                                  FormBuilderValidators.required(
-                                    context,
-                                    errorText:
-                                        "بالرجاء ادخال البريد الالكتروني",
-                                  )
-                                ])),
+                              name: 'ؤهفغ',
+                              decoration: customformfielddecoration(
+                                  hinttext: "المدينة",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء اختيار المدينة"),
+                            ),
                           ),
                         ),
                         Container(
