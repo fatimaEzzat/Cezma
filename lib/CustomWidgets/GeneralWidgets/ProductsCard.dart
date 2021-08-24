@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:test_store/Screens/SecondaryScreens/ShowProductScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/ProductViewScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
@@ -24,7 +24,7 @@ Widget productsCard(
     onTap: () {
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) {
-        return ShowProductScreen(product: currentList[index]);
+        return ProductViewScreen(product: currentList[index]);
       }));
     },
     child: Center(

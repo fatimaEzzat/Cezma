@@ -2,6 +2,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:test_store/Logic/StateManagment/CartState.dart';
 // import 'package:test_store/Logic/StateManagment/UserState.dart';
 // import 'package:test_store/Models/CartModel.dart';
 // import 'package:test_store/Variables/EndPoints.dart';
@@ -17,7 +18,7 @@
 //       'Charset': 'utf-8'
 //     },
 //   );
-//   if (isRefresh) {}
+//   if (isRefresh) {context.read(cartStateManagment).cart.c}
 //   try {
 //     var response = await dio.get(
 //       apiCart,

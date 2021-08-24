@@ -6,38 +6,30 @@ import 'package:test_store/Variables/EndPoints.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future requestStores(
-    {required userToken,
-    required BuildContext context,
+    {required BuildContext context,
     required pageNumber,
     required isRefresh,
     required category}) async {
   Dio dio = Dio();
   Options requestOptions = Options(
     responseType: ResponseType.json,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": userToken,
-      'Charset': 'utf-8'
-    },
+    headers: {"Content-Type": "application/json", 'Charset': 'utf-8'},
   );
   if (isRefresh) {
     context.read(storesStateManagment).stores.clear();
   }
   try {
-    var response = await dio.get(
-      apiStoresListUrl,
-      options: requestOptions,
-    );
-    context.read(storesStateManagment).setCurrentStoresPage(++pageNumber);
+    var response = await dio.get(apiStoresListUrl,
+        options: requestOptions, queryParameters: {"category": category});
+    // context.read(storesStateManagment).setCurrentStoresPage(++pageNumber);
+    // context
+    //     .read(storesStateManagment)
+    //     .setLastStoresPage(response.data["data"]["stores"]["last_page"]);
     context
         .read(storesStateManagment)
-        .setLastStoresPage(response.data["data"]["last_page"]);
-    context
-        .read(storesStateManagment)
-        .addToStoresList(response.data["data"]["data"]);
+        .addToStoresList(response.data["data"]["stores"]["data"]);
   } on Exception catch (e) {
     if (e is DioError) {
-      print("object");
       Get.defaultDialog(title: "خطأ", middleText: e.error);
     }
   }

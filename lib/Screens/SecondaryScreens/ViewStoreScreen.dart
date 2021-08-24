@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
+import 'package:test_store/Logic/ApiRequests/StoreProductsRequest.dart';
+import 'package:test_store/Logic/StateManagment/StoresState.dart';
 import 'package:test_store/Screens/SecondaryScreens/AddProductScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
-class MyStore extends StatefulWidget {
-  const MyStore({Key? key}) : super(key: key);
+class ViewStore extends StatefulWidget {
+  final store;
+  const ViewStore({Key? key, required this.store}) : super(key: key);
 
   @override
-  _MyStoreState createState() => _MyStoreState();
+  _ViewStoreState createState() => _ViewStoreState();
 }
 
-class _MyStoreState extends State<MyStore> {
+class _ViewStoreState extends State<ViewStore> {
+  @override
+  void initState() {
+    requestStoreProducts(
+            isRefresh: true,
+            context: context,
+            userName: widget.store["username"],
+            currentPage: 1)
+        .then((value) => setState(() {}));
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -36,7 +54,7 @@ class _MyStoreState extends State<MyStore> {
                   ),
                 ),
                 Text(
-                  "الشامي ستورز",
+                  widget.store["name"],
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenHeight(context) * 0.02),
@@ -44,7 +62,7 @@ class _MyStoreState extends State<MyStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
-                Text("الكترونيات/موبيلات"),
+                Text(widget.store["description"]),
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
@@ -66,7 +84,15 @@ class _MyStoreState extends State<MyStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
-                Text("وصف المتجر هذا النص هو"),
+                RichText(
+                  text: new TextSpan(
+                    children: widget.store["categories"]
+                        .map<TextSpan>((e) => TextSpan(
+                            text: "/" + e["name"],
+                            style: TextStyle(color: Colors.black)))
+                        .toList(),
+                  ),
+                ),
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
@@ -75,7 +101,7 @@ class _MyStoreState extends State<MyStore> {
                   child: ListTile(
                     tileColor: Colors.grey.shade200,
                     leading: Icon(Icons.phone),
-                    title: Text("01061715164"),
+                    title: Text(widget.store["phone"]),
                   ),
                 ),
                 Card(
@@ -83,7 +109,7 @@ class _MyStoreState extends State<MyStore> {
                   child: ListTile(
                     tileColor: Colors.grey.shade200,
                     leading: Icon(Icons.room),
-                    title: Text("القاهرة مدينة نصر"),
+                    title: Text(widget.store["address"].toString()),
                   ),
                 ),
                 SizedBox(
@@ -117,6 +143,37 @@ class _MyStoreState extends State<MyStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: AnimationLimiter(
+                    child: Consumer(
+                      builder: (BuildContext context,
+                              T Function<T>(ProviderBase<Object?, T>) watch,
+                              Widget? child) =>
+                          GridView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 0.40 / 0.6,
+                                      crossAxisCount: 2),
+                              itemCount: watch(storesStateManagment)
+                                  .storeProducts
+                                  .length,
+                              itemBuilder: (context, index) {
+                                return AnimationConfiguration.staggeredGrid(
+                                  columnCount: 2,
+                                  position: index,
+                                  duration: const Duration(milliseconds: 200),
+                                  child: ScaleAnimation(
+                                    child: FadeInAnimation(child: Text("sfsf")),
+                                  ),
+                                );
+                              }),
+                    ),
+                  ),
+                )),
               ],
             ),
           ),

@@ -17,6 +17,7 @@ Future<void> main() async {
   await Hive.openBox("favorites");
   var tempSettings = await loadLocalAppSettings();
   var email = prefs.getString("email");
+
   runApp(DevicePreview(
     enabled: false,
     builder: (BuildContext context) {

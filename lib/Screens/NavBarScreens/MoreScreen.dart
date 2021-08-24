@@ -6,7 +6,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/AddStoreScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/MyStore.dart';
+import 'package:test_store/Screens/SecondaryScreens/ViewStoreScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
@@ -103,7 +103,7 @@ class _MoreScreenState extends State<MoreScreen>
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return MyStore();
+                          return ViewStore(store: "sdsd");
                         }));
                       },
                       icon: Icon(

@@ -1,16 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
-import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
+import 'package:test_store/Logic/ApiRequests/StoresRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
+import 'package:test_store/Screens/SecondaryScreens/ViewStoreScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
-import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,7 +35,6 @@ class _StoresScreenState extends State<StoresScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read(storesStateManagment).stores.length);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -60,13 +59,11 @@ class _StoresScreenState extends State<StoresScreen> {
                                 _fbKey.currentState!
                                   ..fields["subCategories"]!.reset();
                                 setState(() {
-                                  isLoading = !isLoading;
-                                });
-
-                                subCategories = await requestSubCategories(
-                                    context, int.parse(value.toString()));
-                                setState(() {
-                                  isLoading = !isLoading;
+                                  subCategories = context
+                                      .read(categoriesStateManagment)
+                                      .categories
+                                      .firstWhere((element) =>
+                                          element["id"] == value)["sub"];
                                 });
                               },
                               hint: Text("الاقسام الرئيسية"),
@@ -112,28 +109,28 @@ class _StoresScreenState extends State<StoresScreen> {
                                   .toList()),
                         ),
                       ),
-                      SizedBox(
-                        width: screenWidth(context) * 0.03,
-                      ),
+                      IconButton(
+                          onPressed: () async {
+                            await resetStores();
+                          },
+                          icon: Icon(
+                            Icons.cancel,
+                            color: violet,
+                          )),
                       Flexible(
                         child: FormBuilderDropdown(
+                          onChanged: (value) {
+                            loadStores(value.toString());
+                          },
                           enabled: !isLoading,
                           hint: Text("الاقسام الفرعية"),
-                          icon: isLoading
-                              ? Container(
-                                  width: screenWidth(context) * 0.05,
-                                  height: screenWidth(context) * 0.05,
-                                  child: CircularProgressIndicator(
-                                    color: violet,
-                                  ),
-                                )
-                              : Transform.rotate(
-                                  angle: math.pi / 2,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: violet,
-                                  ),
-                                ),
+                          icon: Transform.rotate(
+                            angle: math.pi / 2,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: violet,
+                            ),
+                          ),
                           decoration: InputDecoration(
                               enabled: isLoading ? false : true,
                               contentPadding: EdgeInsets.only(
@@ -169,7 +166,7 @@ class _StoresScreenState extends State<StoresScreen> {
                                       e["name"].toString(),
                                       maxLines: 1,
                                     ),
-                                    value: e["id"].toString(),
+                                    value: e["slug"].toString(),
                                   ))
                               .toList(),
                         ),
@@ -189,41 +186,73 @@ class _StoresScreenState extends State<StoresScreen> {
                   builder: (BuildContext context,
                           T Function<T>(ProviderBase<Object?, T>) watch,
                           Widget? child) =>
-                      AnimationLimiter(
-                    child: GridView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 0.40 / 0.6, crossAxisCount: 3),
-                        itemCount: watch(storesStateManagment).stores.length,
-                        itemBuilder: (context, index) {
-                          return AnimationConfiguration.staggeredGrid(
-                            columnCount: 2,
-                            position: index,
-                            duration: const Duration(milliseconds: 200),
-                            child: ScaleAnimation(
-                              child: FadeInAnimation(
-                                  child: Column(
-                                children: [
-                                  CachedNetworkImage(
-                                    fit: BoxFit.fill,
-                                    imageUrl: watch(storesStateManagment)
-                                        .stores[index]["image"]
-                                        .replaceAll(
-                                            "https://cezma.test/", apiBaseUrl),
-                                    placeholder: (context, url) => Image.asset(
-                                        settings.images!.placeHolderImage),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                  ),
-                                  Text(watch(storesStateManagment).stores[index]
-                                      ["name"]),
-                                ],
-                              )),
+                      watch(storesStateManagment).isLoadingStores
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: violet,
+                              ),
+                            )
+                          : AnimationLimiter(
+                              child: GridView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          childAspectRatio: 0.8,
+                                          crossAxisCount: 3),
+                                  itemCount:
+                                      watch(storesStateManagment).stores.length,
+                                  itemBuilder: (context, index) {
+                                    return AnimationConfiguration.staggeredGrid(
+                                      columnCount: 3,
+                                      position: index,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      child: ScaleAnimation(
+                                        child: FadeInAnimation(
+                                            child: InkWell(
+                                          onTap: () {
+                                            Get.to(() => ViewStore(
+                                                store:
+                                                    watch(storesStateManagment)
+                                                        .stores[index]));
+                                          },
+                                          child: Card(
+                                            elevation: 0.4,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  child: CachedNetworkImage(
+                                                    width:
+                                                        screenWidth(context) *
+                                                            0.3,
+                                                    height:
+                                                        screenWidth(context) *
+                                                            0.3,
+                                                    fit: BoxFit.fill,
+                                                    imageUrl: watch(
+                                                            storesStateManagment)
+                                                        .stores[index]["image"],
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        Image.asset(settings
+                                                            .images!
+                                                            .placeHolderImage),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                  ),
+                                                ),
+                                                Text(watch(storesStateManagment)
+                                                    .stores[index]["name"]),
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                      ),
+                                    );
+                                  }),
                             ),
-                          );
-                        }),
-                  ),
                 )
               ],
             ),
@@ -232,6 +261,25 @@ class _StoresScreenState extends State<StoresScreen> {
       ),
     );
   }
+
+  Future<void> resetStores() async {
+    if (_fbKey.currentState!.fields["subCategories"]!.value != null) {
+      _fbKey.currentState!.reset();
+      subCategories = [];
+      context.read(storesStateManagment).setStoreLoadingState();
+      await requestStores(
+          context: context, pageNumber: 1, isRefresh: true, category: null);
+      context.read(storesStateManagment).setStoreLoadingState();
+    }
+  }
+
+  Future<void> loadStores(String categorySlug) async {
+    context.read(storesStateManagment).setStoreLoadingState();
+    await requestStores(
+        context: context,
+        pageNumber: 1,
+        isRefresh: true,
+        category: categorySlug);
+    context.read(storesStateManagment).setStoreLoadingState();
+  }
 }
-// images[imgindex].replaceAll(
-//                     "https://cezma.test", "http://fc23e3d0e899.ngrok.io"),

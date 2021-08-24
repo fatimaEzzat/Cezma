@@ -44,18 +44,20 @@ ListTile productBasicInfo({required product, required context}) {
     trailing: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-            width: screenWidth(context) * 0.2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                Text(product["rate"].toString() + "/" + "5"),
-              ],
-            )),
+        product["rate"] != null
+            ? Container(
+                width: screenWidth(context) * 0.2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    Text(product["rate"].toString() + "/" + "5")
+                  ],
+                ))
+            : SizedBox(),
         discountAmount != null
             ? Container(
                 padding: EdgeInsets.all(5),

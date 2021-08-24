@@ -9,11 +9,8 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/CustomWidgets/HomeScreenWidgets/HomeScreenStoresCard.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
-import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeAdsState.dart';
-import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeProductsState.dart';
-import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeSlidersState.dart';
+import 'package:test_store/Logic/StateManagment/HomeState.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
-import 'package:test_store/Logic/StateManagment/HomePageStateManagment/HomeStoresState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -65,9 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var width = screenWidth(context);
     var height = screenHeight(context);
-    final homeAds = context.read(homeAdsStateManagement).homeAds;
-    final homeStores = context.read(homeStoresStateManagment).homeStores;
-    final homeProducts = context.read(homeProductsStateManagment).homeProducts;
+    final homeAds = context.read(homeStateManagment).homeAds;
+    final homeStores = context.read(homeStateManagment).homeStores;
+    final homeProducts = context.read(homeStateManagment).homeProducts;
+    final homeSliders = context.read(homeStateManagment).homeSliders;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -96,35 +94,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundColor: Colors.transparent,
                     expandedHeight: height * 0.3,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Consumer(
-                        builder: (BuildContext context,
-                            T Function<T>(ProviderBase<Object?, T>) watch,
-                            Widget? child) {
-                          final homeSlidersState =
-                              watch(homeSlidersStateManagment);
-                          return Container(
-                            color: settings.theme!.primary,
-                            child: CarouselSlider.builder(
-                                carouselController: _carouselController,
-                                options: CarouselOptions(
-                                    height: 400.0, enlargeCenterPage: true),
-                                itemCount: homeSlidersState.homeSliders.length,
-                                itemBuilder: (context, index, pageindex) =>
-                                    Container(
-                                      width: width,
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.fill,
-                                        imageUrl: homeSlidersState
-                                            .homeSliders[index]["image"],
-                                        placeholder: (context, url) =>
-                                            Image.asset(settings
-                                                .images!.placeHolderImage),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                      ),
-                                    )),
-                          );
-                        },
+                      background: Container(
+                        color: settings.theme!.primary,
+                        child: CarouselSlider.builder(
+                            carouselController: _carouselController,
+                            options: CarouselOptions(
+                                height: 400.0, enlargeCenterPage: true),
+                            itemCount: homeSliders.length,
+                            itemBuilder: (context, index, pageindex) =>
+                                Container(
+                                  width: width,
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.fill,
+                                    imageUrl: homeSliders[index]["image"],
+                                    placeholder: (context, url) => Image.asset(
+                                        settings.images!.placeHolderImage),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                )),
                       ),
                     ),
                   ),

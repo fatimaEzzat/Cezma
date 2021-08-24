@@ -11,7 +11,7 @@ import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-import 'ShowProductScreen.dart';
+import 'ProductViewScreen.dart';
 
 class FavoritesScreen extends StatelessWidget {
   final box = Hive.box('favorites');
@@ -78,7 +78,7 @@ class FavoritesScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              return ShowProductScreen(
+                              return ProductViewScreen(
                                 product: currentItem,
                               );
                             }));

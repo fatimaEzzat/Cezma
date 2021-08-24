@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/Logic/ApiRequests/AuthRequests/SignUp.dart';
+import 'package:test_store/Logic/ApiRequests/LocationsRequest.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
@@ -21,164 +23,173 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formkey = GlobalKey<FormBuilderState>();
+  @override
+  void initState() {
+    requestLocation(context: context, isRefresh: true)
+        .then((value) => setState(() {}));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // Those two variables contain screen's size (width and height).
     double width = screenWidth(context);
     double height = screenHeight(context);
-    return Container(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Consumer(
-          builder: (BuildContext context,
-                  T Function<T>(ProviderBase<Object?, T>) watch,
-                  Widget? child) =>
-              ModalProgressHUD(
-            inAsyncCall: watch(userStateManagment).isLoggingIn,
-            child: FormBuilder(
-              key: _formkey,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: height * 0.1,
-                      ),
-                      Wrap(
-                        runSpacing: height * 0.02,
-                        children: [
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                name: 'first_name',
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Consumer(
+        builder: (BuildContext context,
+                T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) =>
+            ModalProgressHUD(
+          inAsyncCall: watch(userStateManagment).isLoggingIn,
+          child: FormBuilder(
+            key: _formkey,
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: height * 0.08,
+                    ),
+                    SvgPicture.asset("Assets/Logos/LogoWithoutText.svg"),
+                    SizedBox(
+                      height: height * 0.04,
+                    ),
+                    Wrap(
+                      runSpacing: height * 0.02,
+                      children: [
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              keyboardType: TextInputType.number,
+                              name: 'phone',
+                              decoration: customformfielddecoration(
+                                  hinttext: "رقم الهاتف",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال رقم الهاتف"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              obscureText: true,
+                              name: 'password',
+                              decoration: customformfielddecoration(
+                                  hinttext: "كلمة السر",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال كلمة السر"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              obscureText: true,
+                              name: 'password_confirmation',
+                              decoration: customformfielddecoration(
+                                  hinttext: "تأكيد كلمة السر",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: " بالرجاء ادخال كلمة السر مجددا"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              name: 'street',
+                              decoration: customformfielddecoration(
+                                  hinttext: "الشارع",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال الشارع"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              name: 'country',
+                              decoration: customformfielddecoration(
+                                  hinttext: "",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال الاسم الاخير"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                                name: 'email',
                                 decoration: customformfielddecoration(
-                                    hinttext: "الاسم الاول",
+                                    hinttext: "البريد الالكتروني",
                                     context: context,
                                     obsecure: null,
                                     color: offwhite),
-                                validator: FormBuilderValidators.required(
-                                    context,
-                                    errorText: "بالرجاء ادخال الاسم الاول"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                name: 'last_name',
-                                decoration: customformfielddecoration(
-                                    hinttext: "الاسم الاخير",
-                                    context: context,
-                                    obsecure: null,
-                                    color: offwhite),
-                                validator: FormBuilderValidators.required(
-                                    context,
-                                    errorText: "بالرجاء ادخال الاسم الاخير"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                  name: 'email',
-                                  decoration: customformfielddecoration(
-                                      hinttext: "البريد الالكتروني",
-                                      context: context,
-                                      obsecure: null,
-                                      color: offwhite),
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.email(context,
-                                        errorText:
-                                            "بالرجاء ادخال بريد الكتروني صحيح"),
-                                    FormBuilderValidators.required(
-                                      context,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.email(context,
                                       errorText:
-                                          "بالرجاء ادخال البريد الالكتروني",
-                                    )
-                                  ])),
-                            ),
-                          ),
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                obscureText: true,
-                                name: 'password',
-                                decoration: customformfielddecoration(
-                                    hinttext: "كلمة السر",
-                                    context: context,
-                                    obsecure: null,
-                                    color: offwhite),
-                                validator: FormBuilderValidators.required(
-                                    context,
-                                    errorText: "بالرجاء ادخال كلمة السر"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                obscureText: true,
-                                name: 'password_confirmation',
-                                decoration: customformfielddecoration(
-                                    hinttext: "تأكيد كلمة السر",
-                                    context: context,
-                                    obsecure: null,
-                                    color: offwhite),
-                                validator: FormBuilderValidators.required(
+                                          "بالرجاء ادخال بريد الكتروني صحيح"),
+                                  FormBuilderValidators.required(
                                     context,
                                     errorText:
-                                        " بالرجاء ادخال كلمة السر مجددا"),
-                              ),
+                                        "بالرجاء ادخال البريد الالكتروني",
+                                  )
+                                ])),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              name: 'address',
+                              decoration: customformfielddecoration(
+                                  hinttext: "العنوان",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال العنوان"),
                             ),
                           ),
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                keyboardType: TextInputType.number,
-                                name: 'phone',
-                                decoration: customformfielddecoration(
-                                    hinttext: "رقم الهاتف",
-                                    context: context,
-                                    obsecure: null,
-                                    color: offwhite),
-                                validator: FormBuilderValidators.required(
-                                    context,
-                                    errorText: "بالرجاء ادخال رقم الهاتف"),
-                              ),
-                            ),
+                        ),
+                        Container(
+                          height: screenHeight(context) * 0.045,
+                          decoration: new BoxDecoration(
+                            gradient: new LinearGradient(colors: [
+                              Colors.blue.shade900,
+                              Colors.purple.shade900
+                            ]),
                           ),
-                          Container(
-                            width: width * 0.8,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: FormBuilderTextField(
-                                name: 'address',
-                                decoration: customformfielddecoration(
-                                    hinttext: "العنوان",
-                                    context: context,
-                                    obsecure: null,
-                                    color: offwhite),
-                                validator: FormBuilderValidators.required(
-                                    context,
-                                    errorText: "بالرجاء ادخال العنوان"),
-                              ),
-                            ),
-                          ),
-                          customGeneralButton(
+                          child: customGeneralButton(
                               customOnPressed: () {
                                 validation(context);
                               },
@@ -188,26 +199,26 @@ class _SignupScreenState extends State<SignupScreen> {
                                 Icons.person_add,
                                 color: Colors.white,
                               ),
-                              primarycolor: settings.theme!.secondary,
+                              primarycolor: Colors.transparent,
                               titlecolor: Colors.white,
                               borderColor: Colors.transparent),
-                          customGeneralButton(
-                              customOnPressed: () {
-                                Get.to(() => LoginScreen());
-                              },
-                              context: context,
-                              title: "تسجيل دخول ",
-                              newIcon: Icon(
-                                Icons.login,
-                                color: settings.theme!.secondary,
-                              ),
-                              primarycolor: Colors.white,
-                              titlecolor: settings.theme!.secondary,
-                              borderColor: Colors.transparent)
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                        customGeneralButton(
+                            customOnPressed: () {
+                              Get.to(() => LoginScreen());
+                            },
+                            context: context,
+                            title: "تسجيل دخول ",
+                            newIcon: Icon(
+                              Icons.login,
+                              color: settings.theme!.secondary,
+                            ),
+                            primarycolor: petrol,
+                            titlecolor: Colors.white,
+                            borderColor: Colors.transparent)
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),

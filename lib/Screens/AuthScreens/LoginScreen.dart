@@ -11,6 +11,7 @@ import 'package:test_store/Logic/ApiRequests/AuthRequests/Login.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';
+import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/Variables/Settings.dart';
@@ -63,31 +64,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                   ),
-                  customGeneralButton(
-                      context: context,
-                      customOnPressed: () {
-                        validation(context);
-                      },
-                      title: 'تسجيل الدخول',
-                      newIcon: Icon(
-                        Icons.login,
-                        color: settings.theme!.primary,
-                      ),
-                      primarycolor: settings.theme!.secondary,
-                      titlecolor: settings.theme!.primary,
-                      borderColor: Colors.transparent),
+                  Container(
+                    height: screenHeight(context) * 0.045,
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(colors: [
+                        Colors.blue.shade900,
+                        Colors.purple.shade900
+                      ]),
+                    ),
+                    child: customGeneralButton(
+                        context: context,
+                        customOnPressed: () {
+                          validation(context);
+                        },
+                        title: 'تسجيل الدخول',
+                        newIcon: Icon(
+                          Icons.login,
+                          color: settings.theme!.primary,
+                        ),
+                        primarycolor: Colors.transparent,
+                        titlecolor: settings.theme!.primary,
+                        borderColor: Colors.transparent),
+                  ),
                   customGeneralButton(
                     context: context,
                     customOnPressed: () {
                       Get.to(() => SignupScreen());
                     },
                     title: 'حساب جديد',
-                    newIcon: Icon(
-                      Icons.person_add,
-                      color: settings.theme!.secondary,
-                    ),
-                    primarycolor: settings.theme!.primary,
-                    titlecolor: settings.theme!.secondary,
+                    newIcon: Icon(Icons.person_add, color: Colors.white),
+                    primarycolor: petrol,
+                    titlecolor: Colors.white,
                     borderColor: Colors.transparent,
                   )
                 ],

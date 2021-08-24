@@ -8,18 +8,17 @@ import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/AddReviewButto
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/ProductBasicInfo.dart';
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/ProductViewMainButtons.dart';
 import 'package:test_store/CustomWidgets/ShowProductScreenWidgets/RatingBar.dart';
-import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
-class ShowProductScreen extends StatefulWidget {
+class ProductViewScreen extends StatefulWidget {
   final product;
-  ShowProductScreen({Key? key, required this.product}) : super(key: key);
+  ProductViewScreen({Key? key, required this.product}) : super(key: key);
 
   @override
-  _ShowProductScreenState createState() => _ShowProductScreenState();
+  _ProductViewScreenState createState() => _ProductViewScreenState();
 }
 
-class _ShowProductScreenState extends State<ShowProductScreen> {
+class _ProductViewScreenState extends State<ProductViewScreen> {
   int price = 0;
   int? discountAmount = 0;
   int totalPrice = 0;
@@ -44,7 +43,6 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
           title: widget.product["name"],
         ),
         body: Consumer(builder: (context, watch, child) {
-          final productState = watch(productsStateManagment).products;
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
