@@ -58,7 +58,7 @@ class _ShowProductScreenState extends State<ShowProductScreen> {
                       "الوصف",
                       style: TextStyle(),
                     ),
-                    subtitle: Text(widget.product["description"]),
+                    subtitle: Text(widget.product["description"].toString()),
                   ),
                   productViewMainButtons(
                     context,

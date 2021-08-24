@@ -21,6 +21,12 @@ Future firstSuperRequest(
   await requestHomeStores(
       context: context, isRefresh: false, pageNumber: pageNumber);
   await requestPlans(context: context, isRefresh: false);
+  await requestStores(
+      category: null,
+      context: context,
+      isRefresh: false,
+      pageNumber: 1,
+      userToken: null);
   // await requestUserOrders(pageNumber, context, true);
   // await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);

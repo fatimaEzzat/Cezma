@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
+import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 Widget searchBar({required context, required color}) => FormBuilderTextField(

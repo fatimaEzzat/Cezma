@@ -1,10 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
+import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
 
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -17,6 +18,15 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
+  late GlobalKey<FormBuilderState> _fbKey;
+  bool isLoading = false;
+  List subCategories = [];
+  @override
+  void initState() {
+    _fbKey = GlobalKey<FormBuilderState>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -25,6 +35,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         appBar: secondaryAppBar(context: context, title: "اضافة المنتج"),
         body: Center(
           child: FormBuilder(
+              key: _fbKey,
               child: Container(
                   width: screenWidth(context) * 0.95,
                   child: ListView(children: [
@@ -91,6 +102,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderDropdown(
+                          onChanged: (value) async {
+                            _fbKey.currentState!
+                              ..fields["subCategories"]!.reset();
+                            setState(() {
+                              isLoading = !isLoading;
+                            });
+                            subCategories = await requestSubCategories(
+                                context, int.parse(value.toString()));
+                            setState(() {
+                              isLoading = !isLoading;
+                            });
+                          },
                           validator: FormBuilderValidators.required(
                             context,
                             errorText: "اختر القسم الرئيسي",
@@ -117,19 +140,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderDropdown(
+                          enabled: !isLoading,
                           validator: FormBuilderValidators.required(
                             context,
                             errorText: "اختر القسم الفرعي",
                           ),
                           decoration: customformfielddecoration(
+                              enabled: !isLoading,
                               hinttext: "القسم الفرعي",
                               context: context,
                               border: Colors.grey,
                               color: Colors.white),
                           name: "subCategories",
-                          items: context
-                              .read(categoriesStateManagment)
-                              .categories
+                          items: subCategories
                               .map((e) => DropdownMenuItem(
                                     value: e["id"],
                                     child: AutoSizeText(
@@ -184,9 +207,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             Colors.purple.shade900
                           ])),
                       child: customGeneralButton(
-                          customOnPressed: () {},
+                          customOnPressed: () {
+                            _fbKey.currentState!.validate();
+                          },
                           context: context,
-                          title: "حفظ التعديلات",
+                          title: "اضف المنتج",
                           primarycolor: Colors.transparent,
                           titlecolor: Colors.white,
                           newIcon: Icon(Icons.add),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
+import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequests/SearchProducts.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';

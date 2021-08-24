@@ -3,7 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
-import 'CustomFormFieldDecoration.dart';
+import '../Decorations/CustomFormFieldDecoration.dart';
 
 // this is a customformfield widget in a variable form.
 // the context her is sent from the main build context of the widget tree of loginscreen.dart

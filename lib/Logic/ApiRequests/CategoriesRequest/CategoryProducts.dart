@@ -31,18 +31,11 @@ Future<void> requestCategoryProducts(String categoryName, int currentPage,
       queryParameters: {"page": currentPage, "category": categoryName},
       options: requestOptions,
     );
-
-    if (response.statusCode == 200) {
-      if (response.data.contains("html")) {
-        Get.snackbar("Error", "Invalid Token");
-      } else {
-        var body = jsonDecode(response.data);
-        var filtered = ProductModel.fromJson(body[0]);
-        _state.addToFilteredProducts(filtered.data);
-        _state.totalFilteredCategoriesPages = filtered.lastPage;
-        _state.currentFilteredCategoryPage = ++currentPage;
-      }
-    }
+    var body = jsonDecode(response.data);
+    var filtered = ProductModel.fromJson(body[0]);
+    _state.addToFilteredProducts(filtered.data);
+    _state.totalFilteredCategoriesPages = filtered.lastPage;
+    _state.currentFilteredCategoryPage = ++currentPage;
   } on Exception catch (e) {
     if (e is DioError) {
       Get.snackbar("خطأ", "حدث خطأ");

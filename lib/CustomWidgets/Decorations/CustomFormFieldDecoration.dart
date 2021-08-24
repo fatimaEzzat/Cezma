@@ -39,6 +39,10 @@ InputDecoration customformfielddecoration(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: border)),
         // ////////
+        disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey.shade100)),
+        // ////////
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: settings.theme!.secondary)));

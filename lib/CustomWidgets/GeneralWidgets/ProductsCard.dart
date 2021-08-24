@@ -44,7 +44,7 @@ Widget productsCard(
                       fit: BoxFit.cover,
                       imageUrl: currentList[index]["image"].replaceAll(
                           "https://cezma.test",
-                          "https://3a21-197-37-140-248.ngrok.io"),
+                          "https://7337-197-37-196-117.ngrok.io"),
                       placeholder: (context, url) =>
                           Image.asset(settings.images!.placeHolderImage),
                       errorWidget: (context, url, error) => Icon(Icons.error),
@@ -58,7 +58,7 @@ Widget productsCard(
                                 padding: EdgeInsets.all(5),
                                 color: Colors.red,
                                 child: AutoSizeText(
-                                  "خصم " + "%" + discount.toString(),
+                                  "خصم " + "%" + discount.toStringAsFixed(1),
                                   maxLines: 1,
                                   style: TextStyle(color: Colors.white),
                                 ),
@@ -73,7 +73,6 @@ Widget productsCard(
             Container(
                 width: screenWidth(context) * 0.45,
                 child: ListTile(
-                  contentPadding: EdgeInsets.zero,
                   dense: true,
                   title: AutoSizeText(
                     currentList[index]["name"],

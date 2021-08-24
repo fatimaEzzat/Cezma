@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormFieldDecoration.dart';
+import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
@@ -19,6 +19,8 @@ class AddStoreScreen extends StatefulWidget {
 
 class _AddStoreScreenState extends State<AddStoreScreen> {
   late GlobalKey<FormBuilderState> _fbKey;
+  bool isLoading = false;
+  List subCategories = [];
   @override
   void initState() {
     _fbKey = GlobalKey<FormBuilderState>();
@@ -89,14 +91,14 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                         onChanged: (value) async {
                           _fbKey.currentState!
                             ..fields["subCategories"]!.reset();
-                          context
-                              .read(categoriesStateManagment)
-                              .setIsLoadingSubCategories();
-                          await requestSubCategories(
+                          setState(() {
+                            isLoading = !isLoading;
+                          });
+                          subCategories = await requestSubCategories(
                               context, int.parse(value.toString()));
-                          context
-                              .read(categoriesStateManagment)
-                              .setIsLoadingSubCategories();
+                          setState(() {
+                            isLoading = !isLoading;
+                          });
                         },
                         validator: FormBuilderValidators.required(
                           context,
@@ -120,44 +122,31 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                 ))
                             .toList()),
                   ),
-                  Consumer(
-                    builder: (BuildContext context,
-                            T Function<T>(ProviderBase<Object?, T>) watch,
-                            Widget? child) =>
-                        Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderDropdown(
-                          enabled: watch(categoriesStateManagment)
-                                  .isLoadingSubCategories
-                              ? false
-                              : true,
-                          validator: FormBuilderValidators.required(
-                            context,
-                            errorText: "اختر القسم الفرعي",
-                          ),
-                          decoration: customformfielddecoration(
-                              enabled: watch(categoriesStateManagment)
-                                      .isLoadingSubCategories
-                                  ? false
-                                  : true,
-                              hinttext: "القسم الفرعي",
-                              context: context,
-                              border: Colors.grey,
-                              color: Colors.white),
-                          name: "subCategories",
-                          items: context
-                              .read(categoriesStateManagment)
-                              .subCategories
-                              .map((e) => DropdownMenuItem(
-                                    child: AutoSizeText(
-                                      e["name"],
-                                      maxLines: 1,
-                                    ),
-                                    value: e["id"],
-                                  ))
-                              .toList()),
-                    ),
+                  Card(
+                    color: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    child: FormBuilderDropdown(
+                        enabled: !isLoading,
+                        validator: FormBuilderValidators.required(
+                          context,
+                          errorText: "اختر القسم الفرعي",
+                        ),
+                        decoration: customformfielddecoration(
+                            enabled: !isLoading,
+                            hinttext: "القسم الفرعي",
+                            context: context,
+                            border: Colors.grey,
+                            color: Colors.white),
+                        name: "subCategories",
+                        items: subCategories
+                            .map((e) => DropdownMenuItem(
+                                  child: AutoSizeText(
+                                    e["name"],
+                                    maxLines: 1,
+                                  ),
+                                  value: e["id"],
+                                ))
+                            .toList()),
                   ),
                   Card(
                     color: Colors.transparent,

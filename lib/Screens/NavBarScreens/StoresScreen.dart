@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -34,6 +35,7 @@ class _StoresScreenState extends State<StoresScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(context.read(storesStateManagment).stores.length);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -60,7 +62,8 @@ class _StoresScreenState extends State<StoresScreen> {
                                 setState(() {
                                   isLoading = !isLoading;
                                 });
-                                await requestSubCategories(
+
+                                subCategories = await requestSubCategories(
                                     context, int.parse(value.toString()));
                                 setState(() {
                                   isLoading = !isLoading;
@@ -114,11 +117,15 @@ class _StoresScreenState extends State<StoresScreen> {
                       ),
                       Flexible(
                         child: FormBuilderDropdown(
-                          enabled: isLoading,
+                          enabled: !isLoading,
                           hint: Text("الاقسام الفرعية"),
                           icon: isLoading
-                              ? CircularProgressIndicator(
-                                  color: violet,
+                              ? Container(
+                                  width: screenWidth(context) * 0.05,
+                                  height: screenWidth(context) * 0.05,
+                                  child: CircularProgressIndicator(
+                                    color: violet,
+                                  ),
                                 )
                               : Transform.rotate(
                                   angle: math.pi / 2,
@@ -159,10 +166,10 @@ class _StoresScreenState extends State<StoresScreen> {
                           items: subCategories
                               .map((e) => DropdownMenuItem(
                                     child: AutoSizeText(
-                                      e["name"],
+                                      e["name"].toString(),
                                       maxLines: 1,
                                     ),
-                                    value: e["id"],
+                                    value: e["id"].toString(),
                                   ))
                               .toList(),
                         ),

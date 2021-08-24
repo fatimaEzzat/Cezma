@@ -9,7 +9,8 @@ Future requestStores(
     {required userToken,
     required BuildContext context,
     required pageNumber,
-    required isRefresh}) async {
+    required isRefresh,
+    required category}) async {
   Dio dio = Dio();
   Options requestOptions = Options(
     responseType: ResponseType.json,
@@ -25,18 +26,18 @@ Future requestStores(
   try {
     var response = await dio.get(
       apiStoresListUrl,
-      queryParameters: {"page": pageNumber},
       options: requestOptions,
     );
     context.read(storesStateManagment).setCurrentStoresPage(++pageNumber);
     context
         .read(storesStateManagment)
-        .setCurrentStoresPage(response.data["data"]["current_page"]);
+        .setLastStoresPage(response.data["data"]["last_page"]);
     context
         .read(storesStateManagment)
         .addToStoresList(response.data["data"]["data"]);
   } on Exception catch (e) {
     if (e is DioError) {
+      print("object");
       Get.defaultDialog(title: "خطأ", middleText: e.error);
     }
   }
