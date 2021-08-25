@@ -6,10 +6,11 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
+import 'package:test_store/Logic/ApiRequests/CategoriesRequest/CategoryStoresRequest.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
-import 'package:test_store/Screens/SecondaryScreens/ViewStoreScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/StoreTransition.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'dart:math' as math;
@@ -53,60 +54,74 @@ class _StoresScreenState extends State<StoresScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: Container(
-                          child: FormBuilderDropdown(
-                              onChanged: (value) async {
-                                _fbKey.currentState!
-                                  ..fields["subCategories"]!.reset();
-                                setState(() {
-                                  subCategories = context
+                        child: Consumer(
+                          builder: (BuildContext context,
+                                  T Function<T>(ProviderBase<Object?, T>) watch,
+                                  Widget? child) =>
+                              FormBuilderDropdown(
+                                  enabled: !watch(storesStateManagment)
+                                      .isLoadingStores,
+                                  onChanged: (value) async {
+                                    _fbKey.currentState!
+                                      ..fields["subCategories"]!.reset();
+                                    setState(() {
+                                      var selectedCat = context
+                                          .read(categoriesStateManagment)
+                                          .categories
+                                          .firstWhere((element) =>
+                                              element["id"] == value)["slug"];
+                                      loadStores(selectedCat);
+                                      subCategories = context
+                                          .read(categoriesStateManagment)
+                                          .categories
+                                          .firstWhere((element) =>
+                                              element["id"] == value)["sub"];
+                                    });
+                                  },
+                                  hint: Text("الاقسام الرئيسية"),
+                                  icon: Transform.rotate(
+                                      angle: math.pi / 2,
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: violet,
+                                      )),
+                                  decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(
+                                          top: screenHeight(context) * 0.025,
+                                          right: screenWidth(context) * 0.03,
+                                          left: screenWidth(context) * 0.03),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey.shade400,
+                                          )),
+                                      // ////////
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey.shade400,
+                                          )),
+                                      // ////////
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                          ))),
+                                  name: 'mainCategories',
+                                  items: context
                                       .read(categoriesStateManagment)
                                       .categories
-                                      .firstWhere((element) =>
-                                          element["id"] == value)["sub"];
-                                });
-                              },
-                              hint: Text("الاقسام الرئيسية"),
-                              icon: Transform.rotate(
-                                  angle: math.pi / 2,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: violet,
-                                  )),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      top: screenHeight(context) * 0.025,
-                                      right: screenWidth(context) * 0.03,
-                                      left: screenWidth(context) * 0.03),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade400,
-                                      )),
-                                  // ////////
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade400,
-                                      )),
-                                  // ////////
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ))),
-                              name: 'mainCategories',
-                              items: context
-                                  .read(categoriesStateManagment)
-                                  .categories
-                                  .map((e) => DropdownMenuItem(
-                                        child: AutoSizeText(
-                                          e["name"],
-                                          maxLines: 1,
-                                        ),
-                                        value: e["id"],
-                                      ))
-                                  .toList()),
+                                      .map((e) => DropdownMenuItem(
+                                            child: AutoSizeText(
+                                              e["name"],
+                                              maxLines: 1,
+                                            ),
+                                            value: e["id"],
+                                          ))
+                                      .toList()),
                         ),
                       ),
                       IconButton(
@@ -118,57 +133,58 @@ class _StoresScreenState extends State<StoresScreen> {
                             color: violet,
                           )),
                       Flexible(
-                        child: FormBuilderDropdown(
-                          onChanged: (value) {
-                            loadStores(value.toString());
-                          },
-                          enabled: !isLoading,
-                          hint: Text("الاقسام الفرعية"),
-                          icon: Transform.rotate(
-                            angle: math.pi / 2,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: violet,
+                        child: Consumer(
+                          builder: (BuildContext context,
+                                  T Function<T>(ProviderBase<Object?, T>) watch,
+                                  Widget? child) =>
+                              FormBuilderDropdown(
+                            onChanged: (value) {
+                              loadStores(value.toString());
+                            },
+                            enabled:
+                                !watch(storesStateManagment).isLoadingStores,
+                            hint: Text("الاقسام الفرعية"),
+                            icon: Transform.rotate(
+                              angle: math.pi / 2,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: violet,
+                              ),
                             ),
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    top: screenHeight(context) * 0.025,
+                                    right: screenWidth(context) * 0.03,
+                                    left: screenWidth(context) * 0.03),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade400,
+                                    )),
+                                // ////////
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade400,
+                                    )),
+                                // ////////
+
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ))),
+                            name: 'subCategories',
+                            items: subCategories
+                                .map((e) => DropdownMenuItem(
+                                      child: AutoSizeText(
+                                        e["name"].toString(),
+                                        maxLines: 1,
+                                      ),
+                                      value: e["slug"].toString(),
+                                    ))
+                                .toList(),
                           ),
-                          decoration: InputDecoration(
-                              enabled: isLoading ? false : true,
-                              contentPadding: EdgeInsets.only(
-                                  top: screenHeight(context) * 0.025,
-                                  right: screenWidth(context) * 0.03,
-                                  left: screenWidth(context) * 0.03),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
-                                  )),
-                              // ////////
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
-                                  )),
-                              // ////////
-                              disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade200,
-                                  )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ))),
-                          name: 'subCategories',
-                          items: subCategories
-                              .map((e) => DropdownMenuItem(
-                                    child: AutoSizeText(
-                                      e["name"].toString(),
-                                      maxLines: 1,
-                                    ),
-                                    value: e["slug"].toString(),
-                                  ))
-                              .toList(),
                         ),
                       ),
                     ],
@@ -212,10 +228,11 @@ class _StoresScreenState extends State<StoresScreen> {
                                         child: FadeInAnimation(
                                             child: InkWell(
                                           onTap: () {
-                                            Get.to(() => ViewStore(
-                                                store:
-                                                    watch(storesStateManagment)
-                                                        .stores[index]));
+                                            Get.to(() => StoreTransition(
+                                                  store: watch(
+                                                          storesStateManagment)
+                                                      .stores[index],
+                                                ));
                                           },
                                           child: Card(
                                             elevation: 0.4,
@@ -263,7 +280,8 @@ class _StoresScreenState extends State<StoresScreen> {
   }
 
   Future<void> resetStores() async {
-    if (_fbKey.currentState!.fields["subCategories"]!.value != null) {
+    if (_fbKey.currentState!.fields["subCategories"]!.value != null ||
+        _fbKey.currentState!.fields["mainCategories"]!.value != null) {
       _fbKey.currentState!.reset();
       subCategories = [];
       context.read(storesStateManagment).setStoreLoadingState();
@@ -275,11 +293,7 @@ class _StoresScreenState extends State<StoresScreen> {
 
   Future<void> loadStores(String categorySlug) async {
     context.read(storesStateManagment).setStoreLoadingState();
-    await requestStores(
-        context: context,
-        pageNumber: 1,
-        isRefresh: true,
-        category: categorySlug);
+    await requestCategoryStores(categorySlug, 1, context, true);
     context.read(storesStateManagment).setStoreLoadingState();
   }
 }

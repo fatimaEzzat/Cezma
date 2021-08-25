@@ -10,7 +10,6 @@ class CountriesState extends ChangeNotifier {
   List governorates = [];
   List cities = [];
   var selectedGov;
-  
 
   void setCountries(List input) {
     countries = input;
@@ -21,8 +20,5 @@ class CountriesState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCitiesandGovernates(List inputCities, List inputGovernates) {
-    cities = inputCities;
-    governorates = inputGovernates;
-  }
+
 }

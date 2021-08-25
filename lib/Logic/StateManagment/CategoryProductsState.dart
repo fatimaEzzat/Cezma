@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final filteredProductsStateManagment =
+final categoryProductsStateManagment =
     ChangeNotifierProvider<FilteredProductsState>(
         (ref) => FilteredProductsState());
 
 class FilteredProductsState extends ChangeNotifier {
-  int totalFilteredCategoriesPages = 1;
-  int currentFilteredCategoryPage = 1;
-  List filteredProducts = [];
+  int totalCategoryProductsPages = 1;
+  int currentCategoryProductsPage = 1;
+  List categoryProducts = [];
   bool isLoadingFilteredProducts = false;
 
-  void addToFilteredProducts(List input) {
-    filteredProducts.addAll(input);
+  void addCategoryProducts(List input) {
+    categoryProducts.addAll(input);
     notifyListeners();
   }
 

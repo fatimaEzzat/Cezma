@@ -3,22 +3,21 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/StoreProductsRequest.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
 import 'package:test_store/Screens/SecondaryScreens/AddProductScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
-class ViewStore extends StatefulWidget {
+class ViewMyStore extends StatefulWidget {
   final store;
-  const ViewStore({Key? key, required this.store}) : super(key: key);
+  const ViewMyStore({Key? key, required this.store}) : super(key: key);
 
   @override
-  _ViewStoreState createState() => _ViewStoreState();
+  _ViewMyStoreState createState() => _ViewMyStoreState();
 }
 
-class _ViewStoreState extends State<ViewStore> {
+class _ViewMyStoreState extends State<ViewMyStore> {
   @override
   void initState() {
     requestStoreProducts(

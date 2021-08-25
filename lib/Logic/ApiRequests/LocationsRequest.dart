@@ -27,6 +27,6 @@ Future requestLocation({
         .countries
         .addAll(response.data["data"]["locations"]);
   } catch (e) {
-    Get.defaultDialog(title: "خطا", middleText: "فشل الاتصال");
+    Get.snackbar("خطا", "فشل الاتصال");
   }
 }

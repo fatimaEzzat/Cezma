@@ -1,14 +1,19 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
-import 'package:test_store/Logic/ApiRequests/AuthRequests/SignUp.dart';
+import 'package:test_store/Logic/ApiRequests/AuthRequests/SignUpRequest.dart';
+import 'package:test_store/Logic/ApiRequests/CitiesRequest.dart';
 import 'package:test_store/Logic/ApiRequests/LocationsRequest.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
+import 'package:test_store/Logic/StateManagment/CountriesState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
@@ -23,10 +28,25 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formkey = GlobalKey<FormBuilderState>();
+  late DataConnectionStatus connection;
+  bool isLogging = false;
+  int countryId = 0;
+  int cityId = 0;
+  int areaId = 0;
+  List areas = [];
+  List cities = [];
   @override
   void initState() {
-    requestLocation(context: context, isRefresh: true)
-        .then((value) => setState(() {}));
+    DataConnectionChecker().onStatusChange.listen((event) {
+      if (event == DataConnectionStatus.connected) {
+        requestLocation(context: context, isRefresh: true)
+            .then((value) => setState(() {}));
+      }
+    });
+    if (DataConnectionChecker().hasConnection != null) {
+      requestLocation(context: context, isRefresh: true)
+          .then((value) => setState(() {}));
+    }
     super.initState();
   }
 
@@ -37,17 +57,14 @@ class _SignupScreenState extends State<SignupScreen> {
     double height = screenHeight(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Consumer(
-        builder: (BuildContext context,
-                T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) =>
-            ModalProgressHUD(
-          inAsyncCall: watch(userStateManagment).isLoggingIn,
-          child: FormBuilder(
-            key: _formkey,
-            child: SingleChildScrollView(
-              child: Center(
+      body: ModalProgressHUD(
+        inAsyncCall: isLogging,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: FormBuilder(
+                key: _formkey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: height * 0.08,
@@ -81,16 +98,18 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: FormBuilderTextField(
-                              obscureText: true,
-                              name: 'password',
-                              decoration: customformfielddecoration(
-                                  hinttext: "كلمة السر",
-                                  context: context,
-                                  obsecure: null,
-                                  color: offwhite),
-                              validator: FormBuilderValidators.required(context,
-                                  errorText: "بالرجاء ادخال كلمة السر"),
-                            ),
+                                obscureText: true,
+                                name: 'password',
+                                decoration: customformfielddecoration(
+                                    hinttext: "كلمة السر",
+                                    context: context,
+                                    obsecure: null,
+                                    color: offwhite),
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(context,
+                                      errorText: "بالرجاء ادخال كلمة السر"),
+                                  FormBuilderValidators.minLength(context, 8)
+                                ])),
                           ),
                         ),
                         Container(
@@ -131,7 +150,61 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: FormBuilderTextField(
-                              name: 'country',
+                              name: 'mark',
+                              decoration: customformfielddecoration(
+                                  hinttext: "علامة مميزة",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال العلامة المميزة"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderDropdown(
+                              onChanged: (value) async {
+                                _formkey.currentState!.fields["city_id"]!
+                                    .reset();
+                                _formkey.currentState!.fields["area_id"]!
+                                    .reset();
+                                String countryName = context
+                                    .read(countriesStateManagment)
+                                    .countries
+                                    .firstWhere((element) =>
+                                        element["id"] ==
+                                        int.parse(value.toString()))["name"];
+                                await requestCities(countryName: countryName)
+                                    .then((value) => setState(() {
+                                          cities = value;
+                                        }));
+                              },
+                              icon: context
+                                      .read(countriesStateManagment)
+                                      .countries
+                                      .isNotEmpty
+                                  ? Icon(Icons.arrow_downward)
+                                  : Container(
+                                      width: 10,
+                                      height: 10,
+                                      child: CircularProgressIndicator(
+                                        color: violet,
+                                      )),
+                              items: context
+                                  .read(countriesStateManagment)
+                                  .countries
+                                  .map((e) => DropdownMenuItem(
+                                        onTap: () {
+                                          countryId = e["id"];
+                                        },
+                                        child: (Text(e["name"])),
+                                        value: e["id"],
+                                      ))
+                                  .toList(),
+                              name: 'country_id',
                               decoration: customformfielddecoration(
                                   hinttext: "الدولة",
                                   context: context,
@@ -146,8 +219,23 @@ class _SignupScreenState extends State<SignupScreen> {
                           width: width * 0.8,
                           child: Directionality(
                             textDirection: TextDirection.rtl,
-                            child: FormBuilderTextField(
-                              name: 'ؤهفغ',
+                            child: FormBuilderDropdown(
+                              items: cities
+                                  .map((e) => DropdownMenuItem(
+                                        onTap: () {
+                                          setState(() {
+                                            cityId = e["id"];
+                                            areas = e["areas"];
+                                            _formkey.currentState!
+                                                .fields["area_id"]!
+                                                .reset();
+                                          });
+                                        },
+                                        child: Text(e['name']),
+                                        value: e["id"],
+                                      ))
+                                  .toList(),
+                              name: 'city_id',
                               decoration: customformfielddecoration(
                                   hinttext: "المدينة",
                                   context: context,
@@ -155,6 +243,33 @@ class _SignupScreenState extends State<SignupScreen> {
                                   color: offwhite),
                               validator: FormBuilderValidators.required(context,
                                   errorText: "بالرجاء اختيار المدينة"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderDropdown(
+                              onChanged: (value) {
+                                setState(() {
+                                  areaId = int.parse(value.toString());
+                                });
+                              },
+                              items: areas
+                                  .map((e) => DropdownMenuItem(
+                                        child: Text(e['name']),
+                                        value: e["id"],
+                                      ))
+                                  .toList(),
+                              name: 'area_id',
+                              decoration: customformfielddecoration(
+                                  hinttext: "المنطقة",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء اختيار المنطقة"),
                             ),
                           ),
                         ),
@@ -171,6 +286,23 @@ class _SignupScreenState extends State<SignupScreen> {
                                   color: offwhite),
                               validator: FormBuilderValidators.required(context,
                                   errorText: "بالرجاء ادخال العنوان"),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width * 0.8,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: FormBuilderTextField(
+                              keyboardType: TextInputType.number,
+                              name: 'zip',
+                              decoration: customformfielddecoration(
+                                  hinttext: "رقم بريد",
+                                  context: context,
+                                  obsecure: null,
+                                  color: offwhite),
+                              validator: FormBuilderValidators.required(context,
+                                  errorText: "بالرجاء ادخال رقم البريد"),
                             ),
                           ),
                         ),
@@ -198,7 +330,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         customGeneralButton(
                             customOnPressed: () {
-                              Get.to(() => LoginScreen());
+                              Get.off(() => LoginScreen());
                             },
                             context: context,
                             title: "تسجيل دخول ",
@@ -230,18 +362,30 @@ class _SignupScreenState extends State<SignupScreen> {
         _formkey.currentState!.save();
         var loginInfo = _formkey.currentState!
             .value; // containes login info extracted from both email and password fields.
+        if (loginInfo["password_confirmation"] != loginInfo["password"]) {
+          throw {Get.snackbar("خطأ", "كلمتا السر ليسا متطابقتين")};
+        }
         try {
-          contextm.read(userStateManagment).setIsLoggingIn();
-          requestSignUp(loginInfo);
-          contextm.read(userStateManagment).setIsLoggingIn();
+          setState(() {
+            isLogging = !isLogging;
+          });
+          await requestSignUp(loginInfo).then((value) {
+            if (value["success"] == false) {
+              throw {Get.snackbar("خطأ", value["mesage"])};
+            }
+          });
+          context.read(userStateManagment).userPhone =
+              _formkey.currentState!.fields["phone"]!.value;
+          setState(() {
+            isLogging = !isLogging;
+          });
           //if the process of loginning is successful, we pop up a message to inform the user of the success.
           Get.defaultDialog(
               barrierDismissible: false,
               title: "تم!",
               middleText: "تم انشاء الحساب بنجاح",
               confirm: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: settings.theme!.secondary),
+                  style: ElevatedButton.styleFrom(primary: violet),
                   onPressed: () {
                     Get.off(() => LoginScreen());
                   },

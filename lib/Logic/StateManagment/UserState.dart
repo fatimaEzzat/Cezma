@@ -8,6 +8,7 @@ final userStateManagment =
 class UserState extends ChangeNotifier {
   String? userToken;
   String? userId;
+  String? userPhone;
   String? userPassword;
   UserModel? userInfo;
   bool isLoggingIn = false;
@@ -22,15 +23,8 @@ class UserState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUserToken(String token) {
-    userToken = token;
-  }
 
   void setUserId(String id) {
     userId = id;
-  }
-
-  void setUserPassword(String input) {
-    userPassword = input;
   }
 }

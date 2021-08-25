@@ -1,5 +1,4 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,7 +15,7 @@ Future<void> main() async {
   await Hive.initFlutter("favorites");
   await Hive.openBox("favorites");
   var tempSettings = await loadLocalAppSettings();
-  var email = prefs.getString("email");
+  var phone = prefs.getString("phone");
 
   runApp(DevicePreview(
     enabled: false,
@@ -30,7 +29,8 @@ Future<void> main() async {
                       backgroundColor: tempSettings.theme!.primary)),
               locale: DevicePreview.locale(context), // Add the locale here
               builder: DevicePreview.appBuilder,
-              home: email == null ? LoginScreen() : CustomSplashScreen()));
+              home:
+                  phone == null ? CustomSplashScreen() : CustomSplashScreen()));
     },
   ));
 }

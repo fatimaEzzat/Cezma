@@ -6,13 +6,11 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/AddressSettingTile.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/CitySettingTile.dart';
-import 'package:test_store/CustomWidgets/PaymentScreenWidgets/CustomAddressSettingTile.dart';
 import 'package:test_store/CustomWidgets/PaymentScreenWidgets/GovSettingTile.dart';
 import 'package:test_store/Logic/ApiRequests/OrdersRequests/NewOrder.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/CountriesState.dart';
-import 'package:test_store/Logic/StateManagment/LocationState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
@@ -84,20 +82,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           titleTextStyle:
                               TextStyle(color: settings.theme!.secondary),
                           tiles: [
-                            customAddressSettingTile(
-                                width: width,
-                                controller: _controller,
-                                context: context,
-                                height: height,
-                                locationState: watch(locationStateManagment),
-                                onTap: () async {
-                                  watch(locationStateManagment)
-                                      .setIsGettingLocation();
-                                  await _location.getLocationName().then(
-                                      (value) => _controller.text = value);
-                                  watch(locationStateManagment)
-                                      .setIsGettingLocation();
-                                }),
+                            // customAddressSettingTile(
+                            //     width: width,
+                            //     controller: _controller,
+                            //     context: context,
+                            //     height: height,
+                            //     locationState: watch(locationStateManagment),
+                            //     onTap: () async {
+                            //       watch(locationStateManagment)
+                            //           .setIsGettingLocation();
+                            //       await _location.getLocationName().then(
+                            //           (value) => _controller.text = value);
+                            //       watch(locationStateManagment)
+                            //           .setIsGettingLocation();
+                            //     }),
                             addressSettingTile(
                                 width: width,
                                 controller: _controller,

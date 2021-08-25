@@ -9,6 +9,14 @@ PODS:
     - Flutter
   - image_picker (0.0.1):
     - Flutter
+  - libphonenumber (0.0.1):
+    - Flutter
+    - libPhoneNumber-iOS
+  - libPhoneNumber-iOS (0.9.15)
+  - libphonenumber_plugin (0.0.1):
+    - Flutter
+    - libphonenumber
+    - libPhoneNumber-iOS
   - location (0.0.1):
     - Flutter
   - modal_progress_hud_nsn (0.0.1):
@@ -26,6 +34,8 @@ DEPENDENCIES:
   - geocoder (from `.symlinks/plugins/geocoder/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
+  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - modal_progress_hud_nsn (from `.symlinks/plugins/modal_progress_hud_nsn/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -35,6 +45,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - FMDB
+    - libPhoneNumber-iOS
 
 EXTERNAL SOURCES:
   Flutter:
@@ -45,6 +56,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  libphonenumber:
+    :path: ".symlinks/plugins/libphonenumber/ios"
+  libphonenumber_plugin:
+    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
   modal_progress_hud_nsn:
@@ -62,6 +77,9 @@ SPEC CHECKSUMS:
   geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
   geolocator_apple: 60a1c3f5930c090d2f5164ba8bf25f4f89121e3c
   image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+  libphonenumber_plugin: 7cf755ad1656145935d6c208173a476bd3f12898
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   modal_progress_hud_nsn: f6fb744cd060653d66ed8f325360ef3650eb2fde
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c

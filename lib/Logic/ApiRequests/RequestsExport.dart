@@ -1,12 +1,12 @@
 export 'CategoriesRequest/CategoriesRequest.dart';
-export 'CategoriesRequest/CategoryProducts.dart';
+export 'CategoriesRequest/CategoryProductsRequest.dart';
 export 'ChangeInfo.dart';
 export 'FullRequest.dart';
-export 'AuthRequests/Login.dart';
+export 'AuthRequests/LoginRequest.dart';
 export 'OrdersRequests/NewOrder.dart';
 export 'OrdersRequests/OrderStatus.dart';
 export 'OrdersRequests/Orders.dart';
 export 'ProductsRequests/ProductsRequest.dart';
-export 'ShowCountry.dart';
-export 'AuthRequests/SignUp.dart';
-export 'UserInfo.dart';
+export 'CountriesRequest.dart';
+export 'AuthRequests/SignUpRequest.dart';
+export 'ProfileRequests/UserInfoRequest.dart';

@@ -52,6 +52,7 @@ class _SectionsScreenState extends State<SectionsScreen> {
                           child: GestureDetector(
                             onTap: () {
                               Get.to(() => CategoriesScreen(
+                                  slug: categories[index]["slug"],
                                   id: categories[index]["id"]));
                             },
                             child: Card(

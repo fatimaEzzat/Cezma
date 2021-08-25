@@ -25,19 +25,18 @@ Widget customformfield(
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: FormBuilderTextField(
-                name: 'email',
+                keyboardType: TextInputType.number,
+                name: 'user',
                 decoration: customformfielddecoration(
-                    hinttext: "البريد الالكتروني",
+                    hinttext: "الرقم",
                     context: context,
                     obsecure: null,
                     color: offwhite),
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.email(context,
-                      errorText: "بالرجاء ادخال بريد الكتروني صحيح"),
-                  FormBuilderValidators.required(
-                    context,
-                    errorText: "بالرجاء ادخال البريد الالكتروني",
-                  )
+                  FormBuilderValidators.required(context),
+                  FormBuilderValidators.integer(context),
+                  FormBuilderValidators.minLength(context, 11),
+                  FormBuilderValidators.maxLength(context, 11)
                 ])),
           ),
         ),

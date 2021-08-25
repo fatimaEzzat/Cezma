@@ -1,3 +1,4 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -7,9 +8,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/CustomFormBuilder.dart';
-import 'package:test_store/Logic/ApiRequests/AuthRequests/Login.dart';
+import 'package:test_store/Logic/ApiRequests/AuthRequests/LoginRequest.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
+import 'package:test_store/Screens/AuthScreens/ActivationScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -30,7 +32,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    DataConnectionChecker().onStatusChange.listen((event) {
+      if (event == DataConnectionStatus.disconnected) {
+        Get.defaultDialog(
+            barrierDismissible: false,
+            title: "خطأ",
+            middleText: "تعذر الاتصال بالانترنت",
+            confirm: customGeneralButton(
+                context: context,
+                customOnPressed: () async {
+                  bool test = await DataConnectionChecker().hasConnection;
+                  if (test) {
+                    Get.back();
+                  }
+                },
+                newIcon: Icon(Icons.refresh),
+                primarycolor: settings.theme!.secondary,
+                title: 'اعادة الاتصال',
+                titlecolor: Colors.white,
+                borderColor: Colors.transparent));
+      } else {
+        Get.back();
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -114,22 +144,31 @@ class _LoginScreenState extends State<LoginScreen> {
         _formkey.currentState!.save();
         var loginInfo = _formkey.currentState!
             .value; // containes login info extracted from both email and password fields.
+        if (loginInfo["user"][0] != "0") {
+          throw {Get.snackbar("خطأ", "هذا الرقم ليس صحيح")};
+        }
         try {
           contextm.read(userStateManagment).setIsLoggingIn();
-          await requestLogin(loginInfo);
-          if (loginInfo['rememberme']) {
-            SharedPreferences.getInstance().then((value) {
-              value.setString("email", loginInfo["email"]);
-            });
-          }
-          contextm.read(userStateManagment).setIsLoggingIn();
-          Get.off(() => CustomSplashScreen());
+          await requestLogin(loginInfo).then((value) {
+            if (loginInfo['rememberme']) {
+              SharedPreferences.getInstance().then((sharedValue) {
+                sharedValue.setString("phone", loginInfo["user"]);
+              });
+            }
+            if (value["data"]["user"]["activated"] == 0) {
+              contextm.read(userStateManagment).setIsLoggingIn();
+              Get.off(() => ActivationScreen());
+            } else {
+              contextm.read(userStateManagment).setIsLoggingIn();
+              Get.off(() => CustomSplashScreen());
+            }
+          });
         } catch (e) {
           contextm.read(userStateManagment).setIsLoggingIn();
           if (e is DioError) {
             Get.snackbar(
                 "Error",
-                e.response!.statusCode == 401
+                e.response!.statusCode == 403
                     ? "Wrong Username or Email"
                     : "Unkown Error");
           }

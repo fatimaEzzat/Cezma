@@ -5,6 +5,7 @@ const String apiLoginUrl = apiBaseUrl + "/api/login";
 const String apiProductsUrl = apiBaseUrl + "/api/products";
 const String apiOrdesrUrl = apiBaseUrl + "/api/orders?customer_id=";
 const String apiSignupUrl = apiBaseUrl + "/api/register";
+const String apiUserActivation = apiBaseUrl + "/api/email/verify";
 const String apiUserInfoUrl = apiBaseUrl + "/api/profile";
 const String apiShowCountryUrl = apiBaseUrl + "/api/locations";
 const String apiCategoriesListUrl = apiBaseUrl + "/api/categories";

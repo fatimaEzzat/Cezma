@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_store/Logic/ApiRequests/HomeRequest.dart';
+import 'package:test_store/Logic/ApiRequests/ProfileRequests/MyStoresRequest.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest.dart';
 import 'RequestsExport.dart';
 
@@ -16,14 +17,13 @@ Future firstSuperRequest(
     isRefresh: true,
     pageNumber: 1,
   );
+  print(userToken);
+  await requestMyStore(userToken, context, 1);
   await requestCategoriesList(context, true);
   // await requestUserOrders(pageNumber, context, true);
   // await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);
   // await requestShowCountry(userToken, context);
-  // await requestUserInfo(userToken, context);
-
+  await requestUserInfo(userToken, context);
   // await requestCategoryProducts("", 1, context, true);
-  // await requestStores(
-  //     context: context, isRefresh: true, pageNumber: 1, userToken: userToken);
 }

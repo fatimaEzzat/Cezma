@@ -28,17 +28,9 @@ class CustomSplashScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         screenFunction: () async {
-          await readCitiesJson(context); // first we read
           await SharedPreferences.getInstance().then((sharedvalue) async {
-            context
-                .read(userStateManagment)
-                .setUserToken(sharedvalue.getString("token")!);
-            context
-                .read(userStateManagment)
-                .setUserId(sharedvalue.getString("user_id").toString());
-            context
-                .read(userStateManagment)
-                .setUserPassword(sharedvalue.getString("password").toString());
+            context.read(userStateManagment).userToken =
+                sharedvalue.getString("token").toString();
             await firstSuperRequest(
                 context: context,
                 pageNumber: 1,

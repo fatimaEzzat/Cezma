@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_store/Logic/ApiRequests/UserInfo.dart';
+import 'package:test_store/Logic/ApiRequests/ProfileRequests/UserInfoRequest.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
 Future requestChangeInfo(
