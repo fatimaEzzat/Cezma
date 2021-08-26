@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
-import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({Key? key}) : super(key: key);
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
+  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -27,15 +27,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset("Assets/Images/ResetPasswordLogo.png"),
+              SizedBox(
+                height: screenHeight(context) * 0.08,
+              ),
+              SvgPicture.asset("Assets/Logos/LogoWithoutText.svg"),
               SizedBox(
                 height: screenHeight(context) * 0.05,
               ),
               Text(
-                "هل نسيت كلمة السر ؟",
-                style: TextStyle(color: violet, fontWeight: FontWeight.bold),
+                "اعادة تعيين كلمة السر",
+                style: TextStyle(
+                    color: violet,
+                    fontWeight: FontWeight.bold,
+                    fontSize: screenWidth(context) * 0.05),
               ),
               SizedBox(
                 height: screenHeight(context) * 0.02,
@@ -43,7 +49,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Container(
                 width: screenWidth(context) * 0.7,
                 child: Text(
-                  "قم بادخال الرقم او البريد الالكتروني الخاص بك لاستلام رابط اعادة تعيين كلمة المرور",
+                  "قم باداخل كلمة المرور الجديدة",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey),
                 ),
@@ -51,15 +57,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(
                 height: screenHeight(context) * 0.02,
               ),
-              SizedBox(
-                  width: screenWidth(context) * 0.8,
-                  child: FormBuilderTextField(
-                    name: "phone",
-                    decoration: customformfielddecoration(
-                        hinttext: "البريد الالكتروني/الهاتف",
-                        context: context,
-                        color: Colors.grey.shade200),
-                  )),
+              Card(
+                elevation: 0,
+                color: Colors.transparent,
+                child: SizedBox(
+                    width: screenWidth(context) * 0.8,
+                    child: FormBuilderTextField(
+                      name: "password",
+                      decoration: customformfielddecoration(
+                          hinttext: "كلمة المرور الجديدة",
+                          context: context,
+                          color: Colors.grey.shade200),
+                    )),
+              ),
+              Card(
+                elevation: 0,
+                color: Colors.transparent,
+                child: SizedBox(
+                    width: screenWidth(context) * 0.8,
+                    child: FormBuilderTextField(
+                      name: "password_confirmation",
+                      decoration: customformfielddecoration(
+                          hinttext: "تأكيد كلمة المرور ",
+                          context: context,
+                          color: Colors.grey.shade200),
+                    )),
+              ),
               SizedBox(
                 height: screenHeight(context) * 0.02,
               ),
@@ -73,7 +96,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: customGeneralButton(
                     customOnPressed: () {},
                     context: context,
-                    title: "تفعيل الحساب",
+                    title: "اعادة تعيين كلمة المرور",
                     primarycolor: Colors.transparent,
                     titlecolor: Colors.white,
                     newIcon: Icon(Icons.recommend),

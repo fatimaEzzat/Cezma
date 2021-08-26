@@ -15,6 +15,7 @@ import 'package:test_store/Logic/ApiRequests/LocationsRequest.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/CountriesState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
+import 'package:test_store/Screens/AuthScreens/ActivationScreen.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -387,7 +388,7 @@ class _SignupScreenState extends State<SignupScreen> {
               confirm: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: violet),
                   onPressed: () {
-                    Get.off(() => LoginScreen());
+                    Get.off(() => ActivationScreen());
                   },
                   child: Text("تأكيد")));
         } on Exception catch (e) {

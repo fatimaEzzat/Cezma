@@ -22,6 +22,11 @@ Future requestCategoriesList(BuildContext context, bool isRefresh) async {
       options: requestOptions,
     );
     categoriesState.categories.addAll(response.data["data"]["category"]);
+    categoriesState.allCategories
+        .addAll(context.read(categoriesStateManagment).categories);
+    context.read(categoriesStateManagment).categories.forEach((element) {
+      categoriesState.allCategories.addAll(element["sub"]);
+    });
   } on Exception catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "Error", middleText: e.error);

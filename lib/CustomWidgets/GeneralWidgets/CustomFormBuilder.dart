@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:get/get.dart';
+import 'package:test_store/Screens/AuthScreens/ResetPasswordCodeScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
@@ -75,7 +77,9 @@ Widget customformfield(
                   child: InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => ResetPasswordScreen());
+                      },
                       child: Text(
                         "نسيت كلمة السر؟",
                         style: TextStyle(fontWeight: FontWeight.w900),

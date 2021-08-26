@@ -26,6 +26,7 @@ InputDecoration customformfielddecoration(
         hintText: hinttext,
         fillColor: color,
         filled: true,
+        errorStyle: TextStyle(color: Colors.red),
         contentPadding: EdgeInsets.only(
             top: screenHeight(context) * 0.025,
             right: screenWidth(context) * 0.03,

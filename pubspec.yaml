@@ -65,6 +65,7 @@ dependencies:
   flare_flutter: ^3.0.2
   pin_code_fields: ^7.3.0
   intl_phone_number_input: ^0.7.0+2
+  expandable: ^5.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

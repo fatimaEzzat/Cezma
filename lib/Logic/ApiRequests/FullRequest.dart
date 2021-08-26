@@ -4,6 +4,7 @@ import 'package:test_store/Logic/ApiRequests/HomeRequest.dart';
 import 'package:test_store/Logic/ApiRequests/PlansRequest.dart';
 import 'package:test_store/Logic/ApiRequests/ProfileRequests/MyStoresRequest.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest/StoresRequest.dart';
+import 'package:test_store/Logic/ApiRequests/TagsRequest.dart';
 import 'RequestsExport.dart';
 
 Future firstSuperRequest(
@@ -23,6 +24,7 @@ Future firstSuperRequest(
   await requestCategoriesList(context, true);
   await requestPlans(isRefresh: false, context: context);
   await requestCart(context, true, 1);
+  await requestTags(context, true, 1);
   // await requestUserOrders(pageNumber, context, true);
   // await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);

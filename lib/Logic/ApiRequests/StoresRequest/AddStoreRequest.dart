@@ -8,9 +8,8 @@ import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
 Future requestAddStoreProduct({
-  required productInfo,
+  required storeInfo,
   required BuildContext context,
-  required String storeName,
 }) async {
   final _userToken = context.read(userStateManagment).userToken;
   // our connection with the statemanagment of categories
@@ -22,15 +21,16 @@ Future requestAddStoreProduct({
       'Charset': 'utf-8'
     },
   );
+  print(storeInfo);
   try {
-    final response = await dio.post(apiStoresListUrl,
-        options: requestOptions, data: productInfo);
-    print(response.data);
+    final response = await dio.post(apiBaseUrl + "api/store",
+        options: requestOptions, data: storeInfo);
+
     await requestMyStore(context, 1, true);
 
     Get.defaultDialog(
         title: "تم",
-        middleText: "تم اضافة المنتج بنجاح",
+        middleText: "تم اضافة المتجر بنجاح",
         textConfirm: "تاكيد",
         buttonColor: violet,
         barrierDismissible: false,
@@ -41,7 +41,7 @@ Future requestAddStoreProduct({
         confirmTextColor: Colors.white);
   } catch (e) {
     if (e is DioError) {
-      Get.defaultDialog(title: "خطا", middleText: e.response!.data.toString());
+      Get.defaultDialog(title: "خطا", middleText: e.error);
     }
   }
 }

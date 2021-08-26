@@ -6,13 +6,15 @@ final categoriesStateManagment =
 
 class CategoriesState extends ChangeNotifier {
   List categories = [];
+  List allCategories = [];
   String? selectedCategory;
   bool isLoadingNewCategories = false;
   bool isLoadingSubCategories = false;
   List subCategoriesProducts = [];
 
-  void addSubCategoriesProducts(List input) {
+  void addSubCategoriesProducts(List input, List allCategories) {
     subCategoriesProducts.addAll(input);
+    allCategories.addAll(allCategories);
     notifyListeners();
   }
 

@@ -29,7 +29,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool visibility = true;
   final _formkey = GlobalKey<FormBuilderState>();
-
   @override
   void initState() {
     DataConnectionChecker().onStatusChange.listen((event) {

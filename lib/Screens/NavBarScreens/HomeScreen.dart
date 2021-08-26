@@ -10,7 +10,6 @@ import 'package:test_store/CustomWidgets/HomeScreenWidgets/HomeScreenStoresCard.
 import 'package:test_store/Logic/ApiRequests/ProductsRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
 import 'package:test_store/Logic/StateManagment/HomeState.dart';
-import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
