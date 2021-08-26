@@ -29,10 +29,10 @@ PreferredSizeWidget primaryAppBar({required BuildContext context, tabBar}) {
     actions: [
       IconButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return FavoritesScreen();
-            }));
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (BuildContext context) {
+            //   return FavoritesScreen();
+            // }));
           },
           icon: Icon(Icons.favorite, color: Colors.white)),
       IconButton(onPressed: () {}, icon: Icon(Icons.chat, color: Colors.white)),
@@ -40,7 +40,7 @@ PreferredSizeWidget primaryAppBar({required BuildContext context, tabBar}) {
         builder: (context, watch, child) => IconButton(
           icon: Badge(
             badgeContent:
-                Text(watch(cartStateManagment).cart.cartItem.length.toString()),
+                Text(watch(cartStateManagment).cart.length.toString()),
             child: Icon(Icons.shopping_cart, color: Colors.white),
           ),
           onPressed: () {

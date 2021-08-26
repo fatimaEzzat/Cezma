@@ -36,7 +36,6 @@ class CustomSplashScreen extends StatelessWidget {
                 pageNumber: 1,
                 userId: sharedvalue.getString("user_id").toString(),
                 userToken: sharedvalue.getString("token"));
-            context.read(cartStateManagment).clearCart();
           });
 
           return CustomNavigationBar();

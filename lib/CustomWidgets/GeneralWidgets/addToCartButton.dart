@@ -32,8 +32,8 @@ Widget addToCartButton({
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         ),
         onPressed: () {
-          context.read(cartStateManagment).addOrRemovefromCart(
-              itemId, price, productName, imageUrl);
+          // context.read(cartStateManagment).addOrRemovefromCart(
+          //     itemId, price, productName, imageUrl);
         },
         icon: customIcon,
         label: Expanded(

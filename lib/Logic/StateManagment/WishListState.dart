@@ -6,7 +6,7 @@ final wishListtateManagment =
     ChangeNotifierProvider<WishListState>((ref) => WishListState());
 
 class WishListState extends ChangeNotifier {
-  List favorites = [];
+  List wishList = [];
   var box = Hive.box('favorites');
 
   addToWishList(var value, int key) async {

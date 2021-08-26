@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:get/get.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/SubCategoriesRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
+import 'package:test_store/Logic/StateManagment/PlansState.dart';
+import 'package:test_store/Screens/SecondaryScreens/PlansScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -54,7 +57,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                     shadowColor: Colors.transparent,
                     child: Container(
                       child: FormBuilderTextField(
-                          name: 'storename',
+                          name: 'name',
                           decoration: customformfielddecoration(
                               hinttext: "اسم المتجر",
                               context: context,
@@ -69,93 +72,38 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                   Card(
                     color: Colors.transparent,
                     shadowColor: Colors.transparent,
-                    child: FormBuilderTextField(
-                        name: 'storedesc',
-                        maxLines: 5,
-                        decoration: customformfielddecoration(
-                            hinttext: "وصف المتجر",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
+                    child: Container(
+                      child: FormBuilderTextField(
+                          name: 'username',
+                          decoration: customformfielddecoration(
+                              hinttext: "اسم المستخدم",
+                              context: context,
+                              border: Colors.grey,
+                              color: Colors.white),
+                          validator: FormBuilderValidators.required(
                             context,
-                            errorText: "بالرجاء ادخال الوصف",
-                          )
-                        ])),
-                  ),
-                  Card(
-                    color: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    child: FormBuilderDropdown(
-                        onChanged: (value) async {
-                          _fbKey.currentState!
-                            ..fields["subCategories"]!.reset();
-                          setState(() {
-                            isLoading = !isLoading;
-                          });
-                          subCategories = await requestSubCategories(
-                              context, int.parse(value.toString()));
-                          setState(() {
-                            isLoading = !isLoading;
-                          });
-                        },
-                        validator: FormBuilderValidators.required(
-                          context,
-                          errorText: "اختر القسم الرئيسي",
-                        ),
-                        decoration: customformfielddecoration(
-                            hinttext: "القسم الرئيسي",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                        name: "mainCategories",
-                        items: context
-                            .read(categoriesStateManagment)
-                            .categories
-                            .map((e) => DropdownMenuItem(
-                                  child: AutoSizeText(
-                                    e["name"],
-                                    maxLines: 1,
-                                  ),
-                                  value: e["id"],
-                                ))
-                            .toList()),
-                  ),
-                  Card(
-                    color: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    child: FormBuilderDropdown(
-                        enabled: !isLoading,
-                        validator: FormBuilderValidators.required(
-                          context,
-                          errorText: "اختر القسم الفرعي",
-                        ),
-                        decoration: customformfielddecoration(
-                            enabled: !isLoading,
-                            hinttext: "القسم الفرعي",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                        name: "subCategories",
-                        items: subCategories
-                            .map((e) => DropdownMenuItem(
-                                  child: AutoSizeText(
-                                    e["name"],
-                                    maxLines: 1,
-                                  ),
-                                  value: e["id"],
-                                ))
-                            .toList()),
+                            errorText: "بالرجاء ادخال اسم المستخدم",
+                          )),
+                    ),
                   ),
                   Card(
                     color: Colors.transparent,
                     shadowColor: Colors.transparent,
                     child: FormBuilderTextField(
-                      validator: FormBuilderValidators.required(
-                        context,
-                        errorText: "ادخل الرقم",
-                      ),
+                      name: 'description',
+                      maxLines: 5,
+                      decoration: customformfielddecoration(
+                          hinttext: "وصف المتجر",
+                          context: context,
+                          border: Colors.grey,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Card(
+                    color: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    child: FormBuilderTextField(
+                      name: "phone",
                       decoration: customformfielddecoration(
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -170,25 +118,46 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                           context: context,
                           border: Colors.grey,
                           color: Colors.white),
-                      name: "phone",
                     ),
                   ),
                   Card(
                     color: Colors.transparent,
                     shadowColor: Colors.transparent,
                     child: FormBuilderTextField(
-                      validator: FormBuilderValidators.required(
-                        context,
-                        errorText: "ادخل العنوان",
-                      ),
+                      name: "address",
                       decoration: customformfielddecoration(
                           hinttext: "العنوان",
                           context: context,
                           border: Colors.grey,
                           color: Colors.white),
-                      name: "address",
                     ),
                   ),
+                  Card(
+                    color: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    child: FormBuilderTextField(
+                      decoration: customformfielddecoration(
+                          hinttext: "البريد الالكتروني",
+                          context: context,
+                          border: Colors.grey,
+                          color: Colors.white),
+                      name: "email",
+                    ),
+                  ),
+                  Card(
+                    color: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    child: FormBuilderTextField(
+                      enabled: false,
+                      name: "plan",
+                      decoration: customformfielddecoration(
+                          hinttext: "الباقة",
+                          context: context,
+                          border: Colors.grey,
+                          color: Colors.white),
+                    ),
+                  ),
+                  
                   SizedBox(
                     height: screenHeight(context) * 0.03,
                   ),

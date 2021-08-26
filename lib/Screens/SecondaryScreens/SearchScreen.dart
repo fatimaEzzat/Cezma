@@ -6,7 +6,7 @@ import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.d
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequests/SearchProducts.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
-import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
+import 'package:test_store/Logic/StateManagment/WishListState.dart';
 import 'package:test_store/Logic/StateManagment/SearchedProductsState.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -101,7 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         return productsCard(
                           context: context,
                           currentList: searchedList,
-                          index: index, cartState: watch(cartStateManagment),
+                          index: index, 
                         );
                       });
         }),

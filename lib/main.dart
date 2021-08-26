@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/Logic/MISC/LoadLocalAppSettings.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
+import 'package:test_store/Screens/AuthScreens/ResetPasswordScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';
 import 'Variables/Settings.dart';
 
@@ -29,8 +30,9 @@ Future<void> main() async {
                       backgroundColor: tempSettings.theme!.primary)),
               locale: DevicePreview.locale(context), // Add the locale here
               builder: DevicePreview.appBuilder,
-              home:
-                  phone == null ? CustomSplashScreen() : CustomSplashScreen()));
+              home: phone == null
+                  ? ResetPasswordScreen()
+                  : CustomSplashScreen()));
     },
   ));
 }

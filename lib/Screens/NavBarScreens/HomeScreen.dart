@@ -211,7 +211,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context: context,
                                   currentList: homeProducts,
                                   index: index,
-                                  cartState: watch(cartStateManagment),
                                 ),
                               ),
                             );

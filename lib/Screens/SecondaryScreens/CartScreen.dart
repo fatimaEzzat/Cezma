@@ -6,9 +6,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
+import 'package:test_store/Logic/ApiRequests/CartRequests/RemoveFromCart.dart';
+import 'package:test_store/Logic/ApiRequests/CartRequests/UpdateCartQuantity.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Screens/SecondaryScreens/PaymentScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
+import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
@@ -35,7 +38,7 @@ class _CartScreenState extends State<CartScreen> {
         body: Consumer(builder: (BuildContext context,
             T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
           final cartState = watch(cartStateManagment);
-          return cartState.cart.getCartItemCount() == 0
+          return cartState.cart.length == 0
               ? Center(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -54,18 +57,22 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Expanded(
                       child: ListView.builder(
-                          itemCount: cartState.cart.cartItem.length,
+                          itemCount: cartState.cart.length,
                           itemBuilder: (context, index) {
+                            final cartItem =
+                                cartState.cart[index]["products"][0];
                             return Card(
                               child: ListTile(
                                 trailing: IconButton(
                                     onPressed: () {
-                                      cartState.deleteFromCart(index);
+                                      requestRemoveFromCart(
+                                          context,
+                                          cartState.cart[index]["products"][0]
+                                              ["id"]);
                                     },
                                     icon: Icon(Icons.cancel_outlined)),
                                 title: Text(
-                                  cartState.cart.cartItem[index].productName
-                                      .toString(),
+                                  cartItem["name"],
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -74,8 +81,8 @@ class _CartScreenState extends State<CartScreen> {
                                 leading: Container(
                                   width: screenWidth(context) * 0.25,
                                   child: CachedNetworkImage(
-                                    imageUrl: cartState
-                                        .cart.cartItem[index].uniqueCheck,
+                                    imageUrl: apiMockImage,
+                                    fit: BoxFit.fill,
                                     placeholder: (context, url) => Image.asset(
                                         settings.images!.placeHolderImage),
                                     errorWidget: (context, url, error) =>
@@ -85,26 +92,27 @@ class _CartScreenState extends State<CartScreen> {
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(cartState
-                                            .cart.cartItem[index].unitPrice
+                                    Text(cartState.cart[index]["total"]
                                             .toString() +
-                                        "EGB" +
-                                        "\n كيلو"),
+                                        " جم"),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
                                         IconButton(
                                             onPressed: () {
-                                              cartState.incrementProduct(index);
+                                              requestUpdateCartQNT(
+                                                  context,
+                                                  cartState.cart[index]["id"],
+                                                  cartState.cart[index]["qnt"] +
+                                                      1);
                                             },
                                             icon: Icon(
                                               Icons.add,
                                               color: Colors.deepPurple,
                                             )),
                                         Text(
-                                          cartState
-                                              .cart.cartItem[index].quantity
+                                          cartState.cart[index]["qnt"]
                                               .toString(),
                                           style: TextStyle(
                                               fontSize:
@@ -112,7 +120,11 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              cartState.decrementProduct(index);
+                                              requestUpdateCartQNT(
+                                                  context,
+                                                  cartState.cart[index]["id"],
+                                                  cartState.cart[index]["qnt"] -
+                                                      1);
                                             },
                                             icon: Icon(
                                               Icons.remove,
@@ -164,7 +176,7 @@ class _CartScreenState extends State<CartScreen> {
                     ListTile(
                       title: Text("اجمالي المبلغ"),
                       trailing: Text(
-                        cartState.cart.getTotalAmount().toString() +
+                        watch(cartStateManagment).cartTotalPayment.toString() +
                             " جنيه مصري",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -174,10 +186,10 @@ class _CartScreenState extends State<CartScreen> {
                     customGeneralButton(
                         context: context,
                         customOnPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return PaymentScreen();
-                          }));
+                          // Navigator.push(context, MaterialPageRoute(
+                          //     builder: (BuildContext context) {
+                          //   return PaymentScreen();
+                          // }));
                         },
                         newIcon: Icon(Icons.shopping_bag),
                         primarycolor: settings.theme!.secondary,

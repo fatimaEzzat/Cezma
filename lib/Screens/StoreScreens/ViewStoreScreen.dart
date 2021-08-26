@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
-import 'package:test_store/Logic/ApiRequests/StoreProductsRequest.dart';
+import 'package:test_store/Logic/ApiRequests/StoresRequest/StoreProductsRequest.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
-import 'package:test_store/Screens/SecondaryScreens/AddProductScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
-class ViewMyStore extends StatefulWidget {
+class ViewStore extends StatefulWidget {
   final store;
-  const ViewMyStore({Key? key, required this.store}) : super(key: key);
+  const ViewStore({Key? key, required this.store}) : super(key: key);
 
   @override
-  _ViewMyStoreState createState() => _ViewMyStoreState();
+  _ViewStoreState createState() => _ViewStoreState();
 }
 
-class _ViewMyStoreState extends State<ViewMyStore> {
+class _ViewStoreState extends State<ViewStore> {
   @override
   void initState() {
     requestStoreProducts(
@@ -35,7 +33,7 @@ class _ViewMyStoreState extends State<ViewMyStore> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: secondaryAppBar(context: context, title: 'متجري'),
+        appBar: secondaryAppBar(context: context, title: widget.store["name"]),
         body: Center(
           child: Container(
             padding:
@@ -114,25 +112,6 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
-                Container(
-                  width: screenWidth(context),
-                  height: screenHeight(context) * 0.055,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    gradient: new LinearGradient(
-                        colors: [Colors.blue.shade900, Colors.purple.shade900]),
-                  ),
-                  child: customGeneralButton(
-                      customOnPressed: () {
-                        Get.to(() => AddProductScreen());
-                      },
-                      context: context,
-                      title: "اضافة منتج",
-                      primarycolor: Colors.transparent,
-                      titlecolor: Colors.white,
-                      newIcon: Icon(Icons.add),
-                      borderColor: Colors.transparent),
-                ),
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
@@ -166,7 +145,14 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                                   position: index,
                                   duration: const Duration(milliseconds: 200),
                                   child: ScaleAnimation(
-                                    child: FadeInAnimation(child: Text("sfsf")),
+                                    child: FadeInAnimation(
+                                        child: productsCard(
+                                            context: context,
+                                            currentList:
+                                                watch(storesStateManagment)
+                                                    .storeProducts,
+                                            index: index,
+                                            )),
                                   ),
                                 );
                               }),

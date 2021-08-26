@@ -6,12 +6,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/StoreCard.dart';
 import 'package:test_store/Logic/ApiRequests/CategoriesRequest/CategoryStoresRequest.dart';
-import 'package:test_store/Logic/ApiRequests/StoresRequest.dart';
+import 'package:test_store/Logic/ApiRequests/StoresRequest/StoresRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
-import 'package:test_store/Screens/SecondaryScreens/StoreTransition.dart';
+import 'package:test_store/Screens/StoreScreens/StoreTransition.dart';
 import 'package:test_store/Variables/CustomColors.dart';
+import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -234,37 +236,10 @@ class _StoresScreenState extends State<StoresScreen> {
                                                       .stores[index],
                                                 ));
                                           },
-                                          child: Card(
-                                            elevation: 0.4,
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  child: CachedNetworkImage(
-                                                    width:
-                                                        screenWidth(context) *
-                                                            0.3,
-                                                    height:
-                                                        screenWidth(context) *
-                                                            0.3,
-                                                    fit: BoxFit.fill,
-                                                    imageUrl: watch(
-                                                            storesStateManagment)
-                                                        .stores[index]["image"],
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        Image.asset(settings
-                                                            .images!
-                                                            .placeHolderImage),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(Icons.error),
-                                                  ),
-                                                ),
-                                                Text(watch(storesStateManagment)
-                                                    .stores[index]["name"]),
-                                              ],
-                                            ),
-                                          ),
+                                          child: storeCard(
+                                              context,
+                                              watch(storesStateManagment)
+                                                  .stores[index]),
                                         )),
                                       ),
                                     );

@@ -2,16 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProductViewScreen.dart';
+import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
-
-import 'addToCartButton.dart';
 
 Widget productsCard(
     {required BuildContext context,
     required currentList,
     required index,
-    required cartState,
     box,
     wishListState}) {
   double discount = 0;
@@ -42,9 +40,10 @@ Widget productsCard(
                   children: [
                     CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: currentList[index]["image"].replaceAll(
-                          "https://cezma.test",
-                          "https://7337-197-37-196-117.ngrok.io"),
+                      imageUrl:
+                          currentList[index]["image"].contains("placeholder")
+                              ? apiBaseUrl + currentList[index]["image"]
+                              : currentList[index]["image"],
                       placeholder: (context, url) =>
                           Image.asset(settings.images!.placeHolderImage),
                       errorWidget: (context, url, error) => Icon(Icons.error),
@@ -92,29 +91,29 @@ Widget productsCard(
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: addToCartButton(
-                          itemIndex: index,
-                          context: context,
-                          itemId: currentList[index]['id'].toString(),
-                          customIcon: cartState.checkItemInCart(
-                                  currentList[index]['id'].toString())
-                              ? Icon(Icons.check)
-                              : Icon(
-                                  Icons.add_shopping_cart,
-                                  size: screenWidth(context) * 0.045,
-                                ),
-                          title: cartState.checkItemInCart(
-                                  currentList[index]['id'].toString())
-                              ? "في العربة"
-                              : "اضف الي العربة",
-                          price: currentList[index]["price"],
-                          productName: currentList[index]["name"],
-                          options: [],
-                          containsOptions: currentList[index]["options"] == 1,
-                          imageUrl: currentList[index]["image"]),
-                    ),
+                    // Expanded(
+                    //   flex: 2,
+                    //   child: addToCartButton(
+                    //       itemIndex: index,
+                    //       context: context,
+                    //       itemId: currentList[index]['id'].toString(),
+                    //       customIcon: cartState.checkItemInCart(
+                    //               currentList[index]['id'].toString())
+                    //           ? Icon(Icons.check)
+                    //           : Icon(
+                    //               Icons.add_shopping_cart,
+                    //               size: screenWidth(context) * 0.045,
+                    //             ),
+                    //       title: cartState.checkItemInCart(
+                    //               currentList[index]['id'].toString())
+                    //           ? "في العربة"
+                    //           : "اضف الي العربة",
+                    //       price: currentList[index]["price"],
+                    //       productName: currentList[index]["name"],
+                    //       options: [],
+                    //       containsOptions: currentList[index]["options"] == 1,
+                    //       imageUrl: currentList[index]["image"]),
+                    // ),
                     Flexible(
                       child: IconButton(
                           color: Colors.red,

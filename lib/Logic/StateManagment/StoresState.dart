@@ -18,6 +18,11 @@ class StoresState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearStoreProducts() {
+    storeProducts.clear();
+    notifyListeners();
+  }
+
   void setCurrentStoresPage(int input) {
     currentStoresPage = input;
     notifyListeners();

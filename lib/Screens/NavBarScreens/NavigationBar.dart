@@ -2,6 +2,7 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/Logic/ApiRequests/PlansRequest.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
@@ -28,31 +29,32 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
   void initState() {
     super.initState();
 
-    // DataConnectionChecker().onStatusChange.listen((event) {
-    //   setState(() {
-    //     connection = event;
-    //     if (connection == DataConnectionStatus.disconnected) {
-    //       Get.defaultDialog(
-    //           barrierDismissible: false,
-    //           title: "خطأ",
-    //           middleText: "تعذر الاتصال بالانترنت",
-    //           confirm: customGeneralButton(
-    //               context: context,
-    //               customOnPressed: () async {
-    //                 bool test = await DataConnectionChecker().hasConnection;
-    //                 if (test) {
-    //                   Get.back();
-    //                 }
-    //               },
-    //               newIcon: Icon(Icons.refresh),
-    //               primarycolor: settings.theme!.secondary,
-    //               title: 'اعادة الاتصال',
-    //               titlecolor: Colors.white));
-    //     } else {
-    //       Get.back();
-    //     }
-    //   });
-    // });
+    DataConnectionChecker().onStatusChange.listen((event) {
+      setState(() {
+        connection = event;
+        if (connection == DataConnectionStatus.disconnected) {
+          Get.defaultDialog(
+              barrierDismissible: false,
+              title: "خطأ",
+              middleText: "تعذر الاتصال بالانترنت",
+              confirm: customGeneralButton(
+                  context: context,
+                  customOnPressed: () async {
+                    bool test = await DataConnectionChecker().hasConnection;
+                    if (test) {
+                      Get.back();
+                    }
+                  },
+                  newIcon: Icon(Icons.refresh),
+                  primarycolor: settings.theme!.secondary,
+                  title: 'اعادة الاتصال',
+                  titlecolor: Colors.white,
+                  borderColor: Colors.transparent));
+        } else {
+          Get.back();
+        }
+      });
+    });
   }
 
   @override
@@ -132,7 +134,6 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
             ),
           ],
         ),
-      
       ),
     );
   }

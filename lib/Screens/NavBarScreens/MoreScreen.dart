@@ -5,13 +5,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/StoreCard.dart';
 import 'package:test_store/Logic/ApiRequests/ProfileRequests/MyStoresRequest.dart';
 import 'package:test_store/Logic/StateManagment/MyStoresState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/AddStoreScreen.dart';
+import 'package:test_store/Screens/StoreScreens/AddStoreScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/StoreTransition.dart';
+import 'package:test_store/Screens/StoreScreens/StoreTransition.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
@@ -42,7 +43,6 @@ class _MoreScreenState extends State<MoreScreen>
         final isBottom = _scrollController.position.pixels != 0;
         if (isBottom) {
           await loadData(context);
-          // print("object");
         }
       }
     });
@@ -62,14 +62,17 @@ class _MoreScreenState extends State<MoreScreen>
             child: ListView(
               children: [
                 SizedBox(
-                  height: screenHeight(context) * 0.035,
+                  height: screenHeight(context) * 0.025,
                 ),
                 Text(
                   "متاجري",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                SizedBox(
+                  height: screenHeight(context) * 0.01,
+                ),
                 Container(
-                  height: screenHeight(context) * 0.15,
+                  height: screenHeight(context) * 0.19,
                   child: Consumer(
                     builder: (BuildContext context,
                             T Function<T>(ProviderBase<Object?, T>) watch,
@@ -86,29 +89,7 @@ class _MoreScreenState extends State<MoreScreen>
                           onTap: () {
                             Get.to(() => StoreTransition(store: item));
                           },
-                          child: Card(
-                            elevation: 0.4,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    child: CachedNetworkImage(
-                                      width: screenWidth(context) * 0.3,
-                                      height: screenWidth(context) * 0.3,
-                                      fit: BoxFit.fill,
-                                      imageUrl: item["image"],
-                                      placeholder: (context, url) =>
-                                          Image.asset(settings
-                                              .images!.placeHolderImage),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
-                                  ),
-                                ),
-                                Text(item["name"]),
-                              ],
-                            ),
-                          ),
+                          child: storeCard(context, item),
                         );
                       },
                     ),
@@ -259,8 +240,8 @@ class _MoreScreenState extends State<MoreScreen>
       setState(() {
         isLoading = !isLoading;
       });
-      await requestMyStore(context.read(userStateManagment).userToken, context,
-          context.read(myStoresStateManagment).myStoresCurrentPage);
+      await requestMyStore(context,
+          context.read(myStoresStateManagment).myStoresCurrentPage, false);
       setState(() {
         isLoading = !isLoading;
       });

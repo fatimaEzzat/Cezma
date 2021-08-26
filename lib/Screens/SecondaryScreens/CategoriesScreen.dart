@@ -4,9 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/RequestsExport.dart';
-import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
-import 'package:test_store/Logic/StateManagment/FavoritesState.dart';
+import 'package:test_store/Logic/StateManagment/WishListState.dart';
 import 'package:test_store/Logic/StateManagment/CategoryProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/CustomColors.dart';
@@ -67,8 +66,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return Consumer(
       builder: (BuildContext contexts,
           T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
-        final cartState = watch(cartStateManagment);
-        final wishListState = watch(wishListtateManagment);
         return Directionality(
           textDirection: TextDirection.rtl,
           child: DefaultTabController(
@@ -128,7 +125,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               Widget? child) {
                                             final categoryProducts = watch(
                                                 categoryProductsStateManagment);
-
                                             return Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -176,7 +172,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                                         child:
                                                                             ScaleAnimation(
                                                                           child:
-                                                                              FadeInAnimation(child: productsCard(box: box, cartState: cartState, context: context, currentList: categoryProducts.categoryProducts, index: index, wishListState: wishListState)),
+                                                                              FadeInAnimation(child: productsCard(box: box, context: context, currentList: categoryProducts.categoryProducts, index: index, wishListState: "wishListState")),
                                                                         ),
                                                                       );
                                                                     }),
@@ -228,6 +224,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       setState(() {
         isLoadingItems = !isLoadingItems;
       });
+
       await requestCategoryProducts(
           selectedCat,
           context
