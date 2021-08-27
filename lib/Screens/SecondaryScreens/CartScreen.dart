@@ -9,7 +9,6 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/RemoveFromCart.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/UpdateCartQuantity.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
-import 'package:test_store/Screens/SecondaryScreens/PaymentScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -66,9 +65,7 @@ class _CartScreenState extends State<CartScreen> {
                                 trailing: IconButton(
                                     onPressed: () {
                                       requestRemoveFromCart(
-                                          context,
-                                          cartState.cart[index]["products"][0]
-                                              ["id"]);
+                                          context, cartState.cart[index]["id"]);
                                     },
                                     icon: Icon(Icons.cancel_outlined)),
                                 title: Text(
@@ -144,29 +141,10 @@ class _CartScreenState extends State<CartScreen> {
                           EdgeInsets.only(right: screenWidth(context) * 0.045),
                       alignment: AlignmentDirectional.bottomStart,
                       child: Text(
-                        "هل لديك كود خصم ؟",
+                        "العنوان",
                         style:
                             TextStyle(fontSize: screenWidth(context) * 0.045),
                       ),
-                    ),
-                    Container(
-                      alignment: AlignmentDirectional.bottomStart,
-                      padding: EdgeInsets.only(
-                          left: screenWidth(context) * 0.03,
-                          right: screenWidth(context) * 0.03),
-                      child: FormBuilder(
-                          key: _formkey,
-                          child: FormBuilderTextField(
-                            name: 'discount',
-                            decoration: InputDecoration(
-                                isDense: true,
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: settings.theme!.secondary)),
-                                fillColor: offwhite,
-                                filled: true,
-                                hintText: "كود خصم"),
-                          )),
                     ),
                     Divider(
                       color: settings.theme!.secondary,
@@ -192,7 +170,7 @@ class _CartScreenState extends State<CartScreen> {
                           // }));
                         },
                         newIcon: Icon(Icons.shopping_bag),
-                        primarycolor: settings.theme!.secondary,
+                        primarycolor: violet,
                         title: 'تاكيد الطلب',
                         titlecolor: Colors.white,
                         borderColor: Colors.transparent)

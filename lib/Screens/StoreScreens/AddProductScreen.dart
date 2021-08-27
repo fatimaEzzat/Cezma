@@ -81,7 +81,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           child: FormBuilderTextField(
                               name: 'name',
                               decoration: customformfielddecoration(
-                                  hinttext: "اسم المنتج",
+                                  labelText: "اسم المنتج",
                                   context: context,
                                   border: Colors.grey,
                                   color: Colors.white),
@@ -98,7 +98,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           child: FormBuilderDropdown(
                             name: 'type',
                             decoration: customformfielddecoration(
-                                hinttext: "النوع",
+                                labelText: "النوع",
                                 context: context,
                                 border: Colors.grey,
                                 color: Colors.white),
@@ -126,7 +126,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           child: FormBuilderTextField(
                               name: 'weight',
                               decoration: customformfielddecoration(
-                                  hinttext: "الوزن",
+                                  labelText: "الوزن",
                                   context: context,
                                   border: Colors.grey,
                                   color: Colors.white),
@@ -144,7 +144,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               maxLines: 5,
                               name: 'description',
                               decoration: customformfielddecoration(
-                                  hinttext: "وصف المنتج",
+                                  labelText: "وصف المنتج",
                                   context: context,
                                   border: Colors.grey,
                                   color: Colors.white),
@@ -174,7 +174,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               keyboardType: TextInputType.number,
                               name: 'price',
                               decoration: customformfielddecoration(
-                                  hinttext: "السعر",
+                                  labelText: "السعر",
                                   context: context,
                                   border: Colors.grey,
                                   color: Colors.white),
@@ -192,7 +192,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             keyboardType: TextInputType.number,
                             name: 'discount',
                             decoration: customformfielddecoration(
-                                hinttext: "خصم (اختياري)",
+                                labelText: "خصم (اختياري)",
                                 context: context,
                                 border: Colors.grey,
                                 color: Colors.white),
@@ -232,7 +232,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 setState(() {
                                   isAdding = !isAdding;
                                 });
-                                await requestAddStoreProduct(
+                                await requestAddProduct(
                                     productInfo: _fbKey.currentState!.value,
                                     context: context,
                                     storeName: widget.storeName);
@@ -256,23 +256,3 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 }
-// FormBuilderDropdown(
-//                           validator: FormBuilderValidators.required(
-//                             context,
-//                             errorText: "اختر القسم الرئيسي",
-//                           ),
-//                           decoration: customformfielddecoration(
-//                               hinttext: "القسم",
-//                               context: context,
-//                               border: Colors.grey,
-//                               color: Colors.white),
-//                           name: "categories",
-//                           items: categories
-//                               .map((e) => DropdownMenuItem(
-//                                     value: e["id"],
-//                                     child: AutoSizeText(
-//                                       e["name"],
-//                                       maxLines: 1,
-//                                     ),
-//                                   ))
-//                               .toList()),

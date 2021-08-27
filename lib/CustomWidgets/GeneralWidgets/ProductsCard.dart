@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/addToCartButton.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProductViewScreen.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -91,29 +92,13 @@ Widget productsCard(
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // Expanded(
-                    //   flex: 2,
-                    //   child: addToCartButton(
-                    //       itemIndex: index,
-                    //       context: context,
-                    //       itemId: currentList[index]['id'].toString(),
-                    //       customIcon: cartState.checkItemInCart(
-                    //               currentList[index]['id'].toString())
-                    //           ? Icon(Icons.check)
-                    //           : Icon(
-                    //               Icons.add_shopping_cart,
-                    //               size: screenWidth(context) * 0.045,
-                    //             ),
-                    //       title: cartState.checkItemInCart(
-                    //               currentList[index]['id'].toString())
-                    //           ? "في العربة"
-                    //           : "اضف الي العربة",
-                    //       price: currentList[index]["price"],
-                    //       productName: currentList[index]["name"],
-                    //       options: [],
-                    //       containsOptions: currentList[index]["options"] == 1,
-                    //       imageUrl: currentList[index]["image"]),
-                    // ),
+                    Expanded(
+                      flex: 2,
+                      child: addToCartButton(
+                        context: context,
+                        itemId: currentList[index]['id'],
+                      ),
+                    ),
                     Flexible(
                       child: IconButton(
                           color: Colors.red,

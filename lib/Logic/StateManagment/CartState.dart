@@ -9,6 +9,7 @@ class CartState extends ChangeNotifier {
   double cartTotalPayment = 0;
   int currentCartPage = 0;
   int lastCartPage = 0;
+
   void addToCart(List input) {
     cart.addAll(input);
     notifyListeners();
@@ -19,18 +20,8 @@ class CartState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void deleteFromCart(int index) {
-  //   cart.deleteItemFromCart(index);
-  //   notifyListeners();
-  // }
-
-  // void incrementProduct(int index) {
-  //   cart.incrementItemToCart(index);
-  //   notifyListeners();
-  // }
-
-  // void decrementProduct(int index) {
-  //   cart.decrementItemFromCart(index);
-  //   notifyListeners();
-  // }
+  void cleanCart() {
+    cart.clear();
+    notifyListeners();
+  }
 }

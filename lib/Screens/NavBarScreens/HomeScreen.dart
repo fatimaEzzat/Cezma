@@ -7,6 +7,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/CustomWidgets/HomeScreenWidgets/HomeScreenStoresCard.dart';
+import 'package:test_store/Logic/ApiRequests/CartRequests/AddToCart.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
 import 'package:test_store/Logic/StateManagment/HomeState.dart';
@@ -223,6 +224,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          requestAddToCart(context, 1);
+        }),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
-import 'package:test_store/Screens/SecondaryScreens/EditProfileScreen.dart';
+import 'package:test_store/Screens/ProfileScreens/EditProfileScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:settings_ui/settings_ui.dart';

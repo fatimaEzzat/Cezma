@@ -21,12 +21,12 @@ class OrdersScreen extends StatefulWidget {
 class _OrdersScreenState extends State<OrdersScreen> {
   final _scrollController = ScrollController();
   late String? userToken = "";
-  late String? id;
+  late int id;
   late var response;
   @override
   void initState() {
     userToken = context.read(userStateManagment).userToken;
-    id = context.read(userStateManagment).userId;
+    id = context.read(userStateManagment).userId!;
     // //////////////////
     _scrollController.addListener(() {
       if (_scrollController.position.atEdge) {

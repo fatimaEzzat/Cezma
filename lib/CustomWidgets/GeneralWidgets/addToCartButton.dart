@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/Logic/StateManagment/CartState.dart';
+import 'package:test_store/Logic/ApiRequests/CartRequests/AddToCart.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 Widget addToCartButton({
   required BuildContext context,
-  required bool containsOptions,
-  required String itemId,
-  required Icon customIcon,
-  required int price,
-  required String title,
-  required String productName,
-  required List options,
-  required int itemIndex,
-  required String imageUrl
+  required int itemId,
 }) {
   return Container(
     padding: EdgeInsets.zero,
@@ -32,13 +23,12 @@ Widget addToCartButton({
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         ),
         onPressed: () {
-          // context.read(cartStateManagment).addOrRemovefromCart(
-          //     itemId, price, productName, imageUrl);
+          requestAddToCart(context,itemId);
         },
-        icon: customIcon,
+        icon: Icon(Icons.shopping_bag),
         label: Expanded(
           child: Text(
-            title,
+            "اضف للعربة",
             style: TextStyle(fontSize: screenWidth(context) * 0.024),
           ),
         )),

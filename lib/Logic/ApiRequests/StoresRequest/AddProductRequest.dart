@@ -7,7 +7,7 @@ import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
-Future requestAddStoreProduct({
+Future requestAddProduct({
   required productInfo,
   required BuildContext context,
   required String storeName,

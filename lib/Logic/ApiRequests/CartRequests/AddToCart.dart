@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/CartRequest.dart';
-import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
-Future requestAddToCart(BuildContext context, Map productInfo) async {
+Future requestAddToCart(BuildContext context, int productId) async {
   final _userToken = context.read(userStateManagment).userToken;
-  final _cartState = context.read(cartStateManagment);
   Dio dio = Dio();
   Options requestOptions = Options(
     headers: {
@@ -18,19 +16,17 @@ Future requestAddToCart(BuildContext context, Map productInfo) async {
       'Charset': 'utf-8'
     },
   );
-
+  Map info = {"product_id": productId, "qnt": 1};
   try {
     var response = await dio.post(
       apiCartUrl,
-      data: productInfo,
+      data: info,
       options: requestOptions,
     );
     await requestCart(context, true, 1);
   } on Exception catch (e) {
     if (e is DioError) {
-      Get.defaultDialog(title: "خطأ", middleText: "حدث خطأ");
-    } else {
-      print(e);
+      Get.defaultDialog(title: "خطأ", middleText: e.message);
     }
   }
 }

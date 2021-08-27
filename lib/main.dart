@@ -5,9 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_store/Logic/MISC/LoadLocalAppSettings.dart';
-import 'package:test_store/Screens/AuthScreens/ChangePasswordScreen.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
-import 'package:test_store/Screens/AuthScreens/ResetPasswordCodeScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';
 import 'Variables/Settings.dart';
 

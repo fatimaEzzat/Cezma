@@ -21,3 +21,4 @@ const String apiCountries = apiBaseUrl + "api/locations";
 const String apiPlansUrl = apiBaseUrl + "api/plans";
 const String apiTagUrl = apiBaseUrl + "api/tags";
 const String apiForgetUrl = apiBaseUrl + "api/forgot";
+const String apiMessagesUrl = apiBaseUrl + "api/messages";

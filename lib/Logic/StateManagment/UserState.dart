@@ -7,7 +7,7 @@ final userStateManagment =
 
 class UserState extends ChangeNotifier {
   String? userToken;
-  String? userId;
+  int? userId;
   String? userPhone;
   String? userPassword;
   UserModel? userInfo;
@@ -21,10 +21,5 @@ class UserState extends ChangeNotifier {
   void setUserInfo(UserModel info) {
     userInfo = info;
     notifyListeners();
-  }
-
-
-  void setUserId(String id) {
-    userId = id;
   }
 }

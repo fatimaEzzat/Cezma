@@ -8,7 +8,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest/StoreProductsRequest.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
 import 'package:test_store/Screens/StoreScreens/AddProductScreen.dart';
-import 'package:test_store/Variables/CustomColors.dart';
+import 'package:test_store/Screens/StoreScreens/EditStoreScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 class ViewMyStore extends StatefulWidget {
@@ -37,7 +37,15 @@ class _ViewMyStoreState extends State<ViewMyStore> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: secondaryAppBar(context: context, title: 'متجري'),
+        appBar: secondaryAppBar(
+            context: context,
+            title: 'متجري',
+            onSecondaryPressed: () {
+              Get.to(() => EditStoreScreen(
+                    store: widget.store,
+                  ));
+            },
+            secondary: Icon(Icons.edit)),
         body: Center(
           child: Container(
             padding:
@@ -63,7 +71,7 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
-                Text(widget.store["description"]),
+                Text(widget.store["description"].toString()),
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
@@ -87,7 +95,7 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                   child: ListTile(
                     tileColor: Colors.grey.shade200,
                     leading: Icon(Icons.phone),
-                    title: Text(widget.store["phone"]),
+                    title: Text(widget.store["phone"].toString()),
                   ),
                 ),
                 Card(

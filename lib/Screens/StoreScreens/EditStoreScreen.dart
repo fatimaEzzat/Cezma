@@ -8,7 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
-import 'package:test_store/Logic/ApiRequests/StoresRequest/AddStoreRequest.dart';
+import 'package:test_store/Logic/ApiRequests/StoresRequest/EditStoreRequest.dart';
 import 'package:test_store/Logic/ApiRequests/TagsRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Logic/StateManagment/PlansState.dart';
@@ -19,21 +19,24 @@ import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-class AddStoreScreen extends StatefulWidget {
-  const AddStoreScreen({Key? key}) : super(key: key);
+class EditStoreScreen extends StatefulWidget {
+  final Map store;
+  const EditStoreScreen({Key? key, required this.store}) : super(key: key);
 
   @override
-  _AddStoreScreenState createState() => _AddStoreScreenState();
+  _EditStoreScreenState createState() => _EditStoreScreenState();
 }
 
-class _AddStoreScreenState extends State<AddStoreScreen> {
-  final _fbKey = GlobalKey<FormBuilderState>();
+class _EditStoreScreenState extends State<EditStoreScreen> {
+  late GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool isLoading = false;
   List categories = [];
   int selectedPlan = 0;
   List plans = [];
   List tags = [];
   bool isLoadingItems = false;
+  Map storeInfo = {};
+  bool isChanged = false;
   TextEditingController _textEditingController = TextEditingController();
   final _carouselController = CarouselController();
   @override
@@ -41,11 +44,14 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
     categories = context.read(categoriesStateManagment).allCategories;
     plans = context.read(plansStateManagment).plans;
     tags = context.read(tagsStateManagment).tags;
+    selectedPlan = widget.store["plan_id"];
+    _textEditingController.text = widget.store["plan_id"].toString();
     super.initState();
   }
 
   @override
   void dispose() {
+    _fbKey.currentState!.deactivate();
     super.dispose();
   }
 
@@ -54,12 +60,12 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: secondaryAppBar(context: context, title: "اضافة متجر"),
-        body: Center(
-          child: Container(
-            width: screenWidth(context) * 0.9,
-            child: ModalProgressHUD(
-              inAsyncCall: isLoading,
+        appBar: secondaryAppBar(context: context, title: "تعديل المتجر"),
+        body: ModalProgressHUD(
+          inAsyncCall: isLoading,
+          child: Center(
+            child: Container(
+              width: screenWidth(context) * 0.9,
               child: FormBuilder(
                 key: _fbKey,
                 child: ListView(
@@ -77,6 +83,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderTextField(
+                        initialValue: widget.store["description"],
                         name: 'description',
                         maxLines: 5,
                         decoration: customformfielddecoration(
@@ -90,6 +97,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderTextField(
+                        initialValue: widget.store["address"],
                         name: "address",
                         decoration: customformfielddecoration(
                             labelText: "العنوان",
@@ -102,6 +110,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderTextField(
+                        initialValue: widget.store["email"],
                         decoration: customformfielddecoration(
                             labelText: "البريد الالكتروني",
                             context: context,
@@ -149,45 +158,49 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                             : BorderSide.none),
                                     child: Column(
                                       children: [
-                                        Stack(
-                                          children: [
-                                            CachedNetworkImage(
-                                              fit: BoxFit.fill,
-                                              imageUrl: apiMockImage,
-                                              placeholder: (context, url) =>
-                                                  Image.asset(settings.images!
-                                                      .placeHolderImage),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
-                                            ),
-                                            plans[index]["discount"] != null
-                                                ? Align(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .topEnd,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.none,
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(5),
-                                                        color: Colors.red,
-                                                        child: AutoSizeText(
-                                                          "خصم " +
-                                                              "%" +
-                                                              discount
-                                                                  .toStringAsFixed(
-                                                                      1),
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                        Expanded(
+                                          child: Stack(
+                                            children: [
+                                              CachedNetworkImage(
+                                                width:
+                                                    screenWidth(context) * 0.8,
+                                                fit: BoxFit.fill,
+                                                imageUrl: apiMockImage,
+                                                placeholder: (context, url) =>
+                                                    Image.asset(settings.images!
+                                                        .placeHolderImage),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              ),
+                                              plans[index]["discount"] != null
+                                                  ? Align(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .topEnd,
+                                                      child: FittedBox(
+                                                        fit: BoxFit.none,
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          color: Colors.red,
+                                                          child: AutoSizeText(
+                                                            "خصم " +
+                                                                "%" +
+                                                                discount
+                                                                    .toStringAsFixed(
+                                                                        1),
+                                                            maxLines: 1,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  )
-                                                : SizedBox(),
-                                          ],
+                                                    )
+                                                  : SizedBox(),
+                                            ],
+                                          ),
                                         ),
                                         ListTile(
                                           title: Column(
@@ -273,6 +286,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderTextField(
+                        initialValue: widget.store["phone"],
                         keyboardType: TextInputType.number,
                         validator: FormBuilderValidators.required(context),
                         name: "phone",
@@ -296,6 +310,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       color: Colors.transparent,
                       shadowColor: Colors.transparent,
                       child: FormBuilderTextField(
+                          initialValue: widget.store["name"],
                           name: 'name',
                           decoration: customformfielddecoration(
                               labelText: "اسم المتجر",
@@ -312,6 +327,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       shadowColor: Colors.transparent,
                       child: Container(
                         child: FormBuilderTextField(
+                            initialValue: widget.store["username"],
                             name: 'username',
                             decoration: customformfielddecoration(
                                 labelText: "اسم المستخدم",
@@ -373,23 +389,30 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                       height: screenHeight(context) * 0.03,
                     ),
                     Container(
+                      height: screenHeight(context) * 0.045,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           gradient: new LinearGradient(colors: [
                             Colors.blue.shade900,
                             Colors.purple.shade900
                           ])),
-                      child: customGeneralButton(
-                          customOnPressed: () {
-                            validation();
-                          },
-                          context: context,
-                          title: "اضف المتجر",
-                          primarycolor: Colors.transparent,
-                          titlecolor: Colors.white,
-                          newIcon: Icon(Icons.add),
-                          borderColor: Colors.transparent),
-                    )
+                      child: IgnorePointer(
+                        ignoring: isChanged,
+                        child: customGeneralButton(
+                            customOnPressed: () {
+                              validation();
+                            },
+                            context: context,
+                            title: "تعديل المتجر",
+                            primarycolor: Colors.transparent,
+                            titlecolor: Colors.white,
+                            newIcon: Icon(Icons.edit),
+                            borderColor: Colors.transparent),
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenHeight(context) * 0.03,
+                    ),
                   ],
                 ),
               ),
@@ -401,23 +424,31 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   }
 
   Future<void> validation() async {
-    if (_fbKey.currentState!.validate()) {
-      _fbKey.currentState!.save();
-      final storeInfo = _fbKey.currentState!.value;
-      setState(() {
-        isLoading = !isLoading;
-      });
-
-      if (storeInfo["phone"][0] != "0") {
+    if (_fbKey.currentState!.fields["username"] != widget.store["username"]) {
+      print(_fbKey.currentState!.fields["username"]!.value);
+      if (_fbKey.currentState!.validate()) {
+        _fbKey.currentState!.save();
+        final storeInfo = _fbKey.currentState!.value;
         setState(() {
           isLoading = !isLoading;
         });
-        throw {Get.snackbar("خطأ", "هذا الرقم ليس صحيح")};
+
+        if (storeInfo["phone"][0] != "0") {
+          setState(() {
+            isLoading = !isLoading;
+          });
+          throw {Get.snackbar("خطأ", "هذا الرقم ليس صحيح")};
+        }
+        await requestEditStore(
+            context: context,
+            storeInfo: storeInfo,
+            storeName: widget.store["username"]);
+        setState(() {
+          isLoading = !isLoading;
+        });
       }
-      await requestAddStore(context: context, storeInfo: storeInfo);
-      setState(() {
-        isLoading = !isLoading;
-      });
+    } else {
+      Get.snackbar("لا يوجد تعديلات", "خطأ");
     }
   }
 

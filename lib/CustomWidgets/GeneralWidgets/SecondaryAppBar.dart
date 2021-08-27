@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 AppBar secondaryAppBar(
         {required BuildContext context,
         required String title,
+        Icon secondary = const Icon(
+          Icons.ac_unit,
+          size: 0,
+        ),
+        Function()? onSecondaryPressed,
         Function()? onPressed}) =>
     AppBar(
       flexibleSpace: Container(
@@ -18,5 +23,6 @@ AppBar secondaryAppBar(
         title,
         style: TextStyle(color: Colors.white),
       ),
+      actions: [IconButton(onPressed: onSecondaryPressed, icon: secondary)],
       centerTitle: true,
     );

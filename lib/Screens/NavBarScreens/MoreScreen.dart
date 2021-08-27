@@ -11,11 +11,10 @@ import 'package:test_store/Logic/StateManagment/MyStoresState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Screens/StoreScreens/AddStoreScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/ProfileScreen.dart';
+import 'package:test_store/Screens/ProfileScreens/ProfileScreen.dart';
 import 'package:test_store/Screens/StoreScreens/StoreTransition.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
-import 'package:test_store/Variables/Settings.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -72,7 +71,7 @@ class _MoreScreenState extends State<MoreScreen>
                   height: screenHeight(context) * 0.01,
                 ),
                 Container(
-                  height: screenHeight(context) * 0.19,
+                  height: screenHeight(context) * 0.22,
                   child: Consumer(
                     builder: (BuildContext context,
                             T Function<T>(ProviderBase<Object?, T>) watch,

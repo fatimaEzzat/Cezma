@@ -7,10 +7,10 @@ import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
-Future requestAddStore({
-  required storeInfo,
-  required BuildContext context,
-}) async {
+Future requestEditStore(
+    {required storeInfo,
+    required BuildContext context,
+    required storeName}) async {
   final _userToken = context.read(userStateManagment).userToken;
   // our connection with the statemanagment of categories
   Dio dio = Dio();
@@ -23,26 +23,30 @@ Future requestAddStore({
   );
 
   try {
-    final response = await dio.post(apiBaseUrl + "api/store",
+    print(apiStoresListUrl + "/" + storeName);
+    final response = await dio.post(apiStoresListUrl + "/" + storeName,
         options: requestOptions, data: storeInfo);
     await requestMyStore(context, 1, true);
-    if (response.data["success"] == false) {
-      throw {Get.defaultDialog(title: "خطا", middleText: "اسم المستخدم مكرر")};
-    }
     Get.defaultDialog(
         title: "تم",
-        middleText: "تم اضافة المتجر بنجاح",
+        middleText: "تم تعديل المتجر بنجاح",
         textConfirm: "تاكيد",
         buttonColor: violet,
         barrierDismissible: false,
         onConfirm: () {
           Get.back();
           Get.back();
+          Get.back();
         },
         confirmTextColor: Colors.white);
   } catch (e) {
     if (e is DioError) {
-      Get.defaultDialog(title: "خطا", middleText: e.response!.data.toString());
+      if (e.response!.statusCode == 500) {
+        Get.defaultDialog(title: "خطا", middleText: "خطأ, حاول اسم مستخدم اخر");
+      } else {
+        Get.defaultDialog(
+            title: "خطا", middleText: e.response!.data.toString());
+      }
     }
   }
 }

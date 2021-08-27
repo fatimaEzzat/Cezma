@@ -20,25 +20,29 @@ Future requestCart(BuildContext context, isRefresh, int currentPage) async {
   if (isRefresh) {
     context.read(cartStateManagment).cart.clear();
   }
+
   try {
     var response = await dio.get(
       apiCartUrl,
       options: requestOptions,
     );
-    _cartState.addToCart(response.data["data"]["cart"]["data"]);
-    _cartState.currentCartPage = ++currentPage;
-    _cartState.lastCartPage = response.data["data"]["cart"]["last_page"];
-    List temp = response.data["data"]["cart"]["data"];
-    double totalAmount = 0;
-    temp.forEach((element) {
-      totalAmount += element["total"];
-    });
-    _cartState.setCartTotalPayment(totalAmount);
+    print(response.data);
+    if (response.data["data"].isEmpty) {
+      context.read(cartStateManagment).cleanCart();
+    } else {
+      _cartState.addToCart(response.data["data"]["cart"]["data"]);
+      _cartState.currentCartPage = ++currentPage;
+      _cartState.lastCartPage = response.data["data"]["cart"]["last_page"];
+      List temp = response.data["data"]["cart"]["data"];
+      double totalAmount = 0;
+      temp.forEach((element) {
+        totalAmount += element["total"];
+        _cartState.setCartTotalPayment(totalAmount);
+      });
+    }
   } on Exception catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "خطأ", middleText: "حدث خطأ");
-    } else {
-      print(e);
     }
   }
 }

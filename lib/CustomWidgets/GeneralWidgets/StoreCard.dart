@@ -5,26 +5,29 @@ import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-Card storeCard(BuildContext context, Map store) {
-    return Card(
+Container storeCard(BuildContext context, Map store) {
+  return Container(
+    width: screenWidth(context) * 0.4,
+    child: Card(
       elevation: 0.4,
       child: Column(
         children: [
-          Container(
-            child: CachedNetworkImage(
-              width: screenWidth(context) * 0.3,
-              height: screenWidth(context) * 0.3,
-              fit: BoxFit.fill,
-              imageUrl: store["image"].contains("placeholder")
-                  ? apiBaseUrl + store["image"]
-                  : store["image"],
-              placeholder: (context, url) =>
-                  Image.asset(settings.images!.placeHolderImage),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+          Expanded(
+            child: Container(
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: store["image"].contains("placeholder")
+                    ? apiBaseUrl + store["image"]
+                    : store["image"],
+                placeholder: (context, url) =>
+                    Image.asset(settings.images!.placeHolderImage),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
           ),
           Text(store["name"]),
         ],
       ),
-    );
-  }
+    ),
+  );
+}

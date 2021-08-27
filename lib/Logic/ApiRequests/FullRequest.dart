@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/CartRequest.dart';
 import 'package:test_store/Logic/ApiRequests/HomeRequest.dart';
+import 'package:test_store/Logic/ApiRequests/MessagingRequests/ChatsRequest.dart';
 import 'package:test_store/Logic/ApiRequests/PlansRequest.dart';
 import 'package:test_store/Logic/ApiRequests/ProfileRequests/MyStoresRequest.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest/StoresRequest.dart';
@@ -25,6 +26,7 @@ Future firstSuperRequest(
   await requestPlans(isRefresh: false, context: context);
   await requestCart(context, true, 1);
   await requestTags(context, true, 1);
+  await requestChats(context, 1, true);
   // await requestUserOrders(pageNumber, context, true);
   // await requestProducts(userToken, context, pageNumber, true);
   // await requestAds(pageNumber, context, true);

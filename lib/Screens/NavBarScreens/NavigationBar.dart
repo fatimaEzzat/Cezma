@@ -3,6 +3,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/PlansRequest.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
@@ -62,7 +63,6 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        // appBar: primaryAppBar(context: context, tabBar: null),
         body: IndexedStack(
           index: _currentIndex,
           children: <Widget>[

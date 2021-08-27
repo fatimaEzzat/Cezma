@@ -98,7 +98,7 @@ class _ViewStoreState extends State<ViewStore> {
                   child: ListTile(
                     tileColor: Colors.grey.shade200,
                     leading: Icon(Icons.phone),
-                    title: Text(widget.store["phone"]),
+                    title: Text(widget.store["phone"].toString()),
                   ),
                 ),
                 Card(
@@ -147,12 +147,11 @@ class _ViewStoreState extends State<ViewStore> {
                                   child: ScaleAnimation(
                                     child: FadeInAnimation(
                                         child: productsCard(
-                                            context: context,
-                                            currentList:
-                                                watch(storesStateManagment)
-                                                    .storeProducts,
-                                            index: index,
-                                            )),
+                                      context: context,
+                                      currentList: watch(storesStateManagment)
+                                          .storeProducts,
+                                      index: index,
+                                    )),
                                   ),
                                 );
                               }),

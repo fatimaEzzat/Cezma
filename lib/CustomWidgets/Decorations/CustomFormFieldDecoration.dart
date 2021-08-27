@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
@@ -6,16 +7,20 @@ import 'package:test_store/Variables/Settings.dart';
 // so i created a variable that could be used multiple times with different variables..
 // for example, the hint text.
 InputDecoration customformfielddecoration(
-        {required String hinttext,
+        {String? hinttext,
         required BuildContext context,
         obsecure,
         required color,
         border = Colors.transparent,
         prefixIcon,
         enabled = true,
+        labelText = "",
         onPressed()?}) =>
     InputDecoration(
+        labelText: labelText,
+        labelStyle: TextStyle(color: violet),
         enabled: enabled,
+        alignLabelWithHint: true,
         suffixIcon: obsecure != null
             ? IconButton(
                 onPressed: onPressed,
@@ -23,7 +28,7 @@ InputDecoration customformfielddecoration(
             : null,
         prefixIcon: prefixIcon,
         isDense: true,
-        hintText: hinttext,
+        // hintText: hinttext,
         fillColor: color,
         filled: true,
         errorStyle: TextStyle(color: Colors.red),
