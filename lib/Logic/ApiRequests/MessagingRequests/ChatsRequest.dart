@@ -22,12 +22,15 @@ Future requestChats(BuildContext context, int currentPage, bool refresh) async {
   try {
     var response = await dio.get(
       apiMessagesUrl,
+      queryParameters: {"page": currentPage},
       options: requestOptions,
     );
     context
         .read(chatsStateManagment)
         .addToChats(response.data["data"]["chats"]["data"]);
     context.read(chatsStateManagment).currentChatsPage = ++currentPage;
+    print(context.read(chatsStateManagment).lastChatsPage =
+        response.data["data"]["chats"]["last_page"]);
     context.read(chatsStateManagment).lastChatsPage =
         response.data["data"]["chats"]["last_page"];
   } catch (e) {

@@ -31,7 +31,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       if (_scrollController.position.atEdge) {
         final isBottom = _scrollController.position.pixels != 0;
         if (isBottom) {
-          print("sss");
           await loadData(context);
         }
       }
@@ -41,6 +40,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.chat["store_id"]["id"]);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -100,7 +100,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           backgroundColor: violet,
                           child: IconButton(
                               onPressed: () async {
-                              await  sendMessage();
+                                await sendMessage();
                               },
                               icon: Icon(
                                 Icons.send,
@@ -132,8 +132,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   Future<void> loadData(BuildContext context) async {
+    print(context.read(chatsStateManagment).lastChatsPage);
     if (context.read(chatsStateManagment).currentChatsPage <=
         context.read(chatsStateManagment).lastChatsPage) {
+      print(context.read(chatsStateManagment).lastChatsPage);
+      print("sss");
       await requestChats(
           context, context.read(chatsStateManagment).currentChatsPage, false);
     }
