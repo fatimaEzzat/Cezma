@@ -100,8 +100,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         return productsCard(
                           context: context,
-                          currentList: searchedList,
-                          index: index, 
+                          currentItem: searchedList,
+             
                         );
                       });
         }),

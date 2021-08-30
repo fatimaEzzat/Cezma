@@ -10,8 +10,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/Logic/ApiRequests/AuthRequests/SignUpRequest.dart';
-import 'package:test_store/Logic/ApiRequests/CitiesRequest.dart';
-import 'package:test_store/Logic/ApiRequests/LocationsRequest.dart';
+import 'package:test_store/Logic/ApiRequests/LogisticRequests/CitiesRequest.dart';
+import 'package:test_store/Logic/ApiRequests/LogisticRequests/LocationsRequest.dart';
 import 'package:test_store/Logic/MISC/CheckInternetConnection.dart';
 import 'package:test_store/Logic/StateManagment/CountriesState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
@@ -20,7 +20,6 @@ import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:test_store/Variables/Settings.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -40,13 +39,13 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     DataConnectionChecker().onStatusChange.listen((event) {
       if (event == DataConnectionStatus.connected) {
-        requestLocation(context: context, isRefresh: true)
-            .then((value) => setState(() {}));
+        requestLocation(
+          context: context,
+        ).then((value) => setState(() {}));
       }
     });
     if (DataConnectionChecker().hasConnection != null) {
-      requestLocation(context: context, isRefresh: true)
-          .then((value) => setState(() {}));
+      requestLocation(context: context).then((value) => setState(() {}));
     }
     super.initState();
   }
@@ -85,7 +84,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               keyboardType: TextInputType.number,
                               name: 'phone',
                               decoration: customformfielddecoration(
-                                  hinttext: "رقم الهاتف",
+                                  labelText: "رقم الهاتف",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -102,7 +101,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 obscureText: true,
                                 name: 'password',
                                 decoration: customformfielddecoration(
-                                    hinttext: "كلمة السر",
+                                    labelText: "كلمة السر",
                                     context: context,
                                     obsecure: null,
                                     color: offwhite),
@@ -121,7 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               obscureText: true,
                               name: 'password_confirmation',
                               decoration: customformfielddecoration(
-                                  hinttext: "تأكيد كلمة السر",
+                                  labelText: "تأكيد كلمة السر",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -137,7 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: FormBuilderTextField(
                               name: 'street',
                               decoration: customformfielddecoration(
-                                  hinttext: "الشارع",
+                                  labelText: "الشارع",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -153,7 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: FormBuilderTextField(
                               name: 'mark',
                               decoration: customformfielddecoration(
-                                  hinttext: "علامة مميزة",
+                                  labelText: "علامة مميزة",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -207,7 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   .toList(),
                               name: 'country_id',
                               decoration: customformfielddecoration(
-                                  hinttext: "الدولة",
+                                  labelText: "الدولة",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -238,7 +237,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   .toList(),
                               name: 'city_id',
                               decoration: customformfielddecoration(
-                                  hinttext: "المدينة",
+                                  labelText: "المدينة",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -265,7 +264,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   .toList(),
                               name: 'area_id',
                               decoration: customformfielddecoration(
-                                  hinttext: "المنطقة",
+                                  labelText: "المنطقة",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -281,7 +280,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: FormBuilderTextField(
                               name: 'address',
                               decoration: customformfielddecoration(
-                                  hinttext: "العنوان",
+                                  labelText: "العنوان",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -298,7 +297,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               keyboardType: TextInputType.number,
                               name: 'zip',
                               decoration: customformfielddecoration(
-                                  hinttext: "رقم بريد",
+                                  labelText: "رقم بريد",
                                   context: context,
                                   obsecure: null,
                                   color: offwhite),
@@ -337,7 +336,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             title: "تسجيل دخول ",
                             newIcon: Icon(
                               Icons.login,
-                              color: settings.theme!.secondary,
+                              color: Colors.white,
                             ),
                             primarycolor: petrol,
                             titlecolor: Colors.white,
@@ -360,19 +359,35 @@ class _SignupScreenState extends State<SignupScreen> {
       // first we check if there is internet connection
       if (_formkey.currentState!.validate()) {
         // then we check if there are any missing fields.
+        print(_formkey.currentState!.fields["phone"]!.value[0]);
+        if (_formkey.currentState!.fields["phone"]!.value[0] != "0") {
+          throw {Get.snackbar("خطأ", "هذا الرقم ليس صحيح")};
+        }
+        _formkey.currentState!.fields["phone"]!
+            .setValue("+2" + _formkey.currentState!.fields["phone"]!.value);
         _formkey.currentState!.save();
+
         var loginInfo = _formkey.currentState!
             .value; // containes login info extracted from both email and password fields.
+
         if (loginInfo["password_confirmation"] != loginInfo["password"]) {
           throw {Get.snackbar("خطأ", "كلمتا السر ليسا متطابقتين")};
         }
+
         try {
           setState(() {
             isLogging = !isLogging;
           });
           await requestSignUp(loginInfo).then((value) {
             if (value["success"] == false) {
-              throw {Get.snackbar("خطأ", value["mesage"])};
+              setState(() {
+                isLogging = !isLogging;
+              });
+
+              throw {
+                Get.defaultDialog(
+                    title: "خطا", middleText: value["message"].toString())
+              };
             }
           });
           context.read(userStateManagment).userPhone =

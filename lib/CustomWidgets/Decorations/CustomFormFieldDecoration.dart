@@ -15,6 +15,7 @@ InputDecoration customformfielddecoration(
         prefixIcon,
         enabled = true,
         labelText = "",
+        hasErrorText = true,
         onPressed()?}) =>
     InputDecoration(
         labelText: labelText,
@@ -28,10 +29,11 @@ InputDecoration customformfielddecoration(
             : null,
         prefixIcon: prefixIcon,
         isDense: true,
-        // hintText: hinttext,
         fillColor: color,
         filled: true,
-        errorStyle: TextStyle(color: Colors.red),
+        errorStyle: hasErrorText
+            ? TextStyle(color: Colors.red)
+            : TextStyle(color: Colors.red, height: 0),
         contentPadding: EdgeInsets.only(
             top: screenHeight(context) * 0.025,
             right: screenWidth(context) * 0.03,

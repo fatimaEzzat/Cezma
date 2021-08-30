@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final wishListtateManagment =
@@ -7,19 +6,34 @@ final wishListtateManagment =
 
 class WishListState extends ChangeNotifier {
   List wishList = [];
-  var box = Hive.box('favorites');
+  int currentWishListPage = 0;
+  int lastWishListPage = 0;
 
-  addToWishList(var value, int key) async {
-    if (box.containsKey(key)) {
-      box.delete(key);
-    } else {
-      box.put(key, value);
-    }
+  addToWishList(List inputs) async {
+    wishList.addAll(inputs);
     notifyListeners();
   }
 
-  removeItemFromWishList(var id) {
-    box.delete(id);
+  cleanWishList() {
+    wishList.clear();
     notifyListeners();
+  }
+
+  bool checkInWishList(int id) {
+    try {
+      if (wishList
+              .indexWhere((element) => element["products"][0]["id"] == id) !=
+          -1) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+   getIdFromWishList(int id) {
+   return wishList.firstWhere((element) => element["products"][0]["id"]==id)["id"];
   }
 }

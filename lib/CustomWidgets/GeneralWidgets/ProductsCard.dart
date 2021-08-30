@@ -1,21 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/addToCartButton.dart';
+import 'package:test_store/Logic/ApiRequests/WishListRequests/AddToWishListRequest.dart';
+import 'package:test_store/Logic/ApiRequests/WishListRequests/RemoveFromWishListRequest.dart';
+import 'package:test_store/Logic/StateManagment/WishListState.dart';
 import 'package:test_store/Screens/SecondaryScreens/ProductViewScreen.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
-Widget productsCard(
-    {required BuildContext context,
-    required currentList,
-    required index,
-    box,
-    wishListState}) {
+Widget productsCard({required BuildContext context, required currentItem}) {
   double discount = 0;
-  if (currentList[index]["discount"] != null) {
-    discount = currentList[index]["discount"] / currentList[index]["price"];
+  if (currentItem["discount"] != null && currentItem["discount"] != 0) {
+    discount = currentItem["discount"] / currentItem["price"];
     discount *= 100;
   }
 
@@ -23,7 +22,7 @@ Widget productsCard(
     onTap: () {
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) {
-        return ProductViewScreen(product: currentList[index]);
+        return ProductViewScreen(product: currentItem);
       }));
     },
     child: Center(
@@ -41,15 +40,14 @@ Widget productsCard(
                   children: [
                     CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl:
-                          currentList[index]["image"].contains("placeholder")
-                              ? apiBaseUrl + currentList[index]["image"]
-                              : currentList[index]["image"],
+                      imageUrl: currentItem["image"].contains("placeholder")
+                          ? apiBaseUrl + currentItem["image"]
+                          : currentItem["image"],
                       placeholder: (context, url) =>
                           Image.asset(settings.images!.placeHolderImage),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    currentList[index]["discount"] != null
+                    currentItem["discount"] != null
                         ? Align(
                             alignment: AlignmentDirectional.topEnd,
                             child: FittedBox(
@@ -75,14 +73,14 @@ Widget productsCard(
                 child: ListTile(
                   dense: true,
                   title: AutoSizeText(
-                    currentList[index]["name"],
+                    currentItem["name"],
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: MediaQuery.of(context).size.aspectRatio * 30),
                     maxLines: 1,
                   ),
                   subtitle: Text(
-                    currentList[index]["price"].toString() + " جم",
+                    currentItem["price"].toString() + " جم",
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black),
                   ),
@@ -96,17 +94,32 @@ Widget productsCard(
                       flex: 2,
                       child: addToCartButton(
                         context: context,
-                        itemId: currentList[index]['id'],
+                        itemId: currentItem['id'],
                       ),
                     ),
-                    Flexible(
-                      child: IconButton(
-                          color: Colors.red,
-                          onPressed: () {
-                            wishListState.addToWishList(
-                                currentList[index], currentList[index]['id']);
-                          },
-                          icon: Icon(Icons.favorite)),
+                    Consumer(
+                      builder: (BuildContext context,
+                          T Function<T>(ProviderBase<Object?, T>) watch,
+                          Widget? child) {
+                        final wishListState = watch(wishListtateManagment);
+                        return Flexible(
+                          child: IconButton(
+                              color: wishListState
+                                      .checkInWishList(currentItem["id"])
+                                  ? Colors.red
+                                  : Colors.grey,
+                              onPressed: () {
+                                wishListState.checkInWishList(currentItem["id"])
+                                    ? requestRemoveFromWishList(
+                                        context,
+                                        wishListState.getIdFromWishList(
+                                            currentItem["id"]))
+                                    : requestAddToWishList(
+                                        context, currentItem["id"]);
+                              },
+                              icon: Icon(Icons.favorite)),
+                        );
+                      },
                     ),
                   ]),
             )

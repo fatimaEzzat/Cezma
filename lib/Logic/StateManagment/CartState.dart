@@ -24,4 +24,17 @@ class CartState extends ChangeNotifier {
     cart.clear();
     notifyListeners();
   }
+
+  bool checkInCart(int id) {
+    try {
+      if (cart.indexWhere((element) => element["products"][0]["id"] == id) !=
+          -1) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
 }

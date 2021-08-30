@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
+import 'package:test_store/Logic/StateManagment/WishListState.dart';
 import 'package:test_store/Screens/SecondaryScreens/CartScreen.dart';
 import 'package:test_store/Screens/MessagingScreens/ChatsScreen.dart';
+import 'package:test_store/Screens/SecondaryScreens/WishListScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:badges/badges.dart';
 
@@ -27,14 +29,21 @@ PreferredSizeWidget primaryAppBar({required BuildContext context, tabBar}) {
     ),
     leadingWidth: screenWidth(context) * 0.32,
     actions: [
-      IconButton(
+      Consumer(
+        builder: (context, watch, child) => IconButton(
+          icon: Badge(
+            badgeContent:
+                Text(watch(wishListtateManagment).wishList.length.toString()),
+            child: Icon(Icons.favorite, color: Colors.white),
+          ),
           onPressed: () {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (BuildContext context) {
-            //   return FavoritesScreen();
-            // }));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return WishListScreen();
+            }));
           },
-          icon: Icon(Icons.favorite, color: Colors.white)),
+        ),
+      ),
       IconButton(
           onPressed: () {
             Navigator.push(context,

@@ -10,6 +10,7 @@ import 'package:test_store/CustomWidgets/HomeScreenWidgets/HomeScreenStoresCard.
 import 'package:test_store/Logic/ApiRequests/CartRequests/AddToCart.dart';
 import 'package:test_store/Logic/ApiRequests/ProductsRequests/ProductsRequest.dart';
 import 'package:test_store/Logic/MISC/GetLocation.dart';
+import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/HomeState.dart';
 import 'package:test_store/Logic/StateManagment/ProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
@@ -209,8 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shadowColor: Colors.transparent,
                                 child: productsCard(
                                   context: context,
-                                  currentList: homeProducts,
-                                  index: index,
+                                  currentItem: homeProducts[index],
                                 ),
                               ),
                             );
@@ -224,9 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          requestAddToCart(context, 1);
-        }),
       ),
     );
   }

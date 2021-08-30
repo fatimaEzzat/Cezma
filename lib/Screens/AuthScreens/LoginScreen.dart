@@ -39,12 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
             middleText: "تعذر الاتصال بالانترنت",
             confirm: customGeneralButton(
                 context: context,
-                customOnPressed: () async {
-                  bool test = await DataConnectionChecker().hasConnection;
-                  if (test) {
-                    Get.back();
-                  }
-                },
+                customOnPressed: () {},
                 newIcon: Icon(Icons.refresh),
                 primarycolor: settings.theme!.secondary,
                 title: 'اعادة الاتصال',
@@ -70,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Consumer(
         builder: (context, watch, child) => ModalProgressHUD(
           progressIndicator: CircularProgressIndicator(
-            color: settings.theme!.secondary,
+            color: violet,
           ),
           inAsyncCall: watch(userStateManagment).isLoggingIn,
           child: Center(

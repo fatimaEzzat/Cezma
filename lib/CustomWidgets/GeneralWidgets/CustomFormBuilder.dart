@@ -30,7 +30,7 @@ Widget customformfield(
                 keyboardType: TextInputType.number,
                 name: 'user',
                 decoration: customformfielddecoration(
-                    hinttext: "الرقم",
+                    labelText: "الرقم",
                     context: context,
                     obsecure: null,
                     color: offwhite),
@@ -53,7 +53,7 @@ Widget customformfield(
                 obscureText: obsecure,
                 name: 'password',
                 decoration: customformfielddecoration(
-                    hinttext: "كلمة السر",
+                    labelText: "كلمة السر",
                     context: context,
                     obsecure: obsecure,
                     onPressed: onPressed,

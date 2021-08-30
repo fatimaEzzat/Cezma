@@ -9,6 +9,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/RemoveFromCart.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/UpdateCartQuantity.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
+import 'package:test_store/Screens/SecondaryScreens/CheckoutScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
@@ -164,10 +165,10 @@ class _CartScreenState extends State<CartScreen> {
                     customGeneralButton(
                         context: context,
                         customOnPressed: () {
-                          // Navigator.push(context, MaterialPageRoute(
-                          //     builder: (BuildContext context) {
-                          //   return PaymentScreen();
-                          // }));
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return CheckoutScreen();
+                          }));
                         },
                         newIcon: Icon(Icons.shopping_bag),
                         primarycolor: violet,

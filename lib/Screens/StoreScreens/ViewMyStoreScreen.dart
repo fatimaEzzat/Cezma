@@ -82,7 +82,7 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                   text: new TextSpan(
                     children: widget.store["categories"]
                         .map<TextSpan>((e) => TextSpan(
-                            text: "/" + e["name"],
+                            text: "/" + e["name"].toString(),
                             style: TextStyle(color: Colors.black)))
                         .toList(),
                   ),
@@ -164,9 +164,8 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                                     child: FadeInAnimation(
                                         child: productsCard(
                                       context: context,
-                                      currentList: watch(storesStateManagment)
-                                          .storeProducts,
-                                      index: index,
+                                      currentItem: watch(storesStateManagment)
+                                          .storeProducts[index],
                                     )),
                                   ),
                                 );

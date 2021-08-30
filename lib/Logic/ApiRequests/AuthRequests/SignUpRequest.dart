@@ -6,6 +6,7 @@ Future requestSignUp(Map signupInfo) async {
     headers: {"Content-Type": "application/json"},
   );
   Dio dio = Dio();
+
   var response =
       await dio.post(apiSignupUrl, data: signupInfo, options: requestOptions);
   return response.data;

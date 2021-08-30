@@ -189,6 +189,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         shadowColor: Colors.transparent,
                         child: Container(
                           child: FormBuilderTextField(
+                            initialValue: 0.toString(),
                             keyboardType: TextInputType.number,
                             name: 'discount',
                             decoration: customformfielddecoration(

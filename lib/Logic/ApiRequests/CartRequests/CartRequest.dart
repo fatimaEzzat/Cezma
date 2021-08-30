@@ -17,16 +17,15 @@ Future requestCart(BuildContext context, isRefresh, int currentPage) async {
       'Charset': 'utf-8'
     },
   );
-  if (isRefresh) {
-    context.read(cartStateManagment).cart.clear();
-  }
 
   try {
     var response = await dio.get(
       apiCartUrl,
       options: requestOptions,
     );
-    print(response.data);
+    if (isRefresh) {
+      context.read(cartStateManagment).cleanCart();
+    }
     if (response.data["data"].isEmpty) {
       context.read(cartStateManagment).cleanCart();
     } else {

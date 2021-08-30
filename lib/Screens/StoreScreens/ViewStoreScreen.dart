@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
+import 'package:test_store/Logic/ApiRequests/MessagingRequests/SendMessage.dart';
 import 'package:test_store/Logic/ApiRequests/StoresRequest/StoreProductsRequest.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
+import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
 class ViewStore extends StatefulWidget {
@@ -16,6 +22,8 @@ class ViewStore extends StatefulWidget {
 }
 
 class _ViewStoreState extends State<ViewStore> {
+  final _formkey = GlobalKey<FormBuilderState>();
+  String message = "";
   @override
   void initState() {
     requestStoreProducts(
@@ -59,7 +67,7 @@ class _ViewStoreState extends State<ViewStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
-                Text(widget.store["description"]),
+                Text(widget.store["description"].toString()),
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
@@ -74,22 +82,60 @@ class _ViewStoreState extends State<ViewStore> {
                   child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.transparent, elevation: 0),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.defaultDialog(
+                            title: "اكتب رسالتك",
+                            content: FormBuilder(
+                              key: _formkey,
+                              child: Column(
+                                children: [
+                                  FormBuilderTextField(
+                                    validator:
+                                        FormBuilderValidators.required(context),
+                                    cursorColor: violet,
+                                    name: "nessage",
+                                    maxLines: 4,
+                                    onChanged: (value) {
+                                      message = value!;
+                                    },
+                                    decoration: customformfielddecoration(
+                                        context: context,
+                                        color: Colors.grey.shade200),
+                                  ),
+                                  customGeneralButton(
+                                      customOnPressed: () async {
+                                        print(widget.store["id"]);
+                                        print(message);
+                                        await requestNewMessage(context,
+                                            widget.store["id"], message);
+                                      },
+                                      context: context,
+                                      title: "ارسل",
+                                      primarycolor: violet,
+                                      titlecolor: Colors.white,
+                                      newIcon: Icon(Icons.send),
+                                      borderColor: Colors.transparent)
+                                ],
+                              ),
+                            ));
+                      },
                       icon: Icon(Icons.chat_bubble_rounded),
                       label: Text("محادثة المتجر")),
                 ),
                 SizedBox(
                   height: screenHeight(context) * 0.01,
                 ),
-                RichText(
-                  text: new TextSpan(
-                    children: widget.store["categories"]
-                        .map<TextSpan>((e) => TextSpan(
-                            text: "/" + e["name"],
-                            style: TextStyle(color: Colors.black)))
-                        .toList(),
-                  ),
-                ),
+                widget.store["categories"] == null
+                    ? Container()
+                    : RichText(
+                        text: new TextSpan(
+                          children: widget.store["categories"]
+                              .map<TextSpan>((e) => TextSpan(
+                                  text: "/" + e["name"].toString(),
+                                  style: TextStyle(color: Colors.black)))
+                              .toList(),
+                        ),
+                      ),
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
@@ -148,9 +194,8 @@ class _ViewStoreState extends State<ViewStore> {
                                     child: FadeInAnimation(
                                         child: productsCard(
                                       context: context,
-                                      currentList: watch(storesStateManagment)
-                                          .storeProducts,
-                                      index: index,
+                                      currentItem: watch(storesStateManagment)
+                                          .storeProducts[index],
                                     )),
                                   ),
                                 );
