@@ -64,49 +64,24 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       itemBuilder: (context, index) {
                         return Card(
                           child: ListTile(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                  return OrderPageScreen(
-                                      index: index,
-                                      id: ordersState.orders[index]["id"]
-                                          .toString(),
-                                      total: ordersState.orders[index]["total"]
-                                              .toString() +
-                                          " جم");
-                                }));
-                              },
-                              title: Text("رقم الطلب:  " +
-                                  ordersState.orders[index]["id"].toString()),
-                              subtitle: Text(ordersState.orders[index]["total"]
-                                      .toString() +
-                                  " جم"),
-                              leading: SizedBox(
-                                height: width * 0.15,
-                                width: width * 0.15,
-                                child: GridView.count(
-                                  shrinkWrap: true,
-                                  crossAxisCount: ordersState
-                                              .orders[index]["items"].length ==
-                                          1
-                                      ? 1
-                                      : 2,
-                                  mainAxisSpacing: 0,
-                                  crossAxisSpacing: 0,
-                                  children: ordersState.orders[index]["items"]
-                                      .map<Widget>((e) => CachedNetworkImage(
-                                            imageUrl: apiBaseUrl +
-                                                e["product_id"]["images"][0],
-                                            placeholder: (context, url) =>
-                                                Image.asset(settings
-                                                    .images!.placeHolderImage),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
-                                          ))
-                                      .toList(),
-                                ),
-                              )),
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return OrderPageScreen(
+                                    index: index,
+                                    id: ordersState.orders[index]["id"]
+                                        .toString(),
+                                    total: ordersState.orders[index]["total"]
+                                            .toString() +
+                                        " جم");
+                              }));
+                            },
+                            title: Text("رقم الطلب:  " +
+                                ordersState.orders[index]["id"].toString()),
+                            subtitle: Text(
+                                ordersState.orders[index]["total"].toString() +
+                                    " جم"),
+                          ),
                         );
                       }),
                 ),
