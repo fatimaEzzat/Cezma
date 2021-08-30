@@ -23,6 +23,7 @@ Future requestMessages(
   try {
     var response = await dio.get(
       apiMessagesUrl + "/" + id.toString(),
+      queryParameters: {"page": currentPage},
       options: requestOptions,
     );
     context
