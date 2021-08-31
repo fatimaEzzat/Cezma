@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/ApiRequests/MessagingRequests/ChatsRequest.dart';
-import 'package:test_store/Logic/ApiRequests/MessagingRequests/MessagesRequest.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 

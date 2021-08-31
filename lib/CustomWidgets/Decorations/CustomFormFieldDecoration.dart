@@ -25,7 +25,10 @@ InputDecoration customformfielddecoration(
         suffixIcon: obsecure != null
             ? IconButton(
                 onPressed: onPressed,
-                icon: Icon(obsecure ? Icons.visibility_off : Icons.visibility))
+                icon: Icon(
+                  obsecure ? Icons.visibility_off : Icons.visibility,
+                  color: violet,
+                ))
             : null,
         prefixIcon: prefixIcon,
         isDense: true,

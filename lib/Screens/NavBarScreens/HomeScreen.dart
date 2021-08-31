@@ -111,7 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     placeholder: (context, url) => Image.asset(
                                         settings.images!.placeHolderImage),
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                        Image.asset(
+                                            settings.images!.placeHolderImage),
                                   ),
                                 )),
                       ),
@@ -136,17 +137,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             placeholder: (context, url) =>
                                 Image.asset(settings.images!.placeHolderImage),
                             errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                                Image.asset(settings.images!.placeHolderImage),
                           ),
                           CachedNetworkImage(
                             width: screenWidth(context) * 0.45,
                             height: screenHeight(context) * 0.11,
                             fit: BoxFit.fill,
                             imageUrl: homeAds[1]["image"],
-                            placeholder: (context, url) =>
-                                Image.asset(settings.images!.placeHolderImage),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                            placeholder: (context, url) => Image.asset(
+                              settings.images!.placeHolderImage,
+                            ),
+                            errorWidget: (context, url, error) => Image.asset(
+                              settings.images!.placeHolderImage,
+                            ),
                           ),
                         ],
                       ),

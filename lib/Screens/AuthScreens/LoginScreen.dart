@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   customGeneralButton(
                     context: context,
                     customOnPressed: () {
-                      Get.to(() => SignupScreen());
+                      Get.off(() => SignupScreen());
                     },
                     title: 'حساب جديد',
                     newIcon: Icon(Icons.person_add, color: Colors.white),
@@ -151,7 +152,9 @@ class _LoginScreenState extends State<LoginScreen> {
             }
             if (value["data"]["user"]["activated"] == 0) {
               contextm.read(userStateManagment).setIsLoggingIn();
-              Get.off(() => ActivationScreen());
+              Get.off(() => ActivationScreen(
+                    number: "+2" + loginInfo["user"],
+                  ));
             } else {
               contextm.read(userStateManagment).setIsLoggingIn();
               Get.off(() => CustomSplashScreen());

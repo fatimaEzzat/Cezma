@@ -9,6 +9,7 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Screens/SecondaryScreens/CategoriesScreen.dart';
 import 'package:test_store/Variables/EndPoints.dart';
+import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 class SectionsScreen extends StatefulWidget {
@@ -59,17 +60,8 @@ class _SectionsScreenState extends State<SectionsScreen> {
                               elevation: 0.4,
                               child: Column(
                                 children: [
-                                  Expanded(
-                                    child: CachedNetworkImage(
-                                      fit: BoxFit.cover,
-                                      imageUrl: apiMockImage,
-                                      placeholder: (context, url) =>
-                                          Image.asset(settings
-                                              .images!.placeHolderImage),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(settings
-                                              .images!.placeHolderImage),
-                                    ),
+                                  Image.asset(
+                                    settings.images!.placeHolderImage,
                                   ),
                                   SizedBox(
                                     height: 10,

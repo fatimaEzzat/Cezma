@@ -12,6 +12,6 @@
             "orders_icon":"Assets/Icons/OrdersIcon.png",
             "menu_icon":"Assets/Icons/MenuIcon.png",
             "empty_cart_icon":"Assets/Icons/EmptyCartIcon",
-            "place_holder_image":"Assets/Images/PlaceHolderImage.jpeg"
+            "place_holder_image":"Assets/Images/PlaceHolder.png"
         }
 }

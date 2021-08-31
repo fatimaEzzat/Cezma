@@ -37,14 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: screenHeight(context) * 0.03,
                       ),
                       CircleAvatar(
-                        child: CachedNetworkImage(
-                          fit: BoxFit.fill,
-                          imageUrl: "",
-                          placeholder: (context, url) =>
-                              Image.asset(settings.images!.placeHolderImage),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
+                        backgroundImage:
+                            AssetImage(settings.images!.placeHolderImage),
                         radius: 50,
                       ),
                       Container(

@@ -4,9 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:test_store/Logic/ApiRequests/FullRequest.dart';
-import 'package:test_store/Logic/MISC/GetCities.dart';
-import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
+import 'package:test_store/Screens/ProfileScreens/EditProfileScreen.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import '../NavBarScreens/NavigationBar.dart';
 
@@ -38,7 +37,11 @@ class CustomSplashScreen extends StatelessWidget {
                 userToken: sharedvalue.getString("token"));
           });
 
-          return CustomNavigationBar();
+          if (context.read(userStateManagment).userInfo!.firstName != null) {
+            return CustomNavigationBar();
+          } else {
+            return EditProfilePage();
+          }
         },
       ),
     );

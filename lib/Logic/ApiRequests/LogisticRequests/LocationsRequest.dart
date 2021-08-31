@@ -18,9 +18,12 @@ Future requestLocation({
       apiCountries,
       options: requestOptions,
     );
+    List countries = [];
+    countries = response.data["data"]["locations"];
     context.read(countriesStateManagment).countries =
         response.data["data"]["locations"];
+    return countries;
   } catch (e) {
-    Get.snackbar("خطا", "فشل الاتصال");
+    Get.snackbar("خطا", "فشل الحصول علي معلومات البلد");
   }
 }

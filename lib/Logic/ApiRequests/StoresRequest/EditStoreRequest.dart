@@ -23,8 +23,7 @@ Future requestEditStore(
   );
 
   try {
-    print(apiStoresListUrl + "/" + storeName);
-    final response = await dio.post(apiStoresListUrl + "/" + storeName,
+     await dio.post(apiStoresListUrl + "/" + storeName,
         options: requestOptions, data: storeInfo);
     await requestMyStore(context, 1, true);
     Get.defaultDialog(

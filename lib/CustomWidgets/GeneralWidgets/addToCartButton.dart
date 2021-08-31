@@ -11,7 +11,6 @@ Widget addToCartButton({
   return Consumer(
     builder: (BuildContext context,
         T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
-      final cartState = watch(cartStateManagment).cart;
       return Container(
         padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,

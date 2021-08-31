@@ -20,6 +20,7 @@ import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sortedmap/sortedmap.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -278,22 +279,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: FormBuilderTextField(
-                              name: 'address',
-                              decoration: customformfielddecoration(
-                                  labelText: "العنوان",
-                                  context: context,
-                                  obsecure: null,
-                                  color: offwhite),
-                              validator: FormBuilderValidators.required(context,
-                                  errorText: "بالرجاء ادخال العنوان"),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: width * 0.8,
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: FormBuilderTextField(
                               keyboardType: TextInputType.number,
                               name: 'zip',
                               decoration: customformfielddecoration(
@@ -403,7 +388,9 @@ class _SignupScreenState extends State<SignupScreen> {
               confirm: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: violet),
                   onPressed: () {
-                    Get.off(() => ActivationScreen());
+                    Get.off(() => ActivationScreen(
+                          number: context.read(userStateManagment).userPhone,
+                        ));
                   },
                   child: Text("تأكيد")));
         } on Exception catch (e) {

@@ -23,3 +23,4 @@ const String apiTagUrl = apiBaseUrl + "api/tags";
 const String apiForgetUrl = apiBaseUrl + "api/forgot";
 const String apiMessagesUrl = apiBaseUrl + "api/messages";
 const String apiCheckoutUrl = apiBaseUrl + "api/checkout";
+const String apiEmailVerify = apiBaseUrl + "api/email/verify";

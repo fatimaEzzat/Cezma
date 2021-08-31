@@ -19,6 +19,7 @@ Widget generalCarouselSlider({required String images}) =>
                 imageUrl: images,
                 placeholder: (context, url) =>
                     Image.asset(settings.images!.placeHolderImage),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) =>
+                    Image.asset(settings.images!.placeHolderImage),
               ),
             ));

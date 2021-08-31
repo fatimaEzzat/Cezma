@@ -18,7 +18,7 @@ Future requestRemoveFromCart(BuildContext context, int itemId) async {
   );
 
   try {
-    var response = await dio.delete(
+    await dio.delete(
       apiCartUrl + "/" + itemId.toString() + "/delete",
       options: requestOptions,
     );

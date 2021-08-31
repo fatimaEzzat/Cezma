@@ -5,7 +5,6 @@ import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/RequestsExport.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
-import 'package:test_store/Logic/StateManagment/WishListState.dart';
 import 'package:test_store/Logic/StateManagment/CategoryProductsState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/CustomColors.dart';
@@ -172,7 +171,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                                         child:
                                                                             ScaleAnimation(
                                                                           child:
-                                                                              FadeInAnimation(child: productsCard(context: context, currentItem: categoryProducts.categoryProducts)),
+                                                                              FadeInAnimation(child: productsCard(context: context, currentItem: categoryProducts.categoryProducts[index])),
                                                                         ),
                                                                       );
                                                                     }),

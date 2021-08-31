@@ -159,7 +159,9 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                                       .placeHolderImage),
                                               errorWidget:
                                                   (context, url, error) =>
-                                                      Icon(Icons.error),
+                                                      Image.asset(settings
+                                                          .images!
+                                                          .placeHolderImage),
                                             ),
                                             plans[index]["discount"] != null
                                                 ? Align(

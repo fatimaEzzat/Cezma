@@ -84,7 +84,8 @@ class _CartScreenState extends State<CartScreen> {
                                     placeholder: (context, url) => Image.asset(
                                         settings.images!.placeHolderImage),
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                        Image.asset(
+                                            settings.images!.placeHolderImage),
                                   ),
                                 ),
                                 subtitle: Column(

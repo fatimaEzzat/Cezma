@@ -43,9 +43,14 @@ Widget productsCard({required BuildContext context, required currentItem}) {
                       imageUrl: currentItem["image"].contains("placeholder")
                           ? apiBaseUrl + currentItem["image"]
                           : currentItem["image"],
-                      placeholder: (context, url) =>
-                          Image.asset(settings.images!.placeHolderImage),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      placeholder: (context, url) => Image.asset(
+                        settings.images!.placeHolderImage,
+                        fit: BoxFit.fill,
+                      ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        settings.images!.placeHolderImage,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                     currentItem["discount"] != null
                         ? Align(

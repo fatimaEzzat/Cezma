@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:test_store/Logic/StateManagment/MyStoresState.dart';
-import 'package:test_store/Logic/StateManagment/StoresState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

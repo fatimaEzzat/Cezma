@@ -171,7 +171,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                                         .placeHolderImage),
                                                 errorWidget:
                                                     (context, url, error) =>
-                                                        Icon(Icons.error),
+                                                        Image.asset(settings
+                                                            .images!
+                                                            .placeHolderImage),
                                               ),
                                               plans[index]["discount"] != null
                                                   ? Align(

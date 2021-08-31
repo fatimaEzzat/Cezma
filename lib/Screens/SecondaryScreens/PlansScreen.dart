@@ -74,7 +74,8 @@ class _PlansScreenState extends State<PlansScreen> {
                                   placeholder: (context, url) => Image.asset(
                                       settings.images!.placeHolderImage),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      Image.asset(
+                                          settings.images!.placeHolderImage),
                                 ),
                                 plans[index]["discount"] != null
                                     ? Align(

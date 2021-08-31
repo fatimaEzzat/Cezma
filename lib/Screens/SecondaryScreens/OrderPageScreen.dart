@@ -54,7 +54,8 @@ class OrderPageScreen extends StatelessWidget {
                                 placeholder: (context, url) => Image.asset(
                                     "settings.images!.placeHolderImage.jpeg"),
                                 errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                    Image.asset(
+                                        settings.images!.placeHolderImage),
                               ),
                             ),
                             title: Text(item["name"]),
