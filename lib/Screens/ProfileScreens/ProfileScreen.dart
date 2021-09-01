@@ -98,6 +98,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 onPressed: (BuildContext context) {},
                               ),
+                              SettingsTile(
+                                title: 'الشارع',
+                                subtitle:
+                                    context.read(userStateManagment).street,
+                                leading: Icon(
+                                  Icons.streetview,
+                                  color: violet,
+                                ),
+                                onPressed: (BuildContext context) {},
+                              ),
                             ],
                           ),
                         ],

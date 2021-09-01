@@ -20,6 +20,8 @@ Future requestUserInfo(String? userToken, BuildContext context) async {
     var userInfo = UserModel.fromJson(response.data["data"]);
     context.read(userStateManagment).setUserInfo(userInfo);
     context.read(userStateManagment).userId = response.data["data"]["id"];
+    context.read(userStateManagment).street =
+        response.data["data"]["locations"][0]["street"];
   } on Exception catch (e) {
     Get.defaultDialog(title: "خطأ", middleText: e.toString());
   }

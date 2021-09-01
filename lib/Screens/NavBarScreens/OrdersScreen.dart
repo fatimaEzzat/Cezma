@@ -1,15 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/Logic/ApiRequests/OrdersRequests/Orders.dart';
 import 'package:test_store/Logic/StateManagment/OrdersState.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Screens/SecondaryScreens/OrderPageScreen.dart';
-import 'package:test_store/Variables/EndPoints.dart';
-import 'package:test_store/Variables/ScreenSize.dart';
-import 'package:test_store/Variables/Settings.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -20,6 +16,8 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   final _scrollController = ScrollController();
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   late String? userToken = "";
   late int id;
   late var response;
@@ -27,27 +25,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
   void initState() {
     userToken = context.read(userStateManagment).userToken;
     id = context.read(userStateManagment).userId!;
-    // //////////////////
-    _scrollController.addListener(() {
-      if (_scrollController.position.atEdge) {
-        final isBottom = _scrollController.position.pixels != 0;
-        if (isBottom) {
-          loadData(context);
-        }
-      }
-    });
     super.initState();
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    double width = screenWidth(context);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -55,42 +37,42 @@ class _OrdersScreenState extends State<OrdersScreen> {
         body: Consumer(
           builder: (context, watch, child) {
             final ordersState = watch(ordersStateManagment);
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: ordersState.orders.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return OrderPageScreen(
-                                    index: index,
-                                    id: ordersState.orders[index]["id"]
-                                        .toString(),
-                                    total: ordersState.orders[index]["total"]
-                                            .toString() +
-                                        " جم");
-                              }));
-                            },
-                            title: Text("رقم الطلب:  " +
-                                ordersState.orders[index]["id"].toString()),
-                            subtitle: Text(
-                                ordersState.orders[index]["total"].toString() +
-                                    " جم"),
-                          ),
-                        );
-                      }),
-                ),
-                ordersState.isLoadingNewItems
-                    ? CircularProgressIndicator(
-                        color: settings.theme!.secondary,
-                      )
-                    : Container()
-              ],
+            return SmartRefresher(
+              controller: _refreshController,
+              enablePullUp: true,
+              onLoading: () async {
+                await loadData(context)
+                    .then((value) => _refreshController.loadComplete());
+              },
+              onRefresh: () {
+                requestUserOrders(1, context, true)
+                    .then((value) => _refreshController.refreshCompleted());
+              },
+              child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: ordersState.orders.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return OrderPageScreen(
+                                index: index,
+                                id: ordersState.orders[index]["id"].toString(),
+                                total: ordersState.orders[index]["total"]
+                                        .toString() +
+                                    " جم");
+                          }));
+                        },
+                        title: Text("رقم الطلب:  " +
+                            ordersState.orders[index]["id"].toString()),
+                        subtitle: Text(
+                            ordersState.orders[index]["total"].toString() +
+                                " جم"),
+                      ),
+                    );
+                  }),
             );
           },
         ),

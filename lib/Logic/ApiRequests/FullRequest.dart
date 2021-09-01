@@ -20,10 +20,11 @@ Future firstSuperRequest(
   if (context.read(countriesStateManagment).countries.isEmpty) {
     requestLocation(context: context);
   }
-  await requestHome(context: context, isRefresh: true, pageNumber: pageNumber);
+  await requestHome(
+    context: context,
+  );
   // await requestPlans(context: context, isRefresh: false);
-  await requestStores(
-    category: null,
+  await requestAllStores(
     context: context,
     isRefresh: true,
     pageNumber: 1,

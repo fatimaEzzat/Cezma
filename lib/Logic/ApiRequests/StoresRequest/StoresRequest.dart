@@ -5,14 +5,13 @@ import 'package:test_store/Logic/StateManagment/StoresState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future requestStores(
-    {required BuildContext context,
-    required pageNumber,
-    required isRefresh,
-    required category}) async {
+Future requestAllStores({
+  required BuildContext context,
+  required pageNumber,
+  required isRefresh,
+}) async {
   Dio dio = Dio();
   Options requestOptions = Options(
-    responseType: ResponseType.json,
     headers: {"Content-Type": "application/json", 'Charset': 'utf-8'},
   );
   if (isRefresh) {
@@ -20,11 +19,11 @@ Future requestStores(
   }
   try {
     var response = await dio.get(apiStoresListUrl,
-        options: requestOptions, queryParameters: {"category": category});
-    // context.read(storesStateManagment).setCurrentStoresPage(++pageNumber);
-    // context
-    //     .read(storesStateManagment)
-    //     .setLastStoresPage(response.data["data"]["stores"]["last_page"]);
+        options: requestOptions, queryParameters: {"page": pageNumber});
+    context.read(storesStateManagment).setCurrentStoresPage(++pageNumber);
+    context
+        .read(storesStateManagment)
+        .setLastStoresPage(response.data["data"]["stores"]["last_page"]);
     context
         .read(storesStateManagment)
         .addToStoresList(response.data["data"]["stores"]["data"]);

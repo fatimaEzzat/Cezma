@@ -25,6 +25,29 @@ class CartState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeItemFromCart(int itemId) {
+    cart.removeWhere((element) => element["id"] == itemId);
+    notifyListeners();
+  }
+
+  void addItemToCart(Map item) {
+    cart.add({
+      "products": [item]
+    });
+    notifyListeners();
+  }
+
+  getIdFromCart(int id) {
+    return cart
+        .firstWhere((element) => element["products"][0]["id"] == id)["id"];
+  }
+
+  void changeQNT(int itemId, int qnt) {
+    Map item = cart.firstWhere((element) => element["id"] == itemId);
+    item.update("qnt", (value) => qnt);
+    notifyListeners();
+  }
+
   bool checkInCart(int id) {
     try {
       if (cart.indexWhere((element) => element["products"][0]["id"] == id) !=

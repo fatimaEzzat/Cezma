@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_store/CustomWidgets/Decorations/SearchBarGradientDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
@@ -43,7 +41,6 @@ class _SectionsScreenState extends State<SectionsScreen> {
                         filteredSections = categories
                             .where((element) => element["slug"].contains(value))
                             .toList();
-                        print(filteredSections);
                         if (value == "") {
                           filteredSections = categories;
                         }

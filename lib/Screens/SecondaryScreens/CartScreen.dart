@@ -138,16 +138,6 @@ class _CartScreenState extends State<CartScreen> {
                             );
                           }),
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.only(right: screenWidth(context) * 0.045),
-                      alignment: AlignmentDirectional.bottomStart,
-                      child: Text(
-                        "العنوان",
-                        style:
-                            TextStyle(fontSize: screenWidth(context) * 0.045),
-                      ),
-                    ),
                     Divider(
                       color: settings.theme!.secondary,
                       endIndent: screenWidth(context) * 0.08,

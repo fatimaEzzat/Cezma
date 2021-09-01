@@ -15,6 +15,7 @@ class HomeState extends ChangeNotifier {
     homeSliders = input["data"]["sliders"];
     homeProducts = input["data"]["products"];
     homeStores = input["data"]['stores'];
+    notifyListeners();
   }
 
   void clearHomeData() {

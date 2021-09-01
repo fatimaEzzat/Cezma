@@ -99,7 +99,7 @@ Widget productsCard({required BuildContext context, required currentItem}) {
                       flex: 2,
                       child: addToCartButton(
                         context: context,
-                        itemId: currentItem['id'],
+                        item: currentItem,
                       ),
                     ),
                     Consumer(

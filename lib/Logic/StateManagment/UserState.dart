@@ -10,6 +10,7 @@ class UserState extends ChangeNotifier {
   int? userId;
   String? userPhone;
   String? userPassword;
+  String? street;
   UserModel? userInfo;
   bool isLoggingIn = false;
 
