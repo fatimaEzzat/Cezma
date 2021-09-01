@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
@@ -115,10 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: customGeneralButton(
                             customOnPressed: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return EditProfilePage();
-                              }));
+                              Get.to(() => EditProfilePage());
                             },
                             context: context,
                             title: "تعديل ابيانات الشخصية",

@@ -27,7 +27,7 @@ class AddStoreScreen extends StatefulWidget {
 }
 
 class _AddStoreScreenState extends State<AddStoreScreen> {
-  final _fbKey = GlobalKey<FormBuilderState>();
+  var _fbKey;
   bool isLoading = false;
   List categories = [];
   int selectedPlan = 0;
@@ -38,6 +38,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   final _carouselController = CarouselController();
   @override
   void initState() {
+    _fbKey = GlobalKey<FormBuilderState>();
     categories = context.read(categoriesStateManagment).allCategories;
     plans = context.read(plansStateManagment).plans;
     tags = context.read(tagsStateManagment).tags;
@@ -46,6 +47,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
 
   @override
   void dispose() {
+    // TODO: implement dispose
     super.dispose();
   }
 
@@ -55,344 +57,354 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: secondaryAppBar(context: context, title: "اضافة متجر"),
-        body: Center(
-          child: Container(
-            width: screenWidth(context) * 0.9,
-            child: ModalProgressHUD(
-              inAsyncCall: isLoading,
+        body: ModalProgressHUD(
+          inAsyncCall: isLoading,
+          progressIndicator: CircularProgressIndicator(
+            color: violet,
+          ),
+          child: Center(
+            child: Container(
+              width: screenWidth(context) * 0.95,
               child: FormBuilder(
                 key: _fbKey,
-                child: ListView(
-                  children: [
-                    SizedBox(
-                      height: screenHeight(context) * 0.03,
-                    ),
-                    CircleAvatar(
-                      radius: screenHeight(context) * 0.06,
-                    ),
-                    SizedBox(
-                      height: screenHeight(context) * 0.05,
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderTextField(
-                        name: 'description',
-                        maxLines: 5,
-                        decoration: customformfielddecoration(
-                            labelText: "وصف المتجر",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
+                child: SingleChildScrollView(
+                  child: Column(
+                    // addAutomaticKeepAlives: true,
+                    children: [
+                      SizedBox(
+                        height: screenHeight(context) * 0.03,
                       ),
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderTextField(
-                        name: "address",
-                        decoration: customformfielddecoration(
-                            labelText: "العنوان",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
+                      CircleAvatar(
+                        radius: screenHeight(context) * 0.06,
                       ),
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderTextField(
-                        decoration: customformfielddecoration(
-                            labelText: "البريد الالكتروني",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                        name: "email",
+                      SizedBox(
+                        height: screenHeight(context) * 0.05,
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          child: CarouselSlider.builder(
-                              carouselController: _carouselController,
-                              options: CarouselOptions(
-                                  enableInfiniteScroll: false,
-                                  height: screenHeight(context) * 0.4),
-                              itemCount: plans.length,
-                              itemBuilder: (context, index, pageindex) {
-                                late final discount;
-                                if (plans[index]["discount"] != null) {
-                                  discount = (plans[index]["discount"] /
-                                          plans[index]["price"]) *
-                                      100;
-                                }
-                                return InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedPlan = plans[index]["id"];
-                                      _textEditingController.text =
-                                          plans[index]["name"];
-                                      _fbKey.currentState!.fields["plan_id"]!
-                                          // ignore: invalid_use_of_protected_member
-                                          .setValue(
-                                              plans[index]["id"].toString());
-                                    });
-                                  },
-                                  child: Card(
-                                    clipBehavior: Clip.hardEdge,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        side: selectedPlan == plans[index]["id"]
-                                            ? BorderSide(
-                                                color: violet, width: 2)
-                                            : BorderSide.none),
-                                    child: Column(
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            CachedNetworkImage(
-                                              fit: BoxFit.fill,
-                                              imageUrl: apiMockImage,
-                                              placeholder: (context, url) =>
-                                                  Image.asset(settings.images!
-                                                      .placeHolderImage),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Image.asset(settings
-                                                          .images!
-                                                          .placeHolderImage),
-                                            ),
-                                            plans[index]["discount"] != null
-                                                ? Align(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .topEnd,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.none,
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(5),
-                                                        color: Colors.red,
-                                                        child: AutoSizeText(
-                                                          "خصم " +
-                                                              "%" +
-                                                              discount
-                                                                  .toStringAsFixed(
-                                                                      1),
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : SizedBox(),
-                                          ],
-                                        ),
-                                        ListTile(
-                                          title: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    plans[index]["name"],
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                  Text(plans[index]["price"]
-                                                          .toString() +
-                                                      " جم " +
-                                                      "(" +
-                                                      plans[index]["type"] +
-                                                      ")"),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: screenHeight(context) *
-                                                    0.01,
-                                              )
-                                            ],
-                                          ),
-                                          subtitle: Text(
-                                            plans[index]["description"],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  screenWidth(context) * 0.04),
-                                          child: customGeneralButton(
-                                              customOnPressed: () {
-                                                Get.defaultDialog(
-                                                    title: "مواصفات الباقة",
-                                                    content: Column(
-                                                      children: plans[index]
-                                                              ["features"]
-                                                          .map<Widget>((e) =>
-                                                              Text(
-                                                                  e["feature"]))
-                                                          .toList(),
-                                                    ));
-                                              },
-                                              context: context,
-                                              title: "موصفات",
-                                              primarycolor: violet,
-                                              titlecolor: Colors.white,
-                                              newIcon: Icon(Icons.info),
-                                              borderColor: Colors.transparent),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderTextField(
-                        validator: FormBuilderValidators.required(context,
-                            errorText: "يجب اخيار باقة"),
-                        controller: _textEditingController,
-                        enabled: false,
-                        name: "plan_id",
-                        decoration: customformfielddecoration(
-                            labelText: "الباقة",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderTextField(
-                        keyboardType: TextInputType.number,
-                        validator: FormBuilderValidators.required(context),
-                        name: "phone",
-                        decoration: customformfielddecoration(
-                            prefixIcon: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "20+",
-                                  style: TextStyle(color: violet),
-                                ),
-                              ],
-                            ),
-                            labelText: "رقم الهاتف",
-                            context: context,
-                            border: Colors.grey,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: FormBuilderTextField(
-                          name: 'name',
+                      Card(
+                        color: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        child: FormBuilderTextField(
+                          name: 'description',
+                          maxLines: 5,
                           decoration: customformfielddecoration(
-                              labelText: "اسم المتجر",
+                              labelText: "وصف المتجر",
                               context: context,
                               border: Colors.grey,
                               color: Colors.white),
-                          validator: FormBuilderValidators.required(
-                            context,
-                            errorText: "بالرجاء ادخال اسم المتجر",
-                          )),
-                    ),
-                    Card(
-                      color: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      child: Container(
+                        ),
+                      ),
+                      Card(
+                        color: Colors.transparent,
+                        shadowColor: Colors.transparent,
                         child: FormBuilderTextField(
-                            name: 'username',
+                          name: "address",
+                          decoration: customformfielddecoration(
+                              labelText: "العنوان",
+                              context: context,
+                              border: Colors.grey,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Card(
+                        color: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        child: FormBuilderTextField(
+                          decoration: customformfielddecoration(
+                              labelText: "البريد الالكتروني",
+                              context: context,
+                              border: Colors.grey,
+                              color: Colors.white),
+                          name: "email",
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            child: CarouselSlider.builder(
+                                carouselController: _carouselController,
+                                options: CarouselOptions(
+                                    enableInfiniteScroll: false,
+                                    height: screenHeight(context) * 0.5),
+                                itemCount: plans.length,
+                                itemBuilder: (context, index, pageindex) {
+                                  late final discount;
+                                  if (plans[index]["discount"] != null) {
+                                    discount = (plans[index]["discount"] /
+                                            plans[index]["price"]) *
+                                        100;
+                                  }
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedPlan = plans[index]["id"];
+                                        _textEditingController.text =
+                                            plans[index]["name"];
+                                        _fbKey.currentState!.fields["plan_id"]!
+                                            // ignore: invalid_use_of_protected_member
+                                            .setValue(
+                                                plans[index]["id"].toString());
+                                      });
+                                    },
+                                    child: Card(
+                                      clipBehavior: Clip.hardEdge,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          side:
+                                              selectedPlan == plans[index]["id"]
+                                                  ? BorderSide(
+                                                      color: violet, width: 2)
+                                                  : BorderSide.none),
+                                      child: Column(
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              CachedNetworkImage(
+                                                fit: BoxFit.fill,
+                                                imageUrl: apiMockImage,
+                                                placeholder: (context, url) =>
+                                                    Image.asset(settings.images!
+                                                        .placeHolderImage),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Image.asset(settings
+                                                            .images!
+                                                            .placeHolderImage),
+                                              ),
+                                              plans[index]["discount"] != null
+                                                  ? Align(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .topEnd,
+                                                      child: FittedBox(
+                                                        fit: BoxFit.none,
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          color: Colors.red,
+                                                          child: AutoSizeText(
+                                                            "خصم " +
+                                                                "%" +
+                                                                discount
+                                                                    .toStringAsFixed(
+                                                                        1),
+                                                            maxLines: 1,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : SizedBox(),
+                                            ],
+                                          ),
+                                          ListTile(
+                                            title: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      plans[index]["name"],
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                    Text(plans[index]["price"]
+                                                            .toString() +
+                                                        " جم " +
+                                                        "(" +
+                                                        plans[index]["type"] +
+                                                        ")"),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height:
+                                                      screenHeight(context) *
+                                                          0.01,
+                                                )
+                                              ],
+                                            ),
+                                            subtitle: Text(
+                                              plans[index]["description"],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    screenWidth(context) *
+                                                        0.04),
+                                            child: customGeneralButton(
+                                                customOnPressed: () {
+                                                  Get.defaultDialog(
+                                                      title: "مواصفات الباقة",
+                                                      content: Column(
+                                                        children: plans[index]
+                                                                ["features"]
+                                                            .map<Widget>((e) =>
+                                                                Text(e[
+                                                                    "feature"]))
+                                                            .toList(),
+                                                      ));
+                                                },
+                                                context: context,
+                                                title: "موصفات",
+                                                primarycolor: violet,
+                                                titlecolor: Colors.white,
+                                                newIcon: Icon(Icons.info),
+                                                borderColor:
+                                                    Colors.transparent),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                      Card(
+                        color: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        child: FormBuilderTextField(
+                          validator: FormBuilderValidators.required(context,
+                              errorText: "يجب اخيار باقة"),
+                          controller: _textEditingController,
+                          enabled: false,
+                          name: "plan_id",
+                          decoration: customformfielddecoration(
+                              labelText: "الباقة",
+                              context: context,
+                              border: Colors.grey,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Card(
+                        color: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        child: FormBuilderTextField(
+                          keyboardType: TextInputType.number,
+                          validator: FormBuilderValidators.required(context),
+                          name: "phone",
+                          decoration: customformfielddecoration(
+                              prefixIcon: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "20+",
+                                    style: TextStyle(color: violet),
+                                  ),
+                                ],
+                              ),
+                              labelText: "رقم الهاتف",
+                              context: context,
+                              border: Colors.grey,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Card(
+                        color: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        child: FormBuilderTextField(
+                            name: 'name',
                             decoration: customformfielddecoration(
-                                labelText: "اسم المستخدم",
+                                labelText: "اسم المتجر",
                                 context: context,
                                 border: Colors.grey,
                                 color: Colors.white),
                             validator: FormBuilderValidators.required(
                               context,
-                              errorText: "بالرجاء ادخال اسم المستخدم",
+                              errorText: "بالرجاء ادخال اسم المتجر",
                             )),
                       ),
-                    ),
-                    Card(
+                      Card(
                         color: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        child: Text("اختار الصنف")),
-                    Card(
-                        color: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        child: FormBuilderFilterChip(
-                          name: 'categories',
-                          options: categories
-                              .map((e) => FormBuilderFieldOption(
-                                    value: e["id"],
-                                    child: Text(e["name"]),
-                                  ))
-                              .toList(),
-                        )),
-                    Card(
-                        color: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        child: Text("اختار العلامة")),
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () async {
-                              await loadMoreTags();
-                            },
-                            icon: isLoadingItems
-                                ? CircularProgressIndicator()
-                                : Icon(Icons.refresh)),
-                        Expanded(
-                          child: Card(
-                              color: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              child: FormBuilderFilterChip(
-                                name: 'tags',
-                                options: tags
-                                    .map((e) => FormBuilderFieldOption(
-                                          value: e["id"],
-                                          child: Text(e["name"]),
-                                        ))
-                                    .toList(),
+                        child: Container(
+                          child: FormBuilderTextField(
+                              name: 'username',
+                              decoration: customformfielddecoration(
+                                  labelText: "اسم المستخدم",
+                                  context: context,
+                                  border: Colors.grey,
+                                  color: Colors.white),
+                              validator: FormBuilderValidators.required(
+                                context,
+                                errorText: "بالرجاء ادخال اسم المستخدم",
                               )),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: screenHeight(context) * 0.03,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          gradient: new LinearGradient(colors: [
-                            Colors.blue.shade900,
-                            Colors.purple.shade900
-                          ])),
-                      child: customGeneralButton(
-                          customOnPressed: () {
-                            validation();
-                          },
-                          context: context,
-                          title: "اضف المتجر",
-                          primarycolor: Colors.transparent,
-                          titlecolor: Colors.white,
-                          newIcon: Icon(Icons.add),
-                          borderColor: Colors.transparent),
-                    )
-                  ],
+                      ),
+                      Card(
+                          color: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          child: Text("اختار الصنف")),
+                      Card(
+                          color: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          child: FormBuilderFilterChip(
+                            name: 'categories',
+                            options: categories
+                                .map((e) => FormBuilderFieldOption(
+                                      value: e["id"],
+                                      child: Text(e["name"]),
+                                    ))
+                                .toList(),
+                          )),
+                      Card(
+                          color: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          child: Text("اختار العلامة")),
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () async {
+                                await loadMoreTags();
+                              },
+                              icon: isLoadingItems
+                                  ? CircularProgressIndicator()
+                                  : Icon(Icons.refresh)),
+                          Expanded(
+                            child: Card(
+                                color: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                child: FormBuilderFilterChip(
+                                  name: 'tags',
+                                  options: tags
+                                      .map((e) => FormBuilderFieldOption(
+                                            value: e["id"],
+                                            child: Text(e["name"]),
+                                          ))
+                                      .toList(),
+                                )),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenHeight(context) * 0.03,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            gradient: new LinearGradient(colors: [
+                              Colors.blue.shade900,
+                              Colors.purple.shade900
+                            ])),
+                        child: customGeneralButton(
+                            customOnPressed: () async {
+                              await validation();
+                            },
+                            context: context,
+                            title: "اضف المتجر",
+                            primarycolor: Colors.transparent,
+                            titlecolor: Colors.white,
+                            newIcon: Icon(Icons.add),
+                            borderColor: Colors.transparent),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -409,13 +421,13 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
       setState(() {
         isLoading = !isLoading;
       });
-
       if (storeInfo["phone"][0] != "0") {
         setState(() {
           isLoading = !isLoading;
         });
         throw {Get.snackbar("خطأ", "هذا الرقم ليس صحيح")};
       }
+
       await requestAddStore(context: context, storeInfo: storeInfo);
       setState(() {
         isLoading = !isLoading;

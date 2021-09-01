@@ -16,7 +16,8 @@ import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+  final isVerifying;
+  const EditProfilePage({Key? key, this.isVerifying = false}) : super(key: key);
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
@@ -43,7 +44,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             context: context,
             title: "تعديل البينات الشخصية",
             onPressed: () {
-              Get.off(() => LoginScreen());
+              widget.isVerifying ? Get.off(() => LoginScreen()) : Get.back();
             }),
         body: Consumer(builder: (context, watch, child) {
           final state = watch(userStateManagment);

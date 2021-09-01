@@ -24,13 +24,12 @@ Future requestNewMessage(BuildContext context, int id, String message) async {
       data: {"store_id": id, "message": message},
       options: requestOptions,
     );
-    requestChats(context, 1, true);
-    print(response.data);
+    await requestChats(context, 1, true);
   } catch (e) {
-    print(e);
     if (e is DioError) {
       if (e.response!.statusCode == 422) {
       } else {
+        Get.back();
         Get.defaultDialog(title: "خطأ", middleText: "حدث خطأ");
       }
     }

@@ -46,10 +46,10 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                   ));
             },
             secondary: Icon(Icons.edit)),
-        body: Center(
-          child: Container(
-            padding:
-                EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.03),
+        body: Container(
+          padding:
+              EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.03),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -79,13 +79,15 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                   height: screenHeight(context) * 0.01,
                 ),
                 RichText(
-                  text: new TextSpan(
-                    children: widget.store["categories"]
-                        .map<TextSpan>((e) => TextSpan(
-                            text: "/" + e["name"].toString(),
-                            style: TextStyle(color: Colors.black)))
-                        .toList(),
-                  ),
+                  text: widget.store["categories"] != null
+                      ? new TextSpan(
+                          children: widget.store["categories"]
+                              .map<TextSpan>((e) => TextSpan(
+                                  text: "/" + e["name"].toString(),
+                                  style: TextStyle(color: Colors.black)))
+                              .toList(),
+                        )
+                      : TextSpan(),
                 ),
                 SizedBox(
                   height: screenHeight(context) * 0.03,
@@ -139,8 +141,7 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
-                Expanded(
-                    child: Container(
+                Container(
                   padding: EdgeInsets.only(top: 10),
                   child: AnimationLimiter(
                     child: Consumer(
@@ -148,6 +149,8 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                               T Function<T>(ProviderBase<Object?, T>) watch,
                               Widget? child) =>
                           GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       childAspectRatio: 0.40 / 0.6,
@@ -172,7 +175,7 @@ class _ViewMyStoreState extends State<ViewMyStore> {
                               }),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
           ),

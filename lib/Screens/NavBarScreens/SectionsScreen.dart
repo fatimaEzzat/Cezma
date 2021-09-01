@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_store/CustomWidgets/Decorations/SearchBarGradientDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SearchBar.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Screens/SecondaryScreens/CategoriesScreen.dart';
-import 'package:test_store/Variables/EndPoints.dart';
-import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 class SectionsScreen extends StatefulWidget {
@@ -20,6 +19,13 @@ class SectionsScreen extends StatefulWidget {
 }
 
 class _SectionsScreenState extends State<SectionsScreen> {
+  List filteredSections = [];
+  @override
+  void initState() {
+    filteredSections = context.read(categoriesStateManagment).categories;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final categories = context.read(categoriesStateManagment).categories;
@@ -32,17 +38,26 @@ class _SectionsScreenState extends State<SectionsScreen> {
             searchBarGradientDecoration(
                 context,
                 searchBar(
-                    context: context, color: Colors.white.withOpacity(0.5))),
+                    onChanged: (value) {
+                      setState(() {
+                        filteredSections = categories
+                            .where((element) => element["slug"].contains(value))
+                            .toList();
+                        print(filteredSections);
+                        if (value == "") {
+                          filteredSections = categories;
+                        }
+                      });
+                    },
+                    context: context,
+                    color: Colors.white.withOpacity(0.5))),
             Container(
-              // padding: EdgeInsets.all(screenWidth(context) * 0.02),
               child: AnimationLimiter(
                 child: GridView.builder(
                   shrinkWrap: true,
-                  itemCount: categories.length,
+                  itemCount: filteredSections.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      // crossAxisSpacing: screenWidth(context) * 0.02,
-                      crossAxisCount: 3,
-                      childAspectRatio: 0.85),
+                      crossAxisCount: 3, childAspectRatio: 0.85),
                   itemBuilder: (BuildContext context, int index) {
                     return AnimationConfiguration.staggeredGrid(
                       columnCount: 3,
@@ -53,8 +68,8 @@ class _SectionsScreenState extends State<SectionsScreen> {
                           child: GestureDetector(
                             onTap: () {
                               Get.to(() => CategoriesScreen(
-                                  slug: categories[index]["slug"],
-                                  id: categories[index]["id"]));
+                                  slug: filteredSections[index]["slug"],
+                                  id: filteredSections[index]["id"]));
                             },
                             child: Card(
                               elevation: 0.4,
@@ -66,7 +81,7 @@ class _SectionsScreenState extends State<SectionsScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Text(categories[index]["name"])
+                                  Text(filteredSections[index]["name"])
                                 ],
                               ),
                             ),

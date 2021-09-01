@@ -21,10 +21,19 @@ class CustomSplashScreen extends StatelessWidget {
             colors: [Colors.blue.shade900, Colors.purple.shade900]),
       ),
       child: AnimatedSplashScreen.withScreenFunction(
-        splash: SvgPicture.asset(
-          "Assets/Logos/SplashScreenLogo.svg",
-          height: screenHeight(context) * 0.2,
+        splash: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              "Assets/Logos/SplashScreenLogo.svg",
+              height: screenHeight(context) * 0.15,
+            ),
+            CircularProgressIndicator(
+              color: Colors.white,
+            )
+          ],
         ),
+        splashIconSize: screenHeight(context) * 0.5,
         backgroundColor: Colors.transparent,
         screenFunction: () async {
           await SharedPreferences.getInstance().then((sharedvalue) async {
@@ -40,7 +49,9 @@ class CustomSplashScreen extends StatelessWidget {
           if (context.read(userStateManagment).userInfo!.firstName != null) {
             return CustomNavigationBar();
           } else {
-            return EditProfilePage();
+            return EditProfilePage(
+              isVerifying: true,
+            );
           }
         },
       ),

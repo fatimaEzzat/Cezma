@@ -42,12 +42,11 @@ class _ViewStoreState extends State<ViewStore> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: secondaryAppBar(context: context, title: widget.store["name"]),
-        body: Center(
-          child: Container(
-            padding:
-                EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.03),
+        body: Container(
+          padding:
+              EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.03),
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
                   height: screenHeight(context) * 0.04,
@@ -104,8 +103,6 @@ class _ViewStoreState extends State<ViewStore> {
                                   ),
                                   customGeneralButton(
                                       customOnPressed: () async {
-                                        print(widget.store["id"]);
-                                        print(message);
                                         await requestNewMessage(context,
                                             widget.store["id"], message);
                                       },
@@ -167,8 +164,7 @@ class _ViewStoreState extends State<ViewStore> {
                 SizedBox(
                   height: screenHeight(context) * 0.03,
                 ),
-                Expanded(
-                    child: Container(
+                Container(
                   padding: EdgeInsets.only(top: 10),
                   child: AnimationLimiter(
                     child: Consumer(
@@ -176,8 +172,9 @@ class _ViewStoreState extends State<ViewStore> {
                               T Function<T>(ProviderBase<Object?, T>) watch,
                               Widget? child) =>
                           GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              primary: false,
+                         
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       childAspectRatio: 0.40 / 0.6,
@@ -202,7 +199,7 @@ class _ViewStoreState extends State<ViewStore> {
                               }),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
           ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final searchedProductsStateManagement =
-    ChangeNotifierProvider<SearchedProducts>((ref) => SearchedProducts());
+final searchedItemsStateManagement =
+    ChangeNotifierProvider<SearchedItems>((ref) => SearchedItems());
 
-class SearchedProducts extends ChangeNotifier {
-  List searchedProducts = [];
-  int currentSearchedProductPage = 1;
-  late int currentSearchedProductTotalPages;
+class SearchedItems extends ChangeNotifier {
+  Map searchedItems = {};
+  int currentSearchedItemPage = 1;
+  late int currentSearchedItemTotalPages;
   bool isSearching = false;
 
   void setIsSearching() {
@@ -15,13 +15,13 @@ class SearchedProducts extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearSearchedProducts() {
-    searchedProducts.clear();
+  void clearSearchedItems() {
+    searchedItems.clear();
     notifyListeners();
   }
 
-  void addToSearchedProducts(List input) {
-    searchedProducts.addAll(input);
+  void addToSearchedItems(Map input) {
+    searchedItems = input;
     notifyListeners();
   }
 }

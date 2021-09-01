@@ -11,6 +11,7 @@ import 'package:test_store/Logic/ApiRequests/CategoriesRequest/CategoryStoresReq
 import 'package:test_store/Logic/ApiRequests/StoresRequest/StoresRequest.dart';
 import 'package:test_store/Logic/StateManagment/CategoriesState.dart';
 import 'package:test_store/Logic/StateManagment/StoresState.dart';
+import 'package:test_store/Screens/SecondaryScreens/SearchScreen.dart';
 import 'package:test_store/Screens/StoreScreens/StoreTransition.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
@@ -196,7 +197,11 @@ class _StoresScreenState extends State<StoresScreen> {
                   height: screenHeight(context) * 0.02,
                 ),
                 searchBar(
-                    context: context, color: Colors.grey.withOpacity(0.3)),
+                    context: context,
+                    color: Colors.grey.withOpacity(0.3),
+                    onTap: () {
+                      Get.to(() => SearchScreen());
+                    }),
                 SizedBox(
                   height: screenHeight(context) * 0.02,
                 ),
