@@ -105,6 +105,7 @@ class _ViewStoreState extends State<ViewStore> {
                                       customOnPressed: () async {
                                         await requestNewMessage(context,
                                             widget.store["id"], message);
+                                        Get.back();
                                       },
                                       context: context,
                                       title: "ارسل",
@@ -174,7 +175,6 @@ class _ViewStoreState extends State<ViewStore> {
                           GridView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                         
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       childAspectRatio: 0.40 / 0.6,

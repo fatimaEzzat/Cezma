@@ -1,6 +1,6 @@
 const String apiMockImage =
     "https://cdn.pixabay.com/photo/2021/06/27/14/32/raspberry-6368999_1280.png";
-const String apiBaseUrl = "https://cezma.3x1.io/";
+const String apiBaseUrl = "https://www.cezma.com/";
 const String apiLoginUrl = apiBaseUrl + "api/login";
 const String apiProductsUrl = apiBaseUrl + "api/products";
 const String apiOrdesrUrl = apiBaseUrl + "api/orders?customer_id=";
