@@ -9,11 +9,14 @@ import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 class OrderPageScreen extends StatelessWidget {
-  final int index;
-  final String id;
+  final orders;
   final total;
+  final statues;
   const OrderPageScreen(
-      {Key? key, required this.index, required this.id, required this.total})
+      {Key? key,
+      required this.orders,
+      required this.total,
+      required this.statues})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -35,29 +38,15 @@ class OrderPageScreen extends StatelessWidget {
         body: Consumer(
           builder: (BuildContext context,
               T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
-            final ordersState = watch(ordersStateManagment);
             return Column(
               children: [
                 Expanded(
                   child: ListView.builder(
-                      itemCount: ordersState.orders[index]["items"].length,
+                      itemCount: orders.length,
                       itemBuilder: (context, listindex) {
-                        final item = ordersState.orders[index]["items"]
-                            [listindex]["product_id"];
+                        final item = orders[listindex]["products"][0];
                         return Card(
                           child: ListTile(
-                            leading: Container(
-                              width: screenWidth(context) * 0.2,
-                              child: CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                imageUrl: apiBaseUrl + item["images"][0],
-                                placeholder: (context, url) => Image.asset(
-                                    "settings.images!.placeHolderImage.jpeg"),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                        settings.images!.placeHolderImage),
-                              ),
-                            ),
                             title: Text(item["name"]),
                             subtitle: new RichText(
                               text: new TextSpan(
@@ -86,6 +75,8 @@ class OrderPageScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            trailing: Text(
+                                orders[listindex]["qnt"].toString() + " x"),
                           ),
                         );
                       }),
@@ -102,41 +93,20 @@ class OrderPageScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         trailing: Text(
-                          total,
+                          total.toString(),
                           style:
                               TextStyle(fontSize: screenWidth(context) * 0.05),
                         ),
                       ),
                     ),
                     ListTile(
-                      title: Text(
-                        'حالة الطلب',
-                        style: TextStyle(
-                            fontSize: screenWidth(context) * 0.067,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      trailing: FutureBuilder(
-                        future: requestOrderStatus(
-                            context.read(userStateManagment).userToken!, id),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data["status"],
-                              style: TextStyle(
-                                  fontSize: screenWidth(context) * 0.07),
-                            );
-                          }
-                          if (snapshot.hasError) {
-                            return Text(snapshot.error.toString());
-                          } else {
-                            return CircularProgressIndicator(
-                              color: settings.theme!.secondary,
-                            );
-                          }
-                        },
-                      ),
-                    ),
+                        title: Text(
+                          'حالة الطلب',
+                          style: TextStyle(
+                              fontSize: screenWidth(context) * 0.067,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        trailing: Text(statues.toString())),
                   ],
                 ))
               ],

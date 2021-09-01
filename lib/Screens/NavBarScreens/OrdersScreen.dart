@@ -58,13 +58,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           Navigator.push(context, MaterialPageRoute(
                               builder: (BuildContext context) {
                             return OrderPageScreen(
-                                index: index,
-                                id: ordersState.orders[index]["id"].toString(),
-                                total: ordersState.orders[index]["total"]
-                                        .toString() +
-                                    " جم");
+                              orders: ordersState.orders[index]["carts"],
+                              statues: ordersState.orders[index]["status"],
+                              total: ordersState.orders[index]["total"],
+                            );
                           }));
                         },
+                        trailing: Text(
+                            ordersState.orders[index]["status"].toString()),
                         title: Text("رقم الطلب:  " +
                             ordersState.orders[index]["id"].toString()),
                         subtitle: Text(

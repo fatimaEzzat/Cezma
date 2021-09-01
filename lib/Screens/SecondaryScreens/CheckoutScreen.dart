@@ -14,6 +14,7 @@ import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/CountriesState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Models/UserModel.dart';
+import 'package:test_store/Screens/NavBarScreens/NavigationBar.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
@@ -295,12 +296,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       try {
         await requestCheckout(checkout, context);
         Get.defaultDialog(
+            barrierDismissible: false,
             title: "تم",
             middleText: "تم وضع طلبك بنجاح",
             confirmTextColor: Colors.white,
             buttonColor: violet,
+            textConfirm: "اكمل التسوق   ",
             onConfirm: () {
-              Get.back();
+              Get.offAll(() => CustomNavigationBar());
             });
       } catch (e) {
         if (e is DioError) {
