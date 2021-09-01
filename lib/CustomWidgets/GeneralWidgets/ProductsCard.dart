@@ -120,7 +120,7 @@ Widget productsCard({required BuildContext context, required currentItem}) {
                                         wishListState.getIdFromWishList(
                                             currentItem["id"]))
                                     : requestAddToWishList(
-                                        context, currentItem["id"]);
+                                        context, currentItem);
                               },
                               icon: Icon(Icons.favorite)),
                         );

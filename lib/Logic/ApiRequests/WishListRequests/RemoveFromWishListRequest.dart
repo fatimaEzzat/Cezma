@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/ApiRequests/WishListRequests/WishListRequest.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
+import 'package:test_store/Logic/StateManagment/WishListState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
 Future requestRemoveFromWishList(BuildContext context, int itemId) async {
@@ -16,9 +17,9 @@ Future requestRemoveFromWishList(BuildContext context, int itemId) async {
       'Charset': 'utf-8'
     },
   );
-
+  context.read(wishListtateManagment).removeFromWishList(itemId);
   try {
-    var response = await dio.delete(
+    await dio.delete(
       apiWishListUrl + "/" + itemId.toString() + "/delete",
       options: requestOptions,
     );

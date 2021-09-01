@@ -19,6 +19,18 @@ class WishListState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeFromWishList(int itemId) {
+    wishList.removeWhere((element) => element["id"] == itemId);
+    notifyListeners();
+  }
+
+  void addRealTimeItemToWishList(Map item) {
+    wishList.add({
+      "products": [item]
+    });
+    notifyListeners();
+  }
+
   bool checkInWishList(int id) {
     try {
       if (wishList
@@ -33,7 +45,8 @@ class WishListState extends ChangeNotifier {
     }
   }
 
-   getIdFromWishList(int id) {
-   return wishList.firstWhere((element) => element["products"][0]["id"]==id)["id"];
+  getIdFromWishList(int id) {
+    return wishList
+        .firstWhere((element) => element["products"][0]["id"] == id)["id"];
   }
 }
