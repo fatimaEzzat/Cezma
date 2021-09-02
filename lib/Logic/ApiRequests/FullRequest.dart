@@ -37,9 +37,6 @@ Future firstSuperRequest(
   await requestChats(context, 1, true);
   await requestWishList(context, true);
   await requestUserOrders(pageNumber, context, true);
-  // await requestProducts(userToken, context, pageNumber, true);
-  // await requestAds(pageNumber, context, true);
-  // await requestShowCountry(userToken, context);
   await requestUserInfo(userToken, context);
   // await requestCategoryProducts("", 1, context, true);
 }

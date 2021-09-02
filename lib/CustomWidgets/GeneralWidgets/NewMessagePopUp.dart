@@ -26,9 +26,9 @@ newMessagePopUp(BuildContext context, storeId) async {
           customGeneralButton(
               customOnPressed: () async {
                 await requestNewMessage(context, storeId, message);
-                Get.back();
-                Get.defaultDialog(
-                    title: "تم", middleText: "تم ارسال الرسالة للمتجر");
+                // Get.back();
+                // Get.defaultDialog(
+                //     title: "تم", middleText: "تم ارسال الرسالة للمتجر");
               },
               context: context,
               title: "ارسل",

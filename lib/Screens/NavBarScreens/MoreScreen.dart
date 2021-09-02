@@ -112,10 +112,7 @@ class _MoreScreenState extends State<MoreScreen>
                         horizontal: screenWidth(context) * 0.14),
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return AddStoreScreen();
-                        }));
+                        Get.to(() => AddStoreScreen());
                       },
                       icon: Icon(Icons.add_circle, color: violet),
                       label: Text(
@@ -141,10 +138,7 @@ class _MoreScreenState extends State<MoreScreen>
                     title: Text("الصفحة الشخصية"),
                     trailing: IconButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return ProfileScreen();
-                          }));
+                          Get.to(() => ProfileScreen());
                         },
                         icon: Icon(
                           Icons.arrow_forward_ios,

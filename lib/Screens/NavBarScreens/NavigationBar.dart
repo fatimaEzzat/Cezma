@@ -1,16 +1,14 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
-import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
-import 'package:test_store/Logic/ApiRequests/PlansRequest.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/OrdersScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/SectionsScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/StoresScreen.dart';
-import 'package:test_store/Screens/SecondaryScreens/PlansScreen.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -63,48 +61,53 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        body: IndexedStack(
-          index: _currentIndex,
-          children: <Widget>[
-            Navigator(
-              key: _profileScreen,
-              onGenerateRoute: (route) => MaterialPageRoute(
-                settings: route,
-                fullscreenDialog: true,
-                builder: (context) {
-                  return MoreScreen();
-                },
+        body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text("اضغط مرتين للخروج"),
+          ),
+          child: IndexedStack(
+            index: _currentIndex,
+            children: <Widget>[
+              Navigator(
+                key: _profileScreen,
+                onGenerateRoute: (route) => MaterialPageRoute(
+                  settings: route,
+                  fullscreenDialog: true,
+                  builder: (context) {
+                    return MoreScreen();
+                  },
+                ),
               ),
-            ),
-            Navigator(
-              key: _ordersScreen,
-              onGenerateRoute: (route) => MaterialPageRoute(
-                settings: route,
-                builder: (context) => OrdersScreen(),
+              Navigator(
+                key: _ordersScreen,
+                onGenerateRoute: (route) => MaterialPageRoute(
+                  settings: route,
+                  builder: (context) => OrdersScreen(),
+                ),
               ),
-            ),
-            Navigator(
-              key: _categoriesScreen,
-              onGenerateRoute: (route) => MaterialPageRoute(
-                settings: route,
-                builder: (context) => SectionsScreen(),
+              Navigator(
+                key: _categoriesScreen,
+                onGenerateRoute: (route) => MaterialPageRoute(
+                  settings: route,
+                  builder: (context) => SectionsScreen(),
+                ),
               ),
-            ),
-            Navigator(
-              key: _storesScreen,
-              onGenerateRoute: (route) => MaterialPageRoute(
-                settings: route,
-                builder: (context) => StoresScreen(),
+              Navigator(
+                key: _storesScreen,
+                onGenerateRoute: (route) => MaterialPageRoute(
+                  settings: route,
+                  builder: (context) => StoresScreen(),
+                ),
               ),
-            ),
-            Navigator(
-              key: _homeScreen,
-              onGenerateRoute: (route) => MaterialPageRoute(
-                settings: route,
-                builder: (context) => HomeScreen(),
+              Navigator(
+                key: _homeScreen,
+                onGenerateRoute: (route) => MaterialPageRoute(
+                  settings: route,
+                  builder: (context) => HomeScreen(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: settings.theme!.secondary,

@@ -83,44 +83,7 @@ class _ViewStoreState extends State<ViewStore> {
                       style: ElevatedButton.styleFrom(
                           primary: Colors.transparent, elevation: 0),
                       onPressed: () {
-                        Get.defaultDialog(
-                            title: "اكتب رسالتك",
-                            content: FormBuilder(
-                              key: _formkey,
-                              child: Column(
-                                children: [
-                                  FormBuilderTextField(
-                                    validator:
-                                        FormBuilderValidators.required(context),
-                                    cursorColor: violet,
-                                    name: "nessage",
-                                    maxLines: 4,
-                                    onChanged: (value) {
-                                      message = value!;
-                                    },
-                                    decoration: customformfielddecoration(
-                                        context: context,
-                                        color: Colors.grey.shade200),
-                                  ),
-                                  customGeneralButton(
-                                      customOnPressed: () async {
-                                        newMessagePopUp(
-                                            context, widget.store["id"]);
-                                        Get.back();
-                                        Get.defaultDialog(
-                                            title: "تم",
-                                            middleText:
-                                                "تم ارسال الرسالة للمتجر");
-                                      },
-                                      context: context,
-                                      title: "ارسل",
-                                      primarycolor: violet,
-                                      titlecolor: Colors.white,
-                                      newIcon: Icon(Icons.send),
-                                      borderColor: Colors.transparent)
-                                ],
-                              ),
-                            ));
+                        newMessagePopUp(context, widget.store["id"]);
                       },
                       icon: Icon(Icons.chat_bubble_rounded),
                       label: Text("محادثة المتجر")),

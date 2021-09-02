@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/PrimaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/OrdersRequests/Orders.dart';
@@ -74,14 +75,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         return Card(
                           child: ListTile(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return OrderPageScreen(
-                                  orders: ordersState.orders[index]["carts"],
-                                  statues: ordersState.orders[index]["status"],
-                                  total: ordersState.orders[index]["total"],
-                                );
-                              }));
+                              Get.to(() => OrderPageScreen(
+                                    orders: ordersState.orders[index]["carts"],
+                                    statues: ordersState.orders[index]
+                                        ["status"],
+                                    total: ordersState.orders[index]["total"],
+                                  ));
                             },
                             trailing: Text(
                                 ordersState.orders[index]["status"].toString()),

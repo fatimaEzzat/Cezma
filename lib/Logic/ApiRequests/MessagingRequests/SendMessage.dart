@@ -25,7 +25,7 @@ Future requestNewMessage(BuildContext context, int id, String message) async {
       options: requestOptions,
     );
     await requestChats(context, 1, true);
-  } catch (e) {
+  } on Exception catch (e) {
     if (e is DioError) {
       if (e.response!.statusCode == 422) {
       } else {

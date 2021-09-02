@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/addToCartButton.dart';
 import 'package:test_store/Logic/ApiRequests/WishListRequests/AddToWishListRequest.dart';
@@ -20,10 +21,7 @@ Widget productsCard({required BuildContext context, required currentItem}) {
 
   return InkWell(
     onTap: () {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) {
-        return ProductViewScreen(product: currentItem);
-      }));
+      Get.to(() => ProductViewScreen(product: currentItem));
     },
     child: Center(
       child: Card(

@@ -25,7 +25,7 @@ class WishListScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "Images/broken-heart.png",
+                        "Assets/Images/broken-heart.png",
                         scale: screenWidth(context) * 0.01,
                       ),
                       Text(
@@ -45,7 +45,7 @@ class WishListScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final currentItem =
                               wishListState[index]["products"][0];
-                          final itemIndex = index;
+
                           return Center(
                               child: InkWell(
                                   onTap: () {

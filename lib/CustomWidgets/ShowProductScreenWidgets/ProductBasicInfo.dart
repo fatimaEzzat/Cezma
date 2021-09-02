@@ -4,12 +4,17 @@ import 'package:test_store/Variables/Settings.dart';
 
 ListTile productBasicInfo({required product, required context}) {
   double discountPercentage = 0;
+  double totalAmount = 0;
+  double vat = 0;
   final price = product["price"];
   final discountAmount = product["discount"];
-  if (discountAmount != 0 && discountAmount != null) {
+  if (discountAmount != 0) {
     discountPercentage = ((discountAmount! / price) * 100).toDouble();
+    if (product["vat"] != null) {
+      vat = product["vat"];
+    }
+    totalAmount = price - discountAmount - vat;
   }
-  print(discountPercentage);
   return ListTile(
     title: Text(
       product["name"],
@@ -19,7 +24,10 @@ ListTile productBasicInfo({required product, required context}) {
       text: new TextSpan(
         children: <TextSpan>[
           new TextSpan(
-            text: " جم " + price.toString(),
+            text: " جم " +
+                (discountAmount == 0
+                    ? price.toString()
+                    : totalAmount.toString()),
             style: new TextStyle(
                 color: settings.theme!.secondary,
                 fontSize: screenWidth(context) * 0.05),

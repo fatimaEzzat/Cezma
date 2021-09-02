@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/ApiRequests/WishListRequests/WishListRequest.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
@@ -25,10 +24,6 @@ Future requestRemoveFromWishList(BuildContext context, int itemId) async {
     );
     await requestWishList(context, true);
   } on Exception catch (e) {
-    if (e is DioError) {
-      Get.defaultDialog(title: "خطأ", middleText: e.message);
-    } else {
-      print(e);
-    }
+    if (e is DioError) {}
   }
 }

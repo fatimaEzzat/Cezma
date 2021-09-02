@@ -221,9 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          print(0 % 5);
-        }),
       ),
     );
   }

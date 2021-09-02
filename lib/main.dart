@@ -8,6 +8,7 @@ import 'package:test_store/Logic/MISC/LoadLocalAppSettings.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Screens/SecondaryScreens/SplashScreen.dart';
 import 'Variables/Settings.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -10,12 +10,7 @@ class WishListState extends ChangeNotifier {
   int lastWishListPage = 0;
 
   addToWishList(List inputs) async {
-    wishList.addAll(inputs);
-    notifyListeners();
-  }
-
-  cleanWishList() {
-    wishList.clear();
+    wishList=inputs;
     notifyListeners();
   }
 

@@ -23,10 +23,12 @@ Future requestWishList(BuildContext context, isRefresh) async {
       apiWishListUrl,
       options: requestOptions,
     );
-    if (isRefresh) {
-      wishListState.cleanWishList();
+
+    if (response.data["data"].isEmpty) {
+      wishListState.addToWishList([]);
+    } else {
+      wishListState.addToWishList(response.data["data"]["wishlist"]);
     }
-    wishListState.addToWishList(response.data["data"]["wishlist"]);
   } catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "خطأ", middleText: "حدث خطأ");
