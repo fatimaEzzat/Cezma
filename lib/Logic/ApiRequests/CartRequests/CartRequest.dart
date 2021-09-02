@@ -21,23 +21,18 @@ Future requestCart(BuildContext context, isRefresh, int currentPage) async {
   try {
     var response = await dio.get(
       apiCartUrl,
+      queryParameters: {"page": currentPage},
       options: requestOptions,
     );
     if (isRefresh) {
       context.read(cartStateManagment).cleanCart();
+      context.read(cartStateManagment).cartTotalPayment = 0;
     }
     if (response.data["data"].isEmpty) {
       context.read(cartStateManagment).cleanCart();
     } else {
-      _cartState.addToCart(response.data["data"]["cart"]["data"]);
-      _cartState.currentCartPage = ++currentPage;
-      _cartState.lastCartPage = response.data["data"]["cart"]["last_page"];
-      List temp = response.data["data"]["cart"]["data"];
-      double totalAmount = 0;
-      temp.forEach((element) {
-        totalAmount += element["total"];
-        _cartState.setCartTotalPayment(totalAmount);
-      });
+      _cartState.addToCart(response.data["data"]["cart"]);
+      context.read(cartStateManagment).setCartTotalPayment();
     }
   } on Exception catch (e) {
     if (e is DioError) {

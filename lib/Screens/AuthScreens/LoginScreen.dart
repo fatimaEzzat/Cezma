@@ -164,9 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
           contextm.read(userStateManagment).setIsLoggingIn();
           if (e is DioError) {
             Get.snackbar(
-                "Error",
+                "خطا",
                 e.response!.statusCode == 403
-                    ? "Wrong Username or Email"
+                    ? "لم يتم التعرف علي المدخلات, تاكد من المعلومات و حوال مجددا"
                     : "Unkown Error");
           }
         }

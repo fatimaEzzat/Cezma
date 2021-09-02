@@ -3,12 +3,13 @@ import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:test_store/Variables/Settings.dart';
 
 ListTile productBasicInfo({required product, required context}) {
-  int discountPercentage = 0;
+  double discountPercentage = 0;
   final price = product["price"];
   final discountAmount = product["discount"];
-  if (discountAmount != null) {
-    discountPercentage = ((discountAmount! / price) * 100).toInt();
+  if (discountAmount != 0 && discountAmount != null) {
+    discountPercentage = ((discountAmount! / price) * 100).toDouble();
   }
+  print(discountPercentage);
   return ListTile(
     title: Text(
       product["name"],
@@ -29,7 +30,7 @@ ListTile productBasicInfo({required product, required context}) {
               color: settings.theme!.secondary,
             ),
           ),
-          discountAmount != null
+          discountAmount != 0
               ? new TextSpan(
                   text: price.toString(),
                   style: new TextStyle(
@@ -58,12 +59,12 @@ ListTile productBasicInfo({required product, required context}) {
                   ],
                 ))
             : SizedBox(),
-        discountAmount != null
+        discountAmount != 0
             ? Container(
                 padding: EdgeInsets.all(5),
                 color: Colors.red,
                 child: Text(
-                  "خصم " + "%" + discountPercentage.toString(),
+                  "خصم " + "%" + discountPercentage.toStringAsFixed(2),
                   style: TextStyle(color: Colors.white),
                 ),
               )

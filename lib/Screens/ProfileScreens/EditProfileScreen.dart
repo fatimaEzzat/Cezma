@@ -177,33 +177,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ],
                   )),
                 ),
-                Card(
-                  elevation: 0.2,
-                  child: ListTile(
-                    title: Text("كلمة السر"),
-                    subtitle: TextFormField(
-                      obscureText: true,
-                      initialValue: _userPassword,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: offwhite,
-                        hintText: "كلمة السر",
-                        labelStyle: TextStyle(),
-                        contentPadding: EdgeInsets.only(
-                            top: height * 0.04, right: width * 0.05),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                BorderSide(color: settings.theme!.secondary)),
-                      ),
-                    ),
-                  ),
-                ),
                 Container(
                   height: screenHeight(context) * 0.045,
                   decoration: new BoxDecoration(
@@ -250,7 +223,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future validation() async {
-    var pref = await SharedPreferences.getInstance();
     if (_formkey.currentState!.validate()) {
       _formkey.currentState!.save();
       var editInfo = _formkey.currentState!.value;
@@ -266,7 +238,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Get.defaultDialog(
                   title: "جاري التنفيذ",
                   content: CircularProgressIndicator(
-                    color: settings.theme!.secondary,
+                    color: violet,
                   ),
                   barrierDismissible: false);
               await requestChangeInfo(
@@ -282,7 +254,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 confirmTextColor: Colors.white,
                 onConfirm: () {
                   _formkey.currentState!.reset();
-                  Get.off(() => CustomNavigationBar());
+
+                  Get.offAll(() => CustomNavigationBar());
                 },
               );
             } on Exception catch (e) {

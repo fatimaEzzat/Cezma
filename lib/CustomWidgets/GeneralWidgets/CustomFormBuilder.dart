@@ -35,10 +35,14 @@ Widget customformfield(
                     obsecure: null,
                     color: offwhite),
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(context),
-                  FormBuilderValidators.integer(context),
-                  FormBuilderValidators.minLength(context, 11),
-                  FormBuilderValidators.maxLength(context, 11)
+                  FormBuilderValidators.required(context,
+                      errorText: "الرجاء ادخال الرقم"),
+                  FormBuilderValidators.integer(context,
+                      errorText: "خطا في المدخلات"),
+                  FormBuilderValidators.minLength(context, 11,
+                      errorText: "يجب ان يكون الرقم علي الاقل ١١ رقم"),
+                  FormBuilderValidators.maxLength(context, 11,
+                      errorText: "يجب علي الرقم ان يكون ١١ رقم")
                 ])),
           ),
         ),
@@ -88,8 +92,8 @@ Widget customformfield(
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: FormBuilderCheckbox(
-                    checkColor: settings.theme!.primary,
-                    activeColor: settings.theme!.secondary,
+                    checkColor: Colors.white,
+                    activeColor: violet,
                     name: "rememberme",
                     title: Text(
                       "تذكرني",

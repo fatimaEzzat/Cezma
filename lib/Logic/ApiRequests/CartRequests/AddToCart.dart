@@ -25,7 +25,6 @@ Future requestAddToCart(BuildContext context, Map product) async {
       data: info,
       options: requestOptions,
     );
-
     await requestCart(context, true, 1);
   } on Exception catch (e) {
     if (e is DioError) {

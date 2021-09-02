@@ -34,181 +34,196 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var width = screenWidth(context);
     var height = screenHeight(context);
-    final homeAds = context.read(homeStateManagment).homeAds;
-    final homeStores = context.read(homeStateManagment).homeStores;
-    final homeProducts = context.read(homeStateManagment).homeProducts;
-    final homeSliders = context.read(homeStateManagment).homeSliders;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: primaryAppBar(context: context),
-        body: Column(
-          children: [
-            Container(
-                padding: EdgeInsets.only(
-                    bottom: screenHeight(context) * 0.01,
-                    right: screenWidth(context) * 0.03,
-                    left: screenWidth(context) * 0.03),
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [Colors.blue.shade900, Colors.purple.shade900]),
-                ),
-                child: searchBar(
-                    color: Colors.white.withOpacity(0.5),
-                    context: context,
-                    onTap: () {
-                      Get.to(() => SearchScreen());
-                    })),
-            SizedBox(
-              height: screenHeight(context) * 0.01,
-            ),
-            Expanded(
-              child: SmartRefresher(
-                controller: _refreshController,
-                onRefresh: () {
-                  requestHome(context: context)
-                      .then((value) => _refreshController.refreshCompleted());
-                },
-                child: CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      backgroundColor: Colors.transparent,
-                      expandedHeight: height * 0.3,
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Container(
-                          color: settings.theme!.primary,
-                          child: CarouselSlider.builder(
-                              carouselController: _carouselController,
-                              options: CarouselOptions(
-                                  height: 400.0, enlargeCenterPage: true),
-                              itemCount: homeSliders.length,
-                              itemBuilder: (context, index, pageindex) =>
-                                  Container(
-                                    width: width,
-                                    child: CachedNetworkImage(
-                                      fit: BoxFit.fill,
-                                      imageUrl: homeSliders[index]["image"],
-                                      placeholder: (context, url) =>
-                                          Image.asset(settings
-                                              .images!.placeHolderImage),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(settings
-                                              .images!.placeHolderImage),
-                                    ),
-                                  )),
-                        ),
-                      ),
+        body: Consumer(
+          builder: (BuildContext context,
+              T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
+            final homeAds = watch(homeStateManagment).homeAds;
+            final homeStores = watch(homeStateManagment).homeStores;
+            final homeProducts = watch(homeStateManagment).homeProducts;
+            final homeSliders = watch(homeStateManagment).homeSliders;
+            return Column(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(
+                        bottom: screenHeight(context) * 0.01,
+                        right: screenWidth(context) * 0.03,
+                        left: screenWidth(context) * 0.03),
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(colors: [
+                        Colors.blue.shade900,
+                        Colors.purple.shade900
+                      ]),
                     ),
-                    SliverToBoxAdapter(
-                        child: AnimationLimiter(
-                            child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: screenHeight(context) * 0.015,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CachedNetworkImage(
-                              width: screenWidth(context) * 0.45,
-                              height: screenHeight(context) * 0.11,
-                              fit: BoxFit.fill,
-                              imageUrl: homeAds[0]["image"],
-                              placeholder: (context, url) => Image.asset(
-                                  settings.images!.placeHolderImage),
-                              errorWidget: (context, url, error) => Image.asset(
-                                  settings.images!.placeHolderImage),
+                    child: searchBar(
+                        color: Colors.white.withOpacity(0.5),
+                        context: context,
+                        onTap: () {
+                          Get.to(() => SearchScreen());
+                        })),
+                SizedBox(
+                  height: screenHeight(context) * 0.01,
+                ),
+                Expanded(
+                  child: SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: () {
+                      requestHome(context: context).then(
+                          (value) => _refreshController.refreshCompleted());
+                    },
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverAppBar(
+                          backgroundColor: Colors.transparent,
+                          expandedHeight: height * 0.3,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Container(
+                              color: settings.theme!.primary,
+                              child: CarouselSlider.builder(
+                                  carouselController: _carouselController,
+                                  options: CarouselOptions(
+                                      height: 400.0, enlargeCenterPage: true),
+                                  itemCount: homeSliders.length,
+                                  itemBuilder: (context, index, pageindex) =>
+                                      Container(
+                                        width: width,
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.fill,
+                                          imageUrl: homeSliders[index]["image"],
+                                          placeholder: (context, url) =>
+                                              Image.asset(settings
+                                                  .images!.placeHolderImage),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(settings
+                                                  .images!.placeHolderImage),
+                                        ),
+                                      )),
                             ),
-                            CachedNetworkImage(
-                              width: screenWidth(context) * 0.45,
-                              height: screenHeight(context) * 0.11,
-                              fit: BoxFit.fill,
-                              imageUrl: homeAds[1]["image"],
-                              placeholder: (context, url) => Image.asset(
-                                settings.images!.placeHolderImage,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                            child: AnimationLimiter(
+                                child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: screenHeight(context) * 0.015,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CachedNetworkImage(
+                                  width: screenWidth(context) * 0.45,
+                                  height: screenHeight(context) * 0.11,
+                                  fit: BoxFit.fill,
+                                  imageUrl: homeAds[0]["image"],
+                                  placeholder: (context, url) => Image.asset(
+                                      settings.images!.placeHolderImage),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                          settings.images!.placeHolderImage),
+                                ),
+                                CachedNetworkImage(
+                                  width: screenWidth(context) * 0.45,
+                                  height: screenHeight(context) * 0.11,
+                                  fit: BoxFit.fill,
+                                  imageUrl: homeAds[1]["image"],
+                                  placeholder: (context, url) => Image.asset(
+                                    settings.images!.placeHolderImage,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    settings.images!.placeHolderImage,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: screenHeight(context) * 0.012,
+                            ),
+                            Container(
+                              alignment: AlignmentDirectional.centerStart,
+                              padding: EdgeInsets.only(
+                                  right: screenWidth(context) * 0.04),
+                              child: Text(
+                                "ابرز المتاجر",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenWidth(context) * 0.04),
                               ),
-                              errorWidget: (context, url, error) => Image.asset(
-                                settings.images!.placeHolderImage,
+                            ),
+                            SizedBox(
+                              height: screenHeight(context) * 0.01,
+                            ),
+                            Container(
+                              height: screenHeight(context) * 0.15,
+                              width: screenWidth(context) * 0.95,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: homeStores.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return homeStoreCard(
+                                      context, homeStores, index);
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: screenHeight(context) * 0.015,
+                            ),
+                            Container(
+                              alignment: AlignmentDirectional.centerStart,
+                              padding: EdgeInsets.only(
+                                  right: screenWidth(context) * 0.04),
+                              child: Text(
+                                "اخترنا لك",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenWidth(context) * 0.04),
+                              ),
+                            ),
+                            Container(
+                              height: screenHeight(context) * 0.35,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: homeProducts.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Consumer(
+                                    builder: (BuildContext context,
+                                            T Function<T>(
+                                                    ProviderBase<Object?, T>)
+                                                watch,
+                                            Widget? child) =>
+                                        Card(
+                                      elevation: 0,
+                                      shadowColor: Colors.transparent,
+                                      child: productsCard(
+                                        context: context,
+                                        currentItem: homeProducts[index],
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          height: screenHeight(context) * 0.012,
-                        ),
-                        Container(
-                          alignment: AlignmentDirectional.centerStart,
-                          padding: EdgeInsets.only(
-                              right: screenWidth(context) * 0.04),
-                          child: Text(
-                            "ابرز المتاجر",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: screenWidth(context) * 0.04),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight(context) * 0.01,
-                        ),
-                        Container(
-                          height: screenHeight(context) * 0.15,
-                          width: screenWidth(context) * 0.95,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: homeStores.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return homeStoreCard(context, homeStores, index);
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight(context) * 0.015,
-                        ),
-                        Container(
-                          alignment: AlignmentDirectional.centerStart,
-                          padding: EdgeInsets.only(
-                              right: screenWidth(context) * 0.04),
-                          child: Text(
-                            "اخترنا لك",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: screenWidth(context) * 0.04),
-                          ),
-                        ),
-                        Container(
-                          height: screenHeight(context) * 0.35,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: homeProducts.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Consumer(
-                                builder: (BuildContext context,
-                                        T Function<T>(ProviderBase<Object?, T>)
-                                            watch,
-                                        Widget? child) =>
-                                    Card(
-                                  elevation: 0,
-                                  shadowColor: Colors.transparent,
-                                  child: productsCard(
-                                    context: context,
-                                    currentItem: homeProducts[index],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                        ))),
                       ],
-                    ))),
-                  ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          print(0 % 5);
+        }),
       ),
     );
   }

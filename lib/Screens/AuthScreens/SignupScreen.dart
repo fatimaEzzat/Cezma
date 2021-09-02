@@ -60,6 +60,9 @@ class _SignupScreenState extends State<SignupScreen> {
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: isLogging,
+        progressIndicator: CircularProgressIndicator(
+          color: violet,
+        ),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Center(
@@ -344,7 +347,7 @@ class _SignupScreenState extends State<SignupScreen> {
       // first we check if there is internet connection
       if (_formkey.currentState!.validate()) {
         // then we check if there are any missing fields.
-        print(_formkey.currentState!.fields["phone"]!.value[0]);
+
         if (_formkey.currentState!.fields["phone"]!.value[0] != "0") {
           throw {Get.snackbar("خطأ", "هذا الرقم ليس صحيح")};
         }
@@ -395,9 +398,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Text("تأكيد")));
         } on Exception catch (e) {
           if (e is DioError) {
-            Get.snackbar("Error", e.response!.data.values.toString());
+            Get.snackbar("خطا", "هذا الرقم مسجل بالفعل");
           }
-          contextm.read(userStateManagment).setIsLoggingIn();
+          setState(() {
+            isLogging = !isLogging;
+          });
         }
       }
     } else {

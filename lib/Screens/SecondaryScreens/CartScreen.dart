@@ -4,8 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
+import 'package:test_store/Logic/ApiRequests/CartRequests/CartRequest.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/RemoveFromCart.dart';
 import 'package:test_store/Logic/ApiRequests/CartRequests/UpdateCartQuantity.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
@@ -23,7 +25,8 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final _formkey = GlobalKey<FormBuilderState>();
-
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   @override
   void initState() {
     super.initState();
@@ -56,87 +59,98 @@ class _CartScreenState extends State<CartScreen> {
               : Column(
                   children: [
                     Expanded(
-                      child: ListView.builder(
-                          itemCount: cartState.cart.length,
-                          itemBuilder: (context, index) {
-                            final cartItem =
-                                cartState.cart[index]["products"][0];
-                            return Card(
-                              child: ListTile(
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      requestRemoveFromCart(
-                                          context, cartState.cart[index]["id"]);
-                                    },
-                                    icon: Icon(Icons.cancel_outlined)),
-                                title: Text(
-                                  cartItem["name"],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: screenWidth(context) * 0.045),
-                                ),
-                                leading: Container(
-                                  width: screenWidth(context) * 0.25,
-                                  child: CachedNetworkImage(
-                                    imageUrl: apiMockImage,
-                                    fit: BoxFit.fill,
-                                    placeholder: (context, url) => Image.asset(
-                                        settings.images!.placeHolderImage),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                            settings.images!.placeHolderImage),
+                      child: SmartRefresher(
+                        controller: _refreshController,
+                        onRefresh: () {
+                          requestCart(context, true, 1).then(
+                              (value) => _refreshController.refreshCompleted());
+                        },
+                        child: ListView.builder(
+                            itemCount: cartState.cart.length,
+                            itemBuilder: (context, index) {
+                              final cartItem =
+                                  cartState.cart[index]["products"][0];
+                              return Card(
+                                child: ListTile(
+                                  trailing: IconButton(
+                                      onPressed: () {
+                                        requestRemoveFromCart(context,
+                                            cartState.cart[index]["id"]);
+                                      },
+                                      icon: Icon(Icons.cancel_outlined)),
+                                  title: Text(
+                                    cartItem["name"],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenWidth(context) * 0.045),
                                   ),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(cartState.cart[index]["total"]
-                                            .toString() +
-                                        " جم"),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              requestUpdateCartQNT(
-                                                  context,
-                                                  cartState.cart[index]["id"],
-                                                  cartState.cart[index]["qnt"] +
-                                                      1);
-                                            },
-                                            icon: Icon(
-                                              Icons.add,
-                                              color: Colors.deepPurple,
-                                            )),
-                                        Text(
-                                          cartState.cart[index]["qnt"]
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontSize:
-                                                  screenWidth(context) * 0.04),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              requestUpdateCartQNT(
-                                                  context,
-                                                  cartState.cart[index]["id"],
-                                                  cartState.cart[index]["qnt"] -
-                                                      1);
-                                            },
-                                            icon: Icon(
-                                              Icons.remove,
-                                              color: Colors.deepPurple,
-                                            ))
-                                      ],
+                                  leading: Container(
+                                    width: screenWidth(context) * 0.25,
+                                    child: CachedNetworkImage(
+                                      imageUrl: apiMockImage,
+                                      fit: BoxFit.fill,
+                                      placeholder: (context, url) =>
+                                          Image.asset(settings
+                                              .images!.placeHolderImage),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(settings
+                                              .images!.placeHolderImage),
                                     ),
-                                  ],
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(cartState.cart[index]["total"]
+                                              .toString() +
+                                          " جم"),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                requestUpdateCartQNT(
+                                                    context,
+                                                    cartState.cart[index]["id"],
+                                                    cartState.cart[index]
+                                                            ["qnt"] +
+                                                        1);
+                                              },
+                                              icon: Icon(
+                                                Icons.add,
+                                                color: Colors.deepPurple,
+                                              )),
+                                          Text(
+                                            cartState.cart[index]["qnt"]
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: screenWidth(context) *
+                                                    0.04),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                requestUpdateCartQNT(
+                                                    context,
+                                                    cartState.cart[index]["id"],
+                                                    cartState.cart[index]
+                                                            ["qnt"] -
+                                                        1);
+                                              },
+                                              icon: Icon(
+                                                Icons.remove,
+                                                color: Colors.deepPurple,
+                                              ))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  isThreeLine: true,
                                 ),
-                                isThreeLine: true,
-                              ),
-                            );
-                          }),
+                              );
+                            }),
+                      ),
                     ),
                     Divider(
                       color: settings.theme!.secondary,
@@ -171,5 +185,13 @@ class _CartScreenState extends State<CartScreen> {
         }),
       ),
     );
+  }
+
+  Future loadMoreStores() async {
+    if (context.read(cartStateManagment).currentCartPage <=
+        context.read(cartStateManagment).lastCartPage) {
+      requestCart(
+          context, false, context.read(cartStateManagment).currentCartPage);
+    }
   }
 }

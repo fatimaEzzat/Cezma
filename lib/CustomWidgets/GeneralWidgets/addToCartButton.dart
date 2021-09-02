@@ -36,7 +36,9 @@ Widget addToCartButton({
                 requestAddToCart(context, item);
               }
             },
-            icon: Icon(Icons.shopping_bag),
+            icon: watch(cartStateManagment).checkInCart(item["id"])
+                ? Icon(Icons.check)
+                : Icon(Icons.shopping_bag),
             label: Expanded(
               child: Text(
                 watch(cartStateManagment).checkInCart(item["id"])

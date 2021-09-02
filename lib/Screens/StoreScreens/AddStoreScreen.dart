@@ -117,154 +117,101 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                           name: "email",
                         ),
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            child: CarouselSlider.builder(
-                                carouselController: _carouselController,
-                                options: CarouselOptions(
-                                    enableInfiniteScroll: false,
-                                    height: screenHeight(context) * 0.5),
-                                itemCount: plans.length,
-                                itemBuilder: (context, index, pageindex) {
-                                  late final discount;
-                                  if (plans[index]["discount"] != null) {
-                                    discount = (plans[index]["discount"] /
-                                            plans[index]["price"]) *
-                                        100;
-                                  }
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedPlan = plans[index]["id"];
-                                        _textEditingController.text =
-                                            plans[index]["name"];
-                                        _fbKey.currentState!.fields["plan_id"]!
-                                            // ignore: invalid_use_of_protected_member
-                                            .setValue(
-                                                plans[index]["id"].toString());
-                                      });
-                                    },
-                                    child: Card(
-                                      clipBehavior: Clip.hardEdge,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          side:
-                                              selectedPlan == plans[index]["id"]
-                                                  ? BorderSide(
-                                                      color: violet, width: 2)
-                                                  : BorderSide.none),
-                                      child: Column(
-                                        children: [
-                                          Stack(
-                                            children: [
-                                              CachedNetworkImage(
-                                                fit: BoxFit.fill,
-                                                imageUrl: apiMockImage,
-                                                placeholder: (context, url) =>
-                                                    Image.asset(settings.images!
-                                                        .placeHolderImage),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Image.asset(settings
-                                                            .images!
-                                                            .placeHolderImage),
-                                              ),
-                                              plans[index]["discount"] != null
-                                                  ? Align(
-                                                      alignment:
-                                                          AlignmentDirectional
-                                                              .topEnd,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.none,
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(5),
-                                                          color: Colors.red,
-                                                          child: AutoSizeText(
-                                                            "خصم " +
-                                                                "%" +
-                                                                discount
-                                                                    .toStringAsFixed(
-                                                                        1),
-                                                            maxLines: 1,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : SizedBox(),
-                                            ],
-                                          ),
-                                          ListTile(
-                                            title: Column(
+                      Container(
+                        child: CarouselSlider.builder(
+                            carouselController: _carouselController,
+                            options: CarouselOptions(
+                                enableInfiniteScroll: false, aspectRatio: 2.4),
+                            itemCount: plans.length,
+                            itemBuilder: (context, index, pageindex) {
+                              late final discount;
+                              if (plans[index]["discount"] != null) {
+                                discount = (plans[index]["discount"] /
+                                        plans[index]["price"]) *
+                                    100;
+                              }
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedPlan = plans[index]["id"];
+                                    _textEditingController.text =
+                                        plans[index]["name"];
+                                    _fbKey.currentState!.fields["plan_id"]!
+                                        // ignore: invalid_use_of_protected_member
+                                        .setValue(
+                                            plans[index]["id"].toString());
+                                  });
+                                },
+                                child: Card(
+                                  elevation: 0.5,
+                                  clipBehavior: Clip.hardEdge,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      side: selectedPlan == plans[index]["id"]
+                                          ? BorderSide(color: violet, width: 2)
+                                          : BorderSide.none),
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        title: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      plans[index]["name"],
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    Text(plans[index]["price"]
-                                                            .toString() +
-                                                        " جم " +
-                                                        "(" +
-                                                        plans[index]["type"] +
-                                                        ")"),
-                                                  ],
+                                                Text(
+                                                  plans[index]["name"],
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
-                                                SizedBox(
-                                                  height:
-                                                      screenHeight(context) *
-                                                          0.01,
-                                                )
+                                                Text(plans[index]["price"]
+                                                        .toString() +
+                                                    " جم " +
+                                                    "(" +
+                                                    plans[index]["type"] +
+                                                    ")"),
                                               ],
                                             ),
-                                            subtitle: Text(
-                                              plans[index]["description"],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    screenWidth(context) *
-                                                        0.04),
-                                            child: customGeneralButton(
-                                                customOnPressed: () {
-                                                  Get.defaultDialog(
-                                                      title: "مواصفات الباقة",
-                                                      content: Column(
-                                                        children: plans[index]
-                                                                ["features"]
-                                                            .map<Widget>((e) =>
-                                                                Text(e[
-                                                                    "feature"]))
-                                                            .toList(),
-                                                      ));
-                                                },
-                                                context: context,
-                                                title: "موصفات",
-                                                primarycolor: violet,
-                                                titlecolor: Colors.white,
-                                                newIcon: Icon(Icons.info),
-                                                borderColor:
-                                                    Colors.transparent),
-                                          )
-                                        ],
+                                            SizedBox(
+                                              height:
+                                                  screenHeight(context) * 0.01,
+                                            )
+                                          ],
+                                        ),
+                                        subtitle: Text(
+                                          plans[index]["description"],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ],
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                screenWidth(context) * 0.04),
+                                        child: customGeneralButton(
+                                            customOnPressed: () {
+                                              Get.defaultDialog(
+                                                  title: "مواصفات الباقة",
+                                                  content: Column(
+                                                    children: plans[index]
+                                                            ["features"]
+                                                        .map<Widget>((e) =>
+                                                            Text(e["feature"]))
+                                                        .toList(),
+                                                  ));
+                                            },
+                                            context: context,
+                                            title: "موصفات",
+                                            primarycolor: violet,
+                                            titlecolor: Colors.white,
+                                            newIcon: Icon(Icons.info),
+                                            borderColor: Colors.transparent),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
                       ),
                       Card(
                         color: Colors.transparent,

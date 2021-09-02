@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/Logic/ApiRequests/ProfileRequests/MyStoresRequest.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
+import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
+import 'package:test_store/Screens/NavBarScreens/NavigationBar.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/EndPoints.dart';
 
@@ -36,8 +38,7 @@ Future requestAddStore({
         buttonColor: violet,
         barrierDismissible: false,
         onConfirm: () {
-          Get.back();
-          Get.back();
+          Get.offAll(() => CustomNavigationBar());
         },
         confirmTextColor: Colors.white);
   } catch (e) {

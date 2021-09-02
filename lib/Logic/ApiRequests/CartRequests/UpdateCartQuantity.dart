@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:test_store/Logic/ApiRequests/CartRequests/CartRequest.dart';
 import 'package:test_store/Logic/StateManagment/CartState.dart';
 import 'package:test_store/Logic/StateManagment/UserState.dart';
 import 'package:test_store/Variables/EndPoints.dart';
@@ -24,7 +25,7 @@ Future requestUpdateCartQNT(BuildContext context, int itemId, int qnt) async {
       options: requestOptions,
     );
 
-    // await requestCart(context, true, 1);
+    await requestCart(context, true, 1);
   } on Exception catch (e) {
     if (e is DioError) {
       Get.defaultDialog(title: "خطأ", middleText: "حدث خطأ");

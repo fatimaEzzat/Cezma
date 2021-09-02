@@ -40,94 +40,99 @@ class _ActivationScreenState extends State<ActivationScreen> {
             color: violet,
           ),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset("Assets/Logos/design.png"),
-                SizedBox(
-                  height: screenHeight(context) * 0.05,
-                ),
-                Text(
-                  "تفعيل الحساب",
-                  style: TextStyle(color: violet, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: screenHeight(context) * 0.02,
-                ),
-                Text(
-                  "قم بادخال الاربع ارقام الذي تم ارسالهم اليك",
-                  style: TextStyle(color: Colors.grey),
-                ),
-                SizedBox(
-                  height: screenHeight(context) * 0.02,
-                ),
-                SizedBox(
-                  width: screenWidth(context) * 0.7,
-                  child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: PinCodeTextField(
-                      length: 6,
-                      cursorColor: violet,
-                      obscureText: false,
-                      animationType: AnimationType.fade,
-                      pinTheme: PinTheme(
-                        activeColor: Colors.grey,
-                        disabledColor: Colors.grey.shade200,
-                        inactiveColor: Colors.grey.shade200,
-                        selectedColor: Colors.grey.shade200,
-                        selectedFillColor: Colors.white,
-                        inactiveFillColor: Colors.grey.shade200,
-                        shape: PinCodeFieldShape.circle,
-                        fieldHeight: 50,
-                        fieldWidth: 40,
-                        activeFillColor: Colors.white,
-                      ),
-                      animationDuration: Duration(milliseconds: 300),
-                      enableActiveFill: true,
-                      onCompleted: (v) async {
-                        setState(() {
-                          isActivating = !isActivating;
-                        });
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("Assets/Logos/design.png"),
+                  SizedBox(
+                    height: screenHeight(context) * 0.05,
+                  ),
+                  Text(
+                    "تفعيل الحساب",
+                    style:
+                        TextStyle(color: violet, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: screenHeight(context) * 0.02,
+                  ),
+                  Text(
+                    "قم بادخال الاربع ارقام الذي تم ارسالهم اليك",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  SizedBox(
+                    height: screenHeight(context) * 0.02,
+                  ),
+                  SizedBox(
+                    width: screenWidth(context) * 0.7,
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: PinCodeTextField(
+                        length: 6,
+                        cursorColor: violet,
+                        obscureText: false,
+                        animationType: AnimationType.fade,
+                        pinTheme: PinTheme(
+                          activeColor: Colors.grey,
+                          disabledColor: Colors.grey.shade200,
+                          inactiveColor: Colors.grey.shade200,
+                          selectedColor: Colors.grey.shade200,
+                          selectedFillColor: Colors.white,
+                          inactiveFillColor: Colors.grey.shade200,
+                          shape: PinCodeFieldShape.circle,
+                          fieldHeight: 50,
+                          fieldWidth: 40,
+                          activeFillColor: Colors.white,
+                        ),
+                        animationDuration: Duration(milliseconds: 300),
+                        enableActiveFill: true,
+                        onCompleted: (v) async {
+                          setState(() {
+                            isActivating = !isActivating;
+                          });
 
-                        await requestUserActivation({
-                          "phone": widget.number.toString(),
-                          "code": v.toString()
-                        });
-                        setState(() {
-                          isActivating = !isActivating;
-                        });
-                      },
-                      beforeTextPaste: (text) {
-                        print("Allowing to paste $text");
-                        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                        return true;
-                      },
-                      appContext: context,
-                      onChanged: (String value) {},
+                          await requestUserActivation({
+                            "phone": widget.number.toString(),
+                            "code": v.toString()
+                          });
+                          setState(() {
+                            isActivating = !isActivating;
+                          });
+                        },
+                        beforeTextPaste: (text) {
+                          print("Allowing to paste $text");
+                          //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                          //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                          return true;
+                        },
+                        appContext: context,
+                        onChanged: (String value) {},
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: screenHeight(context) * 0.02,
-                ),
-                Container(
-                  height: screenHeight(context) * 0.045,
-                  decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    gradient: new LinearGradient(
-                        colors: [Colors.blue.shade900, Colors.purple.shade900]),
+                  SizedBox(
+                    height: screenHeight(context) * 0.02,
                   ),
-                  child: customGeneralButton(
-                      customOnPressed: () {},
-                      context: context,
-                      title: "تفعيل الحساب",
-                      primarycolor: Colors.transparent,
-                      titlecolor: Colors.white,
-                      newIcon: Icon(Icons.recommend),
-                      borderColor: Colors.transparent),
-                )
-              ],
+                  Container(
+                    height: screenHeight(context) * 0.045,
+                    decoration: new BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      gradient: new LinearGradient(colors: [
+                        Colors.blue.shade900,
+                        Colors.purple.shade900
+                      ]),
+                    ),
+                    child: customGeneralButton(
+                        customOnPressed: () {},
+                        context: context,
+                        title: "تفعيل الحساب",
+                        primarycolor: Colors.transparent,
+                        titlecolor: Colors.white,
+                        newIcon: Icon(Icons.recommend),
+                        borderColor: Colors.transparent),
+                  )
+                ],
+              ),
             ),
           ),
         ),

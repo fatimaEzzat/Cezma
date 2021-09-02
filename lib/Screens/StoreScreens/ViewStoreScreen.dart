@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
+import 'package:test_store/CustomWidgets/GeneralWidgets/NewMessagePopUp.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/ProductsCard.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/SecondaryAppBar.dart';
 import 'package:test_store/Logic/ApiRequests/MessagingRequests/SendMessage.dart';
@@ -103,9 +104,13 @@ class _ViewStoreState extends State<ViewStore> {
                                   ),
                                   customGeneralButton(
                                       customOnPressed: () async {
-                                        await requestNewMessage(context,
-                                            widget.store["id"], message);
+                                        newMessagePopUp(
+                                            context, widget.store["id"]);
                                         Get.back();
+                                        Get.defaultDialog(
+                                            title: "تم",
+                                            middleText:
+                                                "تم ارسال الرسالة للمتجر");
                                       },
                                       context: context,
                                       title: "ارسل",

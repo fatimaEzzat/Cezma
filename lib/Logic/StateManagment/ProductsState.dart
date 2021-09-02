@@ -9,6 +9,16 @@ class ProductsState extends ChangeNotifier {
   int totalProductsPages = 0;
   List products = [];
   bool isLoadingNewItems = false;
+  List productRates = [];
+  void putRates(List info) {
+    productRates = info;
+    notifyListeners();
+  }
+
+  void clearRates() {
+    productRates.clear();
+    notifyListeners();
+  }
 
   void setIsLoadingNewItems() {
     isLoadingNewItems = !isLoadingNewItems;

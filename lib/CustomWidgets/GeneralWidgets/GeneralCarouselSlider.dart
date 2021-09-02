@@ -7,8 +7,9 @@ import 'package:test_store/Variables/Settings.dart';
 Widget generalCarouselSlider({required String images}) =>
     CarouselSlider.builder(
         options: CarouselOptions(
+          // aspectRatio: 1.6,
           enlargeCenterPage: false,
-          viewportFraction: 1,
+          // viewportFraction: 0.7,
         ),
         itemCount: 1,
         itemBuilder: (context, imgindex, pageindex) => Container(

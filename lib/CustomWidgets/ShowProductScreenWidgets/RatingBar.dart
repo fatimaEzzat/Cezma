@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 
-RatingBar ratingBar(product, BuildContext context) {
+RatingBar ratingBar(product, BuildContext context, onRatingUpdate) {
   return RatingBar.builder(
     initialRating: 0,
     minRating: 0,
@@ -15,6 +15,6 @@ RatingBar ratingBar(product, BuildContext context) {
       Icons.star,
       color: Colors.amber,
     ),
-    onRatingUpdate: (rating) {},
+    onRatingUpdate: onRatingUpdate,
   );
 }

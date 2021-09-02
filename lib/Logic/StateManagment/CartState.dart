@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final cartStateManagment =
@@ -7,16 +8,26 @@ final cartStateManagment =
 class CartState extends ChangeNotifier {
   List cart = [];
   double cartTotalPayment = 0;
-  int currentCartPage = 0;
-  int lastCartPage = 0;
+  int currentCartPage = 1;
+  int lastCartPage = 1;
+  int maxPerPage = 0;
 
   void addToCart(List input) {
     cart.addAll(input);
     notifyListeners();
   }
 
-  void setCartTotalPayment(double amount) {
-    cartTotalPayment = amount;
+  void removeLastItem() {
+    cart.removeAt(cart.length - 2);
+    notifyListeners();
+  }
+
+  void setCartTotalPayment() {
+    double temp = 0;
+    cart.forEach((element) {
+      temp += double.parse(element["total"].toString());
+    });
+    cartTotalPayment = temp;
     notifyListeners();
   }
 

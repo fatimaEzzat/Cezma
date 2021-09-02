@@ -32,113 +32,113 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
           appBar: secondaryAppBar(context: context, title: "الصفحة الشخصية"),
           body: Consumer(
-              builder: (context, watch, child) => Column(
-                    children: [
-                      SizedBox(
-                        height: screenHeight(context) * 0.03,
-                      ),
-                      CircleAvatar(
-                        backgroundImage:
-                            AssetImage(settings.images!.placeHolderImage),
-                        radius: 50,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: height * 0.02),
-                        child: Text(
-                          watch(userStateManagment)
-                              .userInfo!
-                              .fullName
-                              .toString(),
-                          style: TextStyle(fontSize: width * 0.05),
+              builder: (context, watch, child) => SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: screenHeight(context) * 0.03,
                         ),
-                      ),
-                      SettingsList(
-                        shrinkWrap: true,
-                        contentPadding: EdgeInsets.only(top: height * 0.02),
-                        backgroundColor: Colors.white,
-                        sections: [
-                          SettingsSection(
-                            tiles: [
-                              SettingsTile(
-                                title: 'البريد الالكتروني',
-                                subtitle: watch(userStateManagment)
-                                    .userInfo!
-                                    .email
-                                    .toString(),
-                                leading: Icon(Icons.mail, color: violet),
-                                onPressed: (BuildContext context) {},
-                              ),
-                              SettingsTile(
-                                title: 'الهاتف',
-                                subtitle: watch(userStateManagment)
-                                    .userInfo!
-                                    .phone
-                                    .toString(),
-                                leading: Icon(
-                                  Icons.phone,
-                                  color: violet,
-                                ),
-                                onPressed: (BuildContext context) {},
-                              ),
-                              SettingsTile(
-                                title: 'كلمة السر',
-                                subtitle: "********",
-                                leading: Icon(
-                                  Icons.vpn_key,
-                                  color: violet,
-                                ),
-                                onPressed: (BuildContext context) {},
-                              ),
-                              SettingsTile(
-                                title: 'الدولة',
-                                subtitle: "مصر",
-                                leading: Icon(
-                                  Icons.flag,
-                                  color: violet,
-                                ),
-                                onPressed: (BuildContext context) {},
-                              ),
-                              SettingsTile(
-                                title: 'الشارع',
-                                subtitle:
-                                    context.read(userStateManagment).street,
-                                leading: Icon(
-                                  Icons.streetview,
-                                  color: violet,
-                                ),
-                                onPressed: (BuildContext context) {},
-                              ),
-                            ],
+                        CircleAvatar(
+                          backgroundImage:
+                              AssetImage(settings.images!.placeHolderImage),
+                          radius: 50,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: height * 0.02),
+                          child: Text(
+                            watch(userStateManagment)
+                                .userInfo!
+                                .fullName
+                                .toString(),
+                            style: TextStyle(fontSize: width * 0.05),
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: screenHeight(context) * 0.2,
-                      ),
-                      Container(
-                        height: screenHeight(context) * 0.05,
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          gradient: new LinearGradient(colors: [
-                            Colors.blue.shade900,
-                            Colors.purple.shade900
-                          ]),
                         ),
-                        child: customGeneralButton(
-                            customOnPressed: () {
-                              Get.to(() => EditProfilePage());
-                            },
-                            context: context,
-                            title: "تعديل ابيانات الشخصية",
-                            primarycolor: Colors.transparent,
-                            titlecolor: settings.theme!.primary,
-                            newIcon: Icon(
-                              Icons.edit,
-                              color: Colors.white,
+                        SettingsList(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          contentPadding: EdgeInsets.only(top: height * 0.02),
+                          backgroundColor: Colors.white,
+                          sections: [
+                            SettingsSection(
+                              tiles: [
+                                SettingsTile(
+                                  title: 'البريد الالكتروني',
+                                  subtitle: watch(userStateManagment)
+                                      .userInfo!
+                                      .email
+                                      .toString(),
+                                  leading: Icon(Icons.mail, color: violet),
+                                  onPressed: (BuildContext context) {},
+                                ),
+                                SettingsTile(
+                                  title: 'الهاتف',
+                                  subtitle: watch(userStateManagment)
+                                      .userInfo!
+                                      .phone
+                                      .toString(),
+                                  leading: Icon(
+                                    Icons.phone,
+                                    color: violet,
+                                  ),
+                                  onPressed: (BuildContext context) {},
+                                ),
+                                SettingsTile(
+                                  title: 'كلمة السر',
+                                  subtitle: "********",
+                                  leading: Icon(
+                                    Icons.vpn_key,
+                                    color: violet,
+                                  ),
+                                  onPressed: (BuildContext context) {},
+                                ),
+                                SettingsTile(
+                                  title: 'الدولة',
+                                  subtitle: "مصر",
+                                  leading: Icon(
+                                    Icons.flag,
+                                    color: violet,
+                                  ),
+                                  onPressed: (BuildContext context) {},
+                                ),
+                                SettingsTile(
+                                  title: 'الشارع',
+                                  subtitle:
+                                      context.read(userStateManagment).street,
+                                  leading: Icon(
+                                    Icons.streetview,
+                                    color: violet,
+                                  ),
+                                  onPressed: (BuildContext context) {},
+                                ),
+                              ],
                             ),
-                            borderColor: Colors.transparent),
-                      )
-                    ],
+                          ],
+                        ),
+                        Container(
+                          height: screenHeight(context) * 0.05,
+                          decoration: new BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            gradient: new LinearGradient(colors: [
+                              Colors.blue.shade900,
+                              Colors.purple.shade900
+                            ]),
+                          ),
+                          child: customGeneralButton(
+                              customOnPressed: () {
+                                Get.to(() => EditProfilePage());
+                              },
+                              context: context,
+                              title: "تعديل ابيانات الشخصية",
+                              primarycolor: Colors.transparent,
+                              titlecolor: settings.theme!.primary,
+                              newIcon: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
+                              borderColor: Colors.transparent),
+                        )
+                      ],
+                    ),
                   ))),
     );
   }

@@ -23,18 +23,17 @@ Future requestUserOrders(
     // to be used later in refreshing the data if requested.
     _state.orders.clear();
   }
-  print(apiUserInfoUrl + "/" + "orders");
   try {
     final response = await dio.get(
       apiUserInfoUrl + "/" + "orders",
       options: requestOptions,
       queryParameters: {"page": pageNumber},
     );
-
     _state.addOrders(response.data["data"]["orders"]["data"]);
     _state.setCurrentOrderPage(++pageNumber);
     _state.setTotalOrderPages(response.data["data"]["orders"]["last_page"]);
   } on Exception catch (e) {
+    print("sss");
     if (e is DioError) {
       Get.defaultDialog(title: "خطأ", middleText: e.error);
     }

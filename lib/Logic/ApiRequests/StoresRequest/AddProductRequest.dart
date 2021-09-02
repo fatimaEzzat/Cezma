@@ -53,7 +53,7 @@ Future requestAddProduct({
         confirmTextColor: Colors.white);
   } catch (e) {
     if (e is DioError) {
-      Get.defaultDialog(title: "خطا", middleText: e.response!.data.toString());
+      Get.defaultDialog(title: "خطا", middleText: "حدث خطا");
     }
   }
 }

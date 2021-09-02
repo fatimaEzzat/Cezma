@@ -13,7 +13,7 @@ import 'package:test_store/Variables/Settings.dart';
 
 Widget productsCard({required BuildContext context, required currentItem}) {
   double discount = 0;
-  if (currentItem["discount"] != null && currentItem["discount"] != 0) {
+  if (currentItem["discount"] != 0) {
     discount = currentItem["discount"] / currentItem["price"];
     discount *= 100;
   }
@@ -52,7 +52,7 @@ Widget productsCard({required BuildContext context, required currentItem}) {
                         fit: BoxFit.fill,
                       ),
                     ),
-                    currentItem["discount"] != null
+                    currentItem["discount"] != 0
                         ? Align(
                             alignment: AlignmentDirectional.topEnd,
                             child: FittedBox(

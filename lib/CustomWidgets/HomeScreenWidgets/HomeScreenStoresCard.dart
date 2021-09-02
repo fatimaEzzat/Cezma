@@ -22,11 +22,9 @@ Widget homeStoreCard(
           children: [
             CircleAvatar(
               radius: screenWidth(context) * 0.07,
-              backgroundImage:
-                  AssetImage("Assets/Images/PlaceHolderImage.jpeg"),
+              backgroundImage: AssetImage("Assets/Images/PlaceHolder.png"),
               foregroundImage: NetworkImage(
-                homeStores[index]["image"].replaceAll("https://cezma.test",
-                    "https://7337-197-37-196-117.ngrok.io"),
+                homeStores[index]["image"],
               ),
             ),
             Text(homeStores[index]["name"]),
