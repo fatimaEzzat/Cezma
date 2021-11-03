@@ -123,7 +123,9 @@ class _ActivationScreenState extends State<ActivationScreen> {
                       ]),
                     ),
                     child: customGeneralButton(
-                        customOnPressed: () {},
+                        customOnPressed: () {
+
+                        },
                         context: context,
                         title: "تفعيل الحساب",
                         primarycolor: Colors.transparent,
