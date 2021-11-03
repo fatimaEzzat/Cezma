@@ -1,7 +1,5 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:data_connection_checker/data_connection_checker.dart';
-
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 Future<bool> checkInternetConnection() async {
-  bool result = await DataConnectionChecker().hasConnection;
+  bool result = await InternetConnectionChecker().hasConnection;
   return result;
 }

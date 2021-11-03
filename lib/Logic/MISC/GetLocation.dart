@@ -1,14 +1,16 @@
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:geocoder/geocoder.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:geocoder/model.dart';
+
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocode/geocode.dart';
 
 class GetLocation {
   Location location = new Location();
   late bool _serviceEnabled;
+  GeoCode geoCode=GeoCode();
 
   late var _locationData;
   late LocationPermission _permission;
@@ -41,11 +43,10 @@ class GetLocation {
     await checkLocationService();
     await checkLocationPermission();
     _locationData = await Geolocator.getCurrentPosition();
-    final coordinates =
-        new Coordinates(_locationData.latitude, _locationData.longitude);
     final addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    final first = addresses.first;
-    return first.addressLine;
+    await geoCode.reverseGeocoding(latitude: _locationData.latitude, longitude: _locationData.longitude);
+    // await GeoCode.local.findAddressesFromCoordinates(coordinates);
+    final first = addresses.city;
+    return first.toString();
   }
 }

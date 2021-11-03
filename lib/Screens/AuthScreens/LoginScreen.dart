@@ -1,5 +1,5 @@
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -18,7 +18,7 @@ import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/Variables/Settings.dart';
-
+import 'package:connectivity/connectivity.dart';
 import 'SignupScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -32,23 +32,30 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formkey = GlobalKey<FormBuilderState>();
   @override
   void initState() {
-    DataConnectionChecker().onStatusChange.listen((event) {
-      if (event == DataConnectionStatus.disconnected) {
-        Get.defaultDialog(
-            barrierDismissible: false,
-            title: "خطأ",
-            middleText: "تعذر الاتصال بالانترنت",
-            confirm: customGeneralButton(
-                context: context,
-                customOnPressed: () {},
-                newIcon: Icon(Icons.refresh),
-                primarycolor: settings.theme!.secondary,
-                title: 'اعادة الاتصال',
-                titlecolor: Colors.white,
-                borderColor: Colors.transparent));
-      } else {
-        Get.back();
-      }
+    Connectivity().onConnectivityChanged.listen((event) {
+      setState(() {
+        // connection = event;
+        if (event == ConnectivityResult.none ) {
+          Get.defaultDialog(
+              barrierDismissible: false,
+              title: "خطأ",
+              middleText: "تعذر الاتصال بالانترنت",
+              confirm: customGeneralButton(
+                  context: context,
+                  customOnPressed: () async {
+                    bool test = await InternetConnectionChecker().hasConnection;
+                    if (test) {
+                      Get.back();
+                    }
+                  },
+                  newIcon: Icon(Icons.refresh),
+                  primarycolor: settings.theme!.secondary,
+                  title: 'اعادة الاتصال',
+                  titlecolor: settings.theme!.primary, borderColor: Colors.blue));
+        } else {
+          Get.back();
+        }
+      });
     });
     super.initState();
   }

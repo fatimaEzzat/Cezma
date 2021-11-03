@@ -1,8 +1,10 @@
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:data_connection_checker/data_connection_checker.dart';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Screens/NavBarScreens/MoreScreen.dart';
@@ -23,15 +25,15 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
   final _categoriesScreen = GlobalKey<NavigatorState>();
   final _profileScreen = GlobalKey<NavigatorState>();
   final _storesScreen = GlobalKey<NavigatorState>();
-  late DataConnectionStatus connection;
+  // late DataConnectionStatus connection;
   @override
   void initState() {
     super.initState();
 
-    DataConnectionChecker().onStatusChange.listen((event) {
+    Connectivity().onConnectivityChanged.listen((event) {
       setState(() {
-        connection = event;
-        if (connection == DataConnectionStatus.disconnected) {
+
+        if (event == ConnectivityResult.none) {
           Get.defaultDialog(
               barrierDismissible: false,
               title: "خطأ",
@@ -39,7 +41,7 @@ class _CustomNavigationBar extends State<CustomNavigationBar> {
               confirm: customGeneralButton(
                   context: context,
                   customOnPressed: () async {
-                    bool test = await DataConnectionChecker().hasConnection;
+                    bool test = await InternetConnectionChecker().hasConnection;
                     if (test) {
                       Get.back();
                     }

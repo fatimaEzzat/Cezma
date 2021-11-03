@@ -1,11 +1,13 @@
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:data_connection_checker/data_connection_checker.dart';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/Decorations/CustomFormFieldDecoration.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
@@ -20,7 +22,7 @@ import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sortedmap/sortedmap.dart';
+
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -29,7 +31,6 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formkey = GlobalKey<FormBuilderState>();
-  late DataConnectionStatus connection;
   bool isLogging = false;
   int countryId = 0;
   int cityId = 0;
@@ -38,14 +39,14 @@ class _SignupScreenState extends State<SignupScreen> {
   List cities = [];
   @override
   void initState() {
-    DataConnectionChecker().onStatusChange.listen((event) {
-      if (event == DataConnectionStatus.connected) {
+    Connectivity().onConnectivityChanged.listen((event) {
+      if (event == ConnectivityResult.none ) {
         requestLocation(
           context: context,
         ).then((value) => setState(() {}));
       }
     });
-    if (DataConnectionChecker().hasConnection != null) {
+    if (InternetConnectionChecker().hasConnection != null) {
       requestLocation(context: context).then((value) => setState(() {}));
     }
     super.initState();
