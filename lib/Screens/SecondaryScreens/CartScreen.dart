@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
         body: Consumer(builder: (BuildContext context,
             T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
           final cartState = watch(cartStateManagment);
-          return cartState.cart.length == 0
+          return cartState.cart!.length == 0
               ? Center(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -66,16 +66,16 @@ class _CartScreenState extends State<CartScreen> {
                               (value) => _refreshController.refreshCompleted());
                         },
                         child: ListView.builder(
-                            itemCount: cartState.cart.length,
+                            itemCount: cartState.cart!.length,
                             itemBuilder: (context, index) {
                               final cartItem =
-                                  cartState.cart[index]["products"][0];
+                                  cartState.cart![index]["products"][0];
                               return Card(
                                 child: ListTile(
                                   trailing: IconButton(
                                       onPressed: () {
                                         requestRemoveFromCart(context,
-                                            cartState.cart[index]["id"]);
+                                            cartState.cart![index]["id"]);
                                       },
                                       icon: Icon(Icons.cancel_outlined)),
                                   title: Text(
@@ -102,7 +102,7 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(cartState.cart[index]["total"]
+                                      Text(cartState.cart![index]["total"]
                                               .toString() +
                                           " جم"),
                                       Row(
@@ -113,8 +113,8 @@ class _CartScreenState extends State<CartScreen> {
                                               onPressed: () {
                                                 requestUpdateCartQNT(
                                                     context,
-                                                    cartState.cart[index]["id"],
-                                                    cartState.cart[index]
+                                                    cartState.cart![index]["id"],
+                                                    cartState.cart![index]
                                                             ["qnt"] +
                                                         1);
                                               },
@@ -123,7 +123,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 color: Colors.deepPurple,
                                               )),
                                           Text(
-                                            cartState.cart[index]["qnt"]
+                                            cartState.cart![index]["qnt"]
                                                 .toString(),
                                             style: TextStyle(
                                                 fontSize: screenWidth(context) *
@@ -133,8 +133,8 @@ class _CartScreenState extends State<CartScreen> {
                                               onPressed: () {
                                                 requestUpdateCartQNT(
                                                     context,
-                                                    cartState.cart[index]["id"],
-                                                    cartState.cart[index]
+                                                    cartState.cart![index]["id"],
+                                                    cartState.cart![index]
                                                             ["qnt"] -
                                                         1);
                                               },
@@ -188,10 +188,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future loadMoreStores() async {
-    if (context.read(cartStateManagment).currentCartPage <=
-        context.read(cartStateManagment).lastCartPage) {
+    if (context.read(cartStateManagment).currentCartPage! <=
+         context.read(cartStateManagment).lastCartPage!) {
       requestCart(
-          context, false, context.read(cartStateManagment).currentCartPage);
+          context, false, context.read(cartStateManagment).currentCartPage!);
     }
   }
 }

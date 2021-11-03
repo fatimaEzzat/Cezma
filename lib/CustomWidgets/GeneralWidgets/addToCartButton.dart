@@ -39,13 +39,11 @@ Widget addToCartButton({
             icon: watch(cartStateManagment).checkInCart(item["id"])
                 ? Icon(Icons.check)
                 : Icon(Icons.shopping_bag),
-            label: Expanded(
-              child: Text(
-                watch(cartStateManagment).checkInCart(item["id"])
-                    ? "في العربة"
-                    : "اضف للعربة",
-                style: TextStyle(fontSize: screenWidth(context) * 0.024),
-              ),
+            label: Text(
+              watch(cartStateManagment).checkInCart(item["id"])
+                  ? "في العربة"
+                  : "اضف للعربة",
+              style: TextStyle(fontSize: screenWidth(context) * 0.024),
             )),
       );
     },

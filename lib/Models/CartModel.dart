@@ -71,7 +71,7 @@ class CartProductModel {
       'id': id,
       'customerId': customerId,
       'productId': productId,
-      'item': item,
+      // 'item': item,
       'qnt': qnt,
       'price': price,
       'discount': discount,

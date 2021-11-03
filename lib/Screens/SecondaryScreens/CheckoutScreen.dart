@@ -34,7 +34,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void initState() {
     userInfo = context.read(userStateManagment).userInfo!;
-    context.read(cartStateManagment).cart.forEach((element) {
+    context.read(cartStateManagment).cart!.forEach((element) {
       totalPayment += element["total"];
     });
     super.initState();
@@ -212,7 +212,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   title: "المنتجات",
                                   tiles: context
                                       .read(cartStateManagment)
-                                      .cart
+                                      .cart!
                                       .map((e) => SettingsTile(
                                             leading: Text(
                                               "(" "x" +

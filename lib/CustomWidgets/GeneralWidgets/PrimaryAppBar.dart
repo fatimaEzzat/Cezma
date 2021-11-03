@@ -56,7 +56,7 @@ PreferredSizeWidget primaryAppBar({required BuildContext context, tabBar}) {
         builder: (context, watch, child) => IconButton(
           icon: Badge(
             badgeContent:
-                Text(watch(cartStateManagment).cart.length.toString()),
+                Text(watch(cartStateManagment).cart!.length.toString()),
             child: Icon(Icons.shopping_cart, color: Colors.white),
           ),
           onPressed: () {

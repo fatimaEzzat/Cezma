@@ -6,7 +6,7 @@ class ProductModel {
   late int perPage;
   late String? prevPageUrl;
   late int to;
-  late int total;
+  late double total;
   late String firstPageUrl;
   late int from;
   late int lastPage;
@@ -36,7 +36,7 @@ class ProductModel {
         perPage: json["per_page"] as int,
         prevPageUrl: json["prev_page_url"] as String?,
         to: json["to"] as int,
-        total: json["total"] as int,
+        total: json["total"] as double,
         firstPageUrl: json["first_page_url"] as String,
         from: json["from"] as int,
         lastPage: json["last_page"] as int,

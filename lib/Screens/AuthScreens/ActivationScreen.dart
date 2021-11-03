@@ -4,6 +4,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:test_store/CustomWidgets/GeneralWidgets/GeneralButton.dart';
 import 'package:test_store/Logic/ApiRequests/AuthRequests/UserActivationRequest.dart';
 import 'package:test_store/Screens/AuthScreens/LoginScreen.dart';
+import 'package:test_store/Screens/NavBarScreens/HomeScreen.dart';
 import 'package:test_store/Variables/CustomColors.dart';
 import 'package:test_store/Variables/ScreenSize.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -124,6 +125,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
                     ),
                     child: customGeneralButton(
                         customOnPressed: () {
+                         // Get.off(() => HomeScreen());
 
                         },
                         context: context,

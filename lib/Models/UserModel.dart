@@ -16,12 +16,12 @@ class UserModel {
       required this.locations});
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-        address: json["address"] as String,
-        email: json["email"] as String,
-        firstName: json["first_name"] as String,
-        phone: json["phone"] as String,
-        secondName: json["last_name"] as String,
-        fullName: json["full_name"] as String,
+        address: json["address"] as String?,
+        email: json["email"] as String?,
+        firstName: json["first_name"] as String?,
+        phone: json["phone"] as String?,
+        secondName: json["last_name"] as String?,
+        fullName: json["full_name"] as String?,
         locations: json["locations"][0]);
   }
 }
