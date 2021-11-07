@@ -162,7 +162,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           Colors.transparent),
                                               name: "city_id",
                                               items: snapshot.data
-                                                  .map<DropdownMenuItem>((e) =>
+                                                  .map<DropdownMenuItem<Object>>((e) =>
                                                       DropdownMenuItem(
                                                         child: Text(e["name"]),
                                                         value: e["id"],
@@ -219,7 +219,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                   e["qnt"].toString() +
                                                   ")",
                                             ),
-                                            title: e["products"][0]["name"],
+                                            title: e["products"]["name"],
                                             subtitle:
                                                 e["total"].toString() + " جم.",
                                           ))

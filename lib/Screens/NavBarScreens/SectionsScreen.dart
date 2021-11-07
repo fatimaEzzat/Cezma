@@ -31,66 +31,68 @@ class _SectionsScreenState extends State<SectionsScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: primaryAppBar(context: context),
-        body: Column(
-          children: [
-            searchBarGradientDecoration(
-                context,
-                searchBar(
-                    onChanged: (value) {
-                      setState(() {
-                        filteredSections = categories
-                            .where((element) => element["slug"].contains(value))
-                            .toList();
-                        if (value == "") {
-                          filteredSections = categories;
-                        }
-                      });
-                    },
-                    context: context,
-                    color: Colors.white.withOpacity(0.5))),
-            Container(
-              child: AnimationLimiter(
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: filteredSections.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, childAspectRatio: 0.85),
-                  itemBuilder: (BuildContext context, int index) {
-                    return AnimationConfiguration.staggeredGrid(
-                      columnCount: 3,
-                      position: index,
-                      duration: const Duration(milliseconds: 200),
-                      child: ScaleAnimation(
-                        child: FadeInAnimation(
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(() => CategoriesScreen(
-                                  slug: filteredSections[index]["slug"],
-                                  id: filteredSections[index]["id"]));
-                            },
-                            child: Card(
-                              elevation: 0.4,
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    settings.images!.placeHolderImage,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(filteredSections[index]["name"])
-                                ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              searchBarGradientDecoration(
+                  context,
+                  searchBar(
+                      onChanged: (value) {
+                        setState(() {
+                          filteredSections = categories
+                              .where((element) => element["slug"].contains(value))
+                              .toList();
+                          if (value == "") {
+                            filteredSections = categories;
+                          }
+                        });
+                      },
+                      context: context,
+                      color: Colors.white.withOpacity(0.5))),
+              Container(
+                child: AnimationLimiter(
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    itemCount: filteredSections.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, childAspectRatio: 0.85),
+                    itemBuilder: (BuildContext context, int index) {
+                      return AnimationConfiguration.staggeredGrid(
+                        columnCount: 3,
+                        position: index,
+                        duration: const Duration(milliseconds: 200),
+                        child: ScaleAnimation(
+                          child: FadeInAnimation(
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(() => CategoriesScreen(
+                                    slug: filteredSections[index]["slug"],
+                                    id: filteredSections[index]["id"]));
+                              },
+                              child: Card(
+                                elevation: 0.4,
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      settings.images!.placeHolderImage,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(filteredSections[index]["name"])
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

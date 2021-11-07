@@ -11,7 +11,7 @@ ListTile productBasicInfo({required product, required context}) {
   if (discountAmount != 0) {
     discountPercentage = ((discountAmount! / price) * 100).toDouble();
     if (product["vat"] != null) {
-      vat = product["vat"];
+      vat = product["vat"].toDouble();
     }
     totalAmount = price - discountAmount - vat;
   }

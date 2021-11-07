@@ -69,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                             itemCount: cartState.cart!.length,
                             itemBuilder: (context, index) {
                               final cartItem =
-                                  cartState.cart![index]["products"][0];
+                                  cartState.cart![index]["products"];
                               return Card(
                                 child: ListTile(
                                   trailing: IconButton(
